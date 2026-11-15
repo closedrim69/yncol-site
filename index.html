@@ -1071,63 +1071,40 @@ $$('.phone-mask').forEach(input => {
 
 // ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK ====================
 async function sendToFormHook(type, data) {
-  // Твой URL из FormHook
   const FORMHOOK_URL = 'https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions';
 
-  // Добавляем тип формы (например, "Обсудить проект" или "Модалка"), 
-  // чтобы в Telegram было видно, откуда пришла заявка
-  data.type = type;
+  // Создаем объект FormData (имитация обычной HTML-формы)
+  const formData = new FormData();
+  for (const key in data) {
+    formData.append(key, data[key]);
+  }
+  formData.append('type', type); // Добавляем тип формы
 
   try {
     const res = await fetch(FORMHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        // ВАЖНО: Не ставим 'Content-Type': 'application/json', 
+        // Браузер сам поставит multipart/form-data, как в обычной форме
+        'Accept': 'application/json' 
       },
-      body: JSON.stringify(data),
+      body: formData,
     });
 
     if (res.ok) {
-      console.log('✅ Заявка успешно ушла в FormHook');
+      console.log('✅ Заявка ушла в FormHook');
       return true;
     } else {
-      const err = await res.text();
-      console.error('Ошибка FormHook:', res.status, err);
+      const errorText = await res.text();
+      console.error('Ошибка FormHook:', res.status, errorText);
       return false;
     }
   } catch (e) {
-    console.error('Сетевая ошибка при отправке:', e);
+    console.error('Сетевая ошибка:', e);
     return false;
   }
 }
-
-function attachForm(form, type) {
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
-    btn.disabled = true; btn.innerHTML = 'Отправка...';
-    
-    // Собираем данные со всех полей формы
-    const data = {}; 
-    new FormData(form).forEach((v, k) => data[k] = v);
-    
-    // Отправляем через FormHook
-    const ok = await sendToFormHook(type, data);
-    
-    if (ok) { 
-      form.reset(); 
-      showToast(); 
-      if (form.closest('.modal-overlay')) setTimeout(closeModal, 300); 
-    } else { 
-      alert('Ошибка отправки. Пожалуйста, попробуйте позже.'); 
-    }
-    
-    btn.disabled = false; 
-    btn.innerHTML = orig;
-  });
-}
-
+  
 // Привязываем к обеим формам на сайте
 $$('.contact-form').forEach(f => attachForm(f, 'Форма в контактах'));
 $$('.modal-form').forEach(f => attachForm(f, 'Модалка'));
