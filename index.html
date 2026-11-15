@@ -1069,25 +1069,21 @@ $$('.phone-mask').forEach(input => {
   input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
 });
 
-// ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK (КРАСИВО) ====================
+// ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK (РАБОЧАЯ) ====================
 async function sendToFormHook(type, data) {
   const FORMHOOK_URL = 'https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions';
 
-  // Формируем красивый объект с эмодзи вместо технических названий полей
-  const formattedData = {
-    '👤 Имя': data.name,
-    '📞 Телефон': data.phone,
-    // Если комментарий пустой, пишем "Не указан"
-    '💬 Комментарий': data.message || 'Не указан',
-    // FormHook требует email. Ставим заглушку, чтобы не дублировать телефон.
-    'email': 'zayavka@yncol.ru' 
+  // Формируем данные. Оставляем технические ключи (name, phone), чтобы FormHook их понял.
+  const payloadData = {
+    name: data.name,
+    phone: data.phone,
+    message: data.message || 'Не указан',
+    // Ставим заглушку, чтобы телефон не дублировался в поле email
+    email: 'zayavka@yncol.ru' 
   };
 
-  // Если хочешь видеть, с какой формы пришла заявка, раскомментируй строку ниже:
-  // formattedData['📍 Форма'] = type; 
-
   // Оборачиваем в data, как требует FormHook
-  const payload = { data: formattedData };
+  const payload = { data: payloadData };
 
   try {
     const res = await fetch(FORMHOOK_URL, {
@@ -1112,6 +1108,35 @@ async function sendToFormHook(type, data) {
     return false;
   }
 }
+
+function attachForm(form, type) {
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Отправка...';
+    
+    const data = {};
+    new FormData(form).forEach((v, k) => data[k] = v);
+    
+    // Вызываем нашу функцию
+    const ok = await sendToFormHook(type, data);
+    
+    if (ok) { 
+      form.reset(); 
+      showToast(); // Показываем плашку "Заявка принята"
+      if (form.closest('.modal-overlay')) setTimeout(closeModal, 300); 
+    } else { 
+      alert('Ошибка отправки. Пожалуйста, попробуйте позже.'); 
+    }
+    
+    btn.disabled = false; 
+    btn.innerHTML = orig;
+  });
+}
+
+// Привязываем к обеим формам на сайте
+$$('.contact-form').forEach(f => attachForm(f, 'Форма в контактах'));
+$$('.modal-form').forEach(f => attachForm(f, 'Модалка'));
 
 function showToast() { const t = $('#toast'); t.classList.add('show'); clearTimeout(window.__tt); window.__tt = setTimeout(() => t.classList.remove('show'), 6000); }
 $('#toastClose') && $('#toastClose').addEventListener('click', () => $('#toast').classList.remove('show'));
