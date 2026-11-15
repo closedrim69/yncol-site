@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
+<!-- Favicon Yncol -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%2305060a'/%3E%3Cpath d='M16 16 L27 29 V40 L30 46 L33 40 V29 L44 16 H37 L30 24 L23 16 Z' fill='%23ffffff'/%3E%3Ccircle cx='30' cy='50' r='2' fill='%2322d3ee'/%3E%3Crect x='2' y='2' width='56' height='56' rx='12' fill='none' stroke='%23a855f7' stroke-width='2.5'/%3E%3C/svg%3E">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
@@ -454,35 +457,29 @@ tailwind.config = {
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
         
-        <!-- Карточка 1 -->
+        <!-- Карточка 1 (Офис) -->
         <div onclick="openProject(0)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
-          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
-            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
+          <img src="image/cleaning/12.webp" alt="Генеральная уборка" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
           <div class="glass-content absolute bottom-6 left-6 right-6">
-            <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Квартира</div>
+            <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Офис / Квартира</div>
             <div class="font-bold text-lg text-white">Генеральная уборка</div>
           </div>
         </div>
 
-        <!-- Карточка 2 -->
+        <!-- Карточка 2 (Диван) -->
         <div onclick="openProject(1)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
-          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
-            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
+          <img src="image/cleaning/32.webp" alt="Химчистка дивана" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
           <div class="glass-content absolute bottom-6 left-6 right-6">
             <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Химчистка</div>
-            <div class="font-bold text-lg text-white">Удаление пятен с дивана</div>
+            <div class="font-bold text-lg text-white">Химчистка дивана</div>
           </div>
         </div>
 
-        <!-- Карточка 3 -->
+        <!-- Карточка 3 (Окна) -->
         <div onclick="openProject(2)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
-          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
-            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
+          <img src="image/cleaning/22.webp" alt="Мойка окон" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
           <div class="glass-content absolute bottom-6 left-6 right-6">
             <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Окна</div>
@@ -541,7 +538,7 @@ tailwind.config = {
             <input type="hidden" id="calcSummary" name="calc_summary" value="">
             <div class="glass-content">
               <h3 class="font-display text-2xl font-bold mb-2 text-text">Зафиксировать цену</h3>
-              <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и мы вышлем детальную смету в WhatsApp.</p>
+              <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и мы вышлем детальную смету в мессенджер.</p>
               
               <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400 mb-4">
               <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400 mb-4">
@@ -588,7 +585,7 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ФУТЕР (ВЗРОСЛЫЙ, С SEO) -->
+<!-- ФУТЕР -->
 <footer class="bg-surface border-t border-border pt-16 pb-8 relative overflow-hidden">
   <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-accent/5 blur-[100px] pointer-events-none"></div>
 
@@ -772,26 +769,25 @@ tailwind.config = {
 </button>
 
 <script>
-// ==================== ДАННЫЕ ПОРТФОЛИО (ПОКА ЗАГЛУШКИ) ====================
-// Как будут картинки, заменим эти ссылки на твои пути (например, image/cleaning/work1-before.webp)
+// ==================== ДАННЫЕ ПОРТФОЛИО ====================
 const projectsData = [
   {
-    title: "Генеральная уборка квартиры",
-    desc: "Двухкомнатная квартира, 60 м². Полная уборка после ремонта.",
-    beforeImg: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80",
-    afterImg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+    title: "Генеральная уборка офиса",
+    desc: "Уборка офисного помещения после ремонта. 60 м². Полная очистка пола, стен, стеклянных перегородок и окон.",
+    beforeImg: "image/cleaning/11.webp",
+    afterImg: "image/cleaning/12.webp"
   },
   {
     title: "Химчистка дивана",
-    desc: "Удаление сложных пятен и запаха. 3-местный диван.",
-    beforeImg: "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=1200&q=80",
-    afterImg: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80"
+    desc: "Удаление застарелых пятен и запаха. Восстановление цвета и свежести ткани.",
+    beforeImg: "image/cleaning/31.webp",
+    afterImg: "image/cleaning/32.webp"
   },
   {
-    title: "Мойка окон",
-    desc: "Панорамное остекление балкона, 6 секций.",
-    beforeImg: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-    afterImg: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1200&q=80"
+    title: "Мойка окон и витражей",
+    desc: "Профессиональная мойка стеклянных перегородок и оконных рам.",
+    beforeImg: "image/cleaning/21.webp",
+    afterImg: "image/cleaning/22.webp"
   }
 ];
 
