@@ -1069,24 +1069,21 @@ $$('.phone-mask').forEach(input => {
   input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
 });
 
-// ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK ====================
+// ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK (JSON) ====================
 async function sendToFormHook(type, data) {
   const FORMHOOK_URL = 'https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions';
 
-  // Создаем объект FormData (имитация обычной HTML-формы)
-  const formData = new FormData();
-  for (const key in data) {
-    formData.append(key, data[key]);
-  }
-  formData.append('type', type); // Добавляем тип формы
+  // Добавляем тип формы (например, "Модалка" или "Форма в контактах")
+  data.type = type;
 
   try {
     const res = await fetch(FORMHOOK_URL, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json' 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: formData,
+      body: JSON.stringify(data), // Отправляем как JSON!
     });
 
     if (res.ok) {
@@ -1109,34 +1106,25 @@ function attachForm(form, type) {
     const btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
     btn.disabled = true; btn.innerHTML = 'Отправка...';
     
-    // Собираем данные со всех полей формы
-    const formData = new FormData(form);
+    // Собираем данные в обычный объект
+    const data = {};
+    new FormData(form).forEach((v, k) => data[k] = v);
     
-    // ХИТРОСТЬ: FormHook требует поле 'email'. 
-    // Если его нет, мы передадим туда телефон (или заглушку), чтобы форма не падала с ошибкой.
-    if (!formData.has('email')) {
-      formData.append('email', formData.get('phone') || 'no-email@yncol.ru');
+    // ХИТРОСТЬ: FormHook строго требует поле 'email'. 
+    // Если его нет в форме, подставляем туда телефон (или заглушку), чтобы не было ошибки 400.
+    if (!data.email) {
+      data.email = data.phone || 'no-email@yncol.ru';
     }
     
-    formData.append('type', type); // Добавляем тип формы (Модалка/Контакты)
-
-    try {
-      const res = await fetch('https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions', {
-        method: 'POST',
-        body: formData, // Отправляем как обычную форму, без JSON-заголовков
-      });
-
-      if (res.ok) {
-        form.reset(); 
-        showToast(); 
-        if (form.closest('.modal-overlay')) setTimeout(closeModal, 300); 
-      } else {
-        console.error('Ошибка сервера:', await res.text());
-        alert('Ошибка отправки. Пожалуйста, попробуйте позже.'); 
-      }
-    } catch (err) {
-      console.error('Сетевая ошибка:', err);
-      alert('Ошибка сети. Попробуйте позже.');
+    // Отправляем через FormHook
+    const ok = await sendToFormHook(type, data);
+    
+    if (ok) { 
+      form.reset(); 
+      showToast(); 
+      if (form.closest('.modal-overlay')) setTimeout(closeModal, 300); 
+    } else { 
+      alert('Ошибка отправки. Пожалуйста, попробуйте позже.'); 
     }
     
     btn.disabled = false; 
