@@ -407,7 +407,13 @@ tailwind.config = {
         <div class="glass-card p-8 rounded-3xl reveal" data-delay="1">
           <div class="glass-content">
             <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-accent shadow-sm">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <!-- Иконка Диван -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/>
+                <path d="M2 11a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z"/>
+                <path d="M6 18v3"/>
+                <path d="M18 18v3"/>
+              </svg>
             </div>
             <h3 class="font-display text-2xl font-bold mb-2">Химчистка мебели</h3>
             <p class="text-sm text-muted mb-6">Глубокая чистка диванов, матрасов. Удаляем пятна и запахи.</p>
@@ -422,7 +428,12 @@ tailwind.config = {
         <div class="glass-card p-8 rounded-3xl reveal" data-delay="2">
           <div class="glass-content">
             <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-accent shadow-sm">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <!-- Иконка Окно -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 12h18"/>
+                <path d="M12 3v18"/>
+              </svg>
             </div>
             <h3 class="font-display text-2xl font-bold mb-2">Мойка окон</h3>
             <p class="text-sm text-muted mb-6">Профессиональная мойка остекления любой сложности. Без разводов.</p>
@@ -791,6 +802,13 @@ const projectsData = [
   }
 ];
 
+// ==================== ПРЕДЗАГРУЗКА КАРТИНОК (ФИКС ЗАВИСАНИЯ) ====================
+// Загружаем картинки в кэш браузера сразу при загрузке страницы
+projectsData.forEach(p => {
+  const imgBefore = new Image(); imgBefore.src = p.beforeImg;
+  const imgAfter = new Image(); imgAfter.src = p.afterImg;
+});
+
 // ==================== ЛОГИКА СЛАЙДЕРА ДО/ПОСЛЕ ====================
 const baSlider = document.getElementById('ba-slider');
 const baBefore = document.getElementById('ba-before');
@@ -812,13 +830,22 @@ function openProject(index) {
   mTitle.textContent = data.title;
   mDesc.textContent = data.desc;
   
-  document.getElementById('ba-before').src = data.beforeImg;
-  document.getElementById('ba-after').src = data.afterImg;
-  
+  // Сначала сбрасываем слайдер в исходное положение
   baSlider.value = 50;
   baBefore.style.clipPath = `polygon(0 0, 50% 0, 50% 100%, 0 100%)`;
   baHandle.style.left = `50%`;
 
+  // Очищаем старые картинки и ставим новые (чтобы не было мигания)
+  const imgBefore = document.getElementById('ba-before');
+  const imgAfter = document.getElementById('ba-after');
+  
+  imgBefore.src = ''; 
+  imgAfter.src = '';  
+  
+  imgBefore.src = data.beforeImg;
+  imgAfter.src = data.afterImg;
+
+  // Показываем модалку
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   document.body.style.overflow = 'hidden';
