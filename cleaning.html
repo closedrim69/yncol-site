@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сервис на Дом — Премиальный клининг в Кемерово</title>
+<meta name="description" content="Профессиональная уборка квартир, химчистка мебели, мойка окон в Кемерово. Идеальная чистота и свежесть.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#F4FBF7',       
+        surface: '#FFFFFF',  
+        text: '#022C22',     
+        muted: '#4B5563',    
+        border: '#D1FAE5',   
+        accent: '#10B981',   
+        accentHover: '#059669',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        display: ['Outfit', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  section[id] { scroll-margin-top: 100px; }
+  
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: #F4FBF7; 
+    color: #022C22; 
+    overflow-x: hidden; 
+    background-image: radial-gradient(#A7F3D0 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .font-display { font-family: 'Outfit', sans-serif; }
+
+  /* ================= ИСПРАВЛЕННЫЙ БЛИК ================= */
+  .shine-fix { position: relative; overflow: hidden; }
+  .shine-fix::after {
+    content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-25deg); z-index: 10; pointer-events: none;
+  }
+  .shine-fix:hover::after { left: 150%; transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* ================= ЭФФЕКТ СТЕКЛА ================= */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.08);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2), 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
+
+  .glass-content { position: relative; z-index: 2; }
+
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: #022C22;
+    background: #FFFFFF; border: 1px solid #D1FAE5;
+    padding: 10px 20px; border-radius: 100px;
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+    cursor: pointer;
+  }
+
+  /* ================= ПОЛЗУНОК СВЕТЯЩИЙСЯ ================= */
+  input[type="range"].calc-range { 
+    -webkit-appearance: none; 
+    width: 100%; 
+    background: transparent; 
+    cursor: pointer; 
+    position: relative; 
+    z-index: 10; 
+  }
+  
+  input[type="range"].calc-range::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    height: 32px; 
+    width: 32px; 
+    border-radius: 50%;
+    background: #FFFFFF; 
+    cursor: pointer; 
+    margin-top: -14px;
+    border: 4px solid #FFFFFF; 
+    box-shadow: 0 0 0 2px #10B981, 0 0 20px 4px rgba(16, 185, 129, 0.6); /* Свечение */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  input[type="range"].calc-range::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 2px #10B981, 0 0 30px 8px rgba(16, 185, 129, 0.8);
+    transform: scale(1.1);
+  }
+  
+  input[type="range"].calc-range::-webkit-slider-runnable-track { 
+    width: 100%; 
+    height: 6px; 
+    cursor: pointer; 
+    background: #D1FAE5; /* Светло-зеленая полоса, чтобы было видно */
+    border-radius: 3px; 
+  }
+
+  /* Для Firefox */
+  input[type="range"].calc-range::-moz-range-thumb {
+    height: 32px; 
+    width: 32px; 
+    border-radius: 50%;
+    background: #FFFFFF; 
+    cursor: pointer;
+    border: 4px solid #FFFFFF; 
+    box-shadow: 0 0 0 2px #10B981, 0 0 20px 4px rgba(16, 185, 129, 0.6);
+  }
+  input[type="range"].calc-range::-moz-range-track {
+    width: 100%; 
+    height: 6px; 
+    cursor: pointer; 
+    background: #D1FAE5; 
+    border-radius: 3px; 
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  .modal-overlay {
+    background: rgba(2, 44, 34, 0.7);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
+  }
+  .modal-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .burger-line { display: block; width: 24px; height: 2px; background: #022C22; border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+  .burger.active .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.active .burger-line:nth-child(2) { opacity: 0; }
+  .burger.active .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .mobile-menu.open { max-height: 400px; }
+
+  /* ================= СЛАЙДЕР ДО/ПОСЛЕ ================= */
+  .ba-slider-container {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    overflow: hidden; border-radius: 16px; user-select: none; background: #E5E7EB;
+  }
+  
+  .ba-img-before, .ba-img-after { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; 
+  }
+  
+  .ba-img-after { 
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); 
+  }
+  
+  /* Подписи ДО и ПОСЛЕ */
+  .ba-label {
+    position: absolute; top: 16px; z-index: 20;
+    background: rgba(0, 0, 0, 0.5); color: white;
+    padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+  }
+  .ba-label.before { left: 16px; }
+  .ba-label.after { right: 16px; }
+
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: #FFFFFF;
+    transform: translateX(-50%); pointer-events: none; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 10;
+  }
+  .ba-circle {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 40px; height: 40px; background: #FFFFFF; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); color: #10B981;
+  }
+  .ba-input {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: ew-resize; z-index: 20; margin: 0;
+  }
+
+  /* ================= 3D СЦЕНА (ЛОГОТИП) ================= */
+  .scene-container {
+    perspective: 1200px; width: 100%; height: 500px;
+    display: flex; justify-content: center; align-items: center; position: relative;
+  }
+
+  .bubble {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, rgba(167, 243, 208, 0.4) 40%, rgba(16, 185, 129, 0.6) 100%);
+    box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1), inset 5px 5px 15px rgba(255,255,255,0.9), 5px 15px 25px rgba(2, 44, 34, 0.1);
+    animation: floatBubble 5s ease-in-out infinite alternate; z-index: 10;
+  }
+  .b1 { width: 90px; height: 90px; top: 10%; right: 5%; animation-delay: 0s; }
+  .b2 { width: 50px; height: 50px; bottom: 20%; left: 0%; animation-delay: -1.5s; }
+  .b3 { width: 35px; height: 35px; top: 30%; left: 10%; animation-delay: -3s; }
+  .b4 { width: 70px; height: 70px; bottom: 10%; right: 15%; animation-delay: -2s; opacity: 0.7; }
+  
+  @keyframes floatBubble { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(-20px) scale(1.05); } }
+
+  .logo-capsule {
+    position: relative; background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 40px;
+    padding: 45px 70px;
+    box-shadow: 0 20px 50px -10px rgba(16, 185, 129, 0.2), inset 0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 0 1px rgba(16, 185, 129, 0.1);
+    transform-style: preserve-3d; animation: floatLogo 6s ease-in-out infinite;
+    z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  .logo-capsule::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 40px; padding: 2px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.6), transparent, rgba(16,185,129,0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+
+  @keyframes floatLogo { 0%, 100% { transform: translateY(0) rotateY(-5deg) rotateX(2deg); } 50% { transform: translateY(-15px) rotateY(-5deg) rotateX(2deg); } }
+
+  .glow-behind {
+    position: absolute; width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 60%);
+    border-radius: 50%; filter: blur(40px); z-index: 5; animation: pulseGlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0.8; } }
+
+  .logo-text-top { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.4em; color: #059669; text-transform: uppercase; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(16, 185, 129, 0.3); }
+  .logo-text-main {
+    font-family: 'Outfit', sans-serif; font-size: 80px; font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #065F46 0%, #022C22 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 2px rgba(255,255,255,0.8)) drop-shadow(0 10px 15px rgba(2, 44, 34, 0.2)); position: relative;
+  }
+  .logo-dot { display: inline-block; width: 12px; height: 12px; background: #10B981; border-radius: 50%; margin-top: 16px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
+
+  /* ================= КНОПКА НАВЕРХ ================= */
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px; z-index: 90;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: #FFFFFF; border: 1px solid #D1FAE5;
+    display: flex; align-items: center; justify-content: center; color: #022C22;
+    cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15);
+  }
+  #backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  #backToTop:hover { border-color: #10B981; color: #10B981; box-shadow: 0 15px 30px -10px rgba(16,185,129,0.3); transform: translateY(-3px); }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- HEADER -->
+<header class="fixed top-0 inset-x-0 z-40 bg-bg/80 backdrop-blur-xl border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    
+    <a href="index.html#portfolio" class="btn-back shine-fix group">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:-translate-x-1 transition-transform">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span class="relative z-20">В портфолио</span>
+    </a>
+    
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-muted">
+      <a href="#services" class="smooth-scroll hover:text-text transition-colors">Услуги</a>
+      <a href="#calc" class="smooth-scroll hover:text-text transition-colors">Калькулятор</a>
+      <a href="#portfolio" class="smooth-scroll hover:text-text transition-colors">Работы</a>
+    </nav>
+    
+    <div class="flex items-center gap-4 md:gap-6">
+      <a href="tel:+79502766995" class="hidden md:block text-sm font-extrabold text-text cursor-pointer hover:text-accent transition-colors">+7 (950) 276-69-95</a>
+      
+      <button onclick="openCallbackModal()" class="hidden md:block bg-accent text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg shadow-accent/30 cursor-pointer shine-fix">
+        <span class="relative z-20">Заказать уборку</span>
+      </button>
+      
+      <button id="burger" class="burger lg:hidden flex flex-col justify-center items-center gap-[6px] w-10 h-10 rounded-lg">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu lg:hidden bg-surface border-t border-border absolute top-full left-0 w-full shadow-lg">
+    <nav class="flex flex-col px-6 py-4 gap-2 text-base font-semibold text-text">
+      <a href="#services" class="smooth-scroll py-2 border-b border-border hover:text-accent">Услуги</a>
+      <a href="#calc" class="smooth-scroll py-2 border-b border-border hover:text-accent">Калькулятор</a>
+      <a href="#portfolio" class="smooth-scroll py-2 hover:text-accent">Наши работы</a>
+      <div class="pt-4 flex flex-col gap-3">
+        <a href="tel:+79502766995" class="text-accent font-bold text-lg">+7 (950) 276-69-95</a>
+        <button onclick="openCallbackModal()" class="bg-accent text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-accent/30 shine-fix">
+          <span class="relative z-20">Заказать уборку</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-teal-200/50 rounded-full blur-[80px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 border border-border bg-white/60 backdrop-blur-md px-4 py-2 rounded-full text-sm font-bold text-accent mb-8 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            Премиальный клининг в Кемерово
+          </div>
+          <h1 class="font-display text-5xl sm:text-7xl font-bold leading-[1.05] tracking-tight mb-6 text-text">
+            Абсолютная <br><span class="text-accent">чистота</span> <br>пространства
+          </h1>
+          <p class="text-lg text-muted max-w-md mb-10 leading-relaxed font-medium">
+            Профессиональная уборка квартир и офисов, химчистка мебели, мойка окон. Используем эко-средства. Освободите время для важного.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+            <a href="#calc" class="smooth-scroll bg-accent text-white px-8 py-4 rounded-xl font-bold text-center text-lg shadow-xl shadow-accent/30 cursor-pointer shine-fix">
+              <span class="relative z-20">Рассчитать стоимость</span>
+            </a>
+            <a href="#portfolio" class="smooth-scroll bg-white border border-border text-text px-8 py-4 rounded-xl font-bold text-center text-lg shadow-sm cursor-pointer shine-fix">
+              <span class="relative z-20">Смотреть работы</span>
+            </a>
+          </div>
+          
+          <div class="flex items-center gap-8 text-sm text-muted font-semibold">
+            <div class="flex items-center gap-2 text-text">
+              <svg class="text-accent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+              Гарантия качества
+            </div>
+            <div class="flex items-center gap-2 text-text">
+              <svg class="text-accent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+              Эко-средства
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Логотип -->
+        <div class="relative reveal" data-delay="1">
+          <div class="scene-container">
+            <div class="glow-behind"></div>
+            <div class="logo-capsule">
+              <div class="logo-text-top">Сервис на</div>
+              <div class="logo-text-main">ДОМ</div>
+              <div class="logo-dot"></div>
+            </div>
+            <div class="bubble b1"></div>
+            <div class="bubble b2"></div>
+            <div class="bubble b3"></div>
+            <div class="bubble b4"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- УСЛУГИ -->
+  <section id="services" class="py-24 bg-surface/50 border-y border-border relative">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="mb-16 reveal">
+        <div class="text-sm font-bold text-accent uppercase tracking-widest mb-2">Наши услуги</div>
+        <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Что мы делаем</h2>
+        <p class="text-muted text-lg font-medium max-w-2xl">Полный спектр клининговых услуг для дома и бизнеса. Профессиональная химия и оборудование.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Карточка 1 -->
+        <div class="glass-card p-8 rounded-3xl reveal">
+          <div class="glass-content">
+            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-accent shadow-sm">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-2">Уборка квартир</h3>
+            <p class="text-sm text-muted mb-6">Поддерживающая и генеральная уборка. Наведем порядок в любой комнате.</p>
+            <div class="text-3xl font-display font-bold text-text mb-6">от 2 500 ₽</div>
+            <button onclick="openCallbackModal()" class="w-full bg-white border border-border text-text font-bold py-3 rounded-xl hover:bg-accent hover:text-white hover:border-accent transition-all cursor-pointer relative z-20 shine-fix">
+              <span class="relative z-20">Заказать</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div class="glass-card p-8 rounded-3xl reveal" data-delay="1">
+          <div class="glass-content">
+            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-accent shadow-sm">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-2">Химчистка мебели</h3>
+            <p class="text-sm text-muted mb-6">Глубокая чистка диванов, матрасов. Удаляем пятна и запахи.</p>
+            <div class="text-3xl font-display font-bold text-text mb-6">от 1 500 ₽</div>
+            <button onclick="openCallbackModal()" class="w-full bg-white border border-border text-text font-bold py-3 rounded-xl hover:bg-accent hover:text-white hover:border-accent transition-all cursor-pointer relative z-20 shine-fix">
+              <span class="relative z-20">Заказать</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div class="glass-card p-8 rounded-3xl reveal" data-delay="2">
+          <div class="glass-content">
+            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-accent shadow-sm">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-2">Мойка окон</h3>
+            <p class="text-sm text-muted mb-6">Профессиональная мойка остекления любой сложности. Без разводов.</p>
+            <div class="text-3xl font-display font-bold text-text mb-6">от 3 500 ₽</div>
+            <button onclick="openCallbackModal()" class="w-full bg-white border border-border text-text font-bold py-3 rounded-xl hover:bg-accent hover:text-white hover:border-accent transition-all cursor-pointer relative z-20 shine-fix">
+              <span class="relative z-20">Заказать</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Спецпредложение -->
+      <div class="mt-8 bg-gradient-to-r from-accent to-emerald-400 rounded-3xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 reveal shadow-xl shadow-accent/20">
+        <div>
+          <div class="text-sm font-bold uppercase tracking-widest text-white/80 mb-2">Специальное предложение</div>
+          <h3 class="font-display text-2xl md:text-3xl font-bold">Скидка 15% на химчистку</h3>
+          <p class="text-white/90 mt-2 font-medium">При заказе мойки окон или балкона + химчистки.</p>
+        </div>
+        <button onclick="openCallbackModal()" class="bg-white text-accent font-bold px-8 py-4 rounded-xl hover:bg-gray-50 transition-colors whitespace-nowrap shadow-lg">Воспользоваться</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПОРТФОЛИО -->
+  <section id="portfolio" class="py-24 bg-bg">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 reveal">
+        <div class="text-sm font-bold text-accent uppercase tracking-widest mb-2">Наши работы</div>
+        <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Результат, который видно</h2>
+        <p class="text-muted text-lg font-medium max-w-2xl">Нажмите на карточку, чтобы открыть интерактивное сравнение «До» и «После».</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal">
+        
+        <!-- Карточка 1 -->
+        <div onclick="openProject(0)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
+          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
+            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+          <div class="glass-content absolute bottom-6 left-6 right-6">
+            <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Квартира</div>
+            <div class="font-bold text-lg text-white">Генеральная уборка</div>
+          </div>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div onclick="openProject(1)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
+          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
+            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+          <div class="glass-content absolute bottom-6 left-6 right-6">
+            <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Химчистка</div>
+            <div class="font-bold text-lg text-white">Удаление пятен с дивана</div>
+          </div>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div onclick="openProject(2)" class="glass-card shine-fix group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer p-0">
+          <div class="absolute inset-0 bg-gray-200 flex flex-col items-center justify-center text-gray-400 group-hover:scale-105 transition-transform duration-500">
+            <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
+          <div class="glass-content absolute bottom-6 left-6 right-6">
+            <div class="text-xs font-bold text-accent uppercase tracking-wider mb-1">Окна</div>
+            <div class="font-bold text-lg text-white">Мойка остекления</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- КАЛЬКУЛЯТОР (ЦЕНТРИРОВАННЫЙ) -->
+  <section id="calc" class="py-24 bg-surface border-y border-border">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Центрированный заголовок -->
+      <div class="text-center mb-16 reveal relative flex flex-col items-center">
+        <div class="text-sm font-bold text-accent uppercase tracking-widest mb-2">Калькулятор</div>
+        <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-text">Узнайте стоимость</h2>
+        <p class="text-muted font-medium max-w-lg mx-auto">Выберите параметры, чтобы увидеть предварительную цену. Точная стоимость — после осмотра.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start w-full">
+        
+        <!-- Калькулятор -->
+        <div class="reveal w-full min-w-0 flex flex-col h-full">
+          <div class="glass-card p-8 rounded-3xl flex-1">
+            <div class="glass-content">
+              <div class="mb-8">
+                <div class="flex justify-between mb-4">
+                  <span class="text-sm font-semibold text-muted">Площадь помещения</span>
+                  <span class="font-display font-bold text-2xl text-text" id="areaValue">50 м²</span>
+                </div>
+                <input type="range" id="areaRange" class="calc-range" min="20" max="200" value="50" step="10">
+              </div>
+
+              <div class="mb-8">
+                <span class="text-sm font-semibold text-muted block mb-3">Тип уборки</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" class="border border-border bg-white/50 rounded-xl py-3 text-sm font-semibold text-muted transition-colors hover:bg-surface cursor-pointer" data-price="80" onclick="setType(this, 'Поддерживающая')">Поддерживающая</button>
+                  <button type="button" class="border border-accent bg-accent text-white rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer" data-price="150" onclick="setType(this, 'Генеральная')">Генеральная</button>
+                </div>
+              </div>
+
+              <div class="border-t border-white/50 pt-6">
+                <div class="text-sm font-medium text-muted mb-1">Примерная стоимость:</div>
+                <div class="font-display font-bold text-5xl text-accent" id="totalPrice">7 500 ₽</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Форма -->
+        <div class="reveal w-full min-w-0 flex flex-col h-full" data-delay="1">
+          <form class="calc-form glass-card p-8 rounded-3xl space-y-4 flex-1" data-form-type="Калькулятор уборки">
+            <input type="hidden" id="calcSummary" name="calc_summary" value="">
+            <div class="glass-content">
+              <h3 class="font-display text-2xl font-bold mb-2 text-text">Зафиксировать цену</h3>
+              <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и мы вышлем детальную смету в WhatsApp.</p>
+              
+              <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400 mb-4">
+              <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400 mb-4">
+              
+              <button type="submit" class="w-full bg-accent text-white font-bold text-lg rounded-xl py-4 shadow-lg shadow-accent/30 cursor-pointer relative z-20">
+                Получить смету
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="py-24 bg-bg">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="glass-card rounded-[40px] p-8 md:p-16 text-center reveal">
+        <div class="glass-content max-w-2xl mx-auto">
+          <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 text-text">Готовы к чистоте?</h2>
+          <p class="text-muted text-lg mb-8">Оставьте заявку, и мы свяжемся с вами в течение 15 минут для уточнения деталей.</p>
+          
+          <form class="contact-form flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" data-form-type="Быстрая заявка">
+            <input type="text" name="name" placeholder="Ваше имя" required class="flex-1 bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400">
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask flex-1 bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400">
+            
+            <button type="submit" class="bg-accent text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-accent/30 whitespace-nowrap cursor-pointer relative z-20">
+              Жду звонка
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+<section class="py-12 relative border-t border-border bg-surface/30">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-[11px] text-muted leading-relaxed opacity-60 text-justify">
+      <p><strong>Профессиональный клининг в Кемерово.</strong> Компания «Сервис на Дом» предлагает полный спектр клининговых услуг: генеральная и поддерживающая уборка квартир, химчистка мягкой мебели (диванов, матрасов, кресел), профессиональная мойка окон и балконов, уборка после ремонта, а также обслуживание офисов и коммерческих помещений. Мы используем только сертифицированную эко-химию и профессиональное оборудование Karcher. Наши клинеры проходят строгий отбор и обучение. Работаем в Кемерово и пригороде. Закажите уборку онлайн, вызовите клинера на дом или получите бесплатную консультацию по телефону. Гарантируем идеальную чистоту и порядок.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР (ВЗРОСЛЫЙ, С SEO) -->
+<footer class="bg-surface border-t border-border pt-16 pb-8 relative overflow-hidden">
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-accent/5 blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      
+      <!-- Колонка 1 -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-white shadow-lg shadow-accent/30">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <span class="font-display font-extrabold text-xl text-text">Сервис на Дом</span>
+        </div>
+        <p class="text-sm text-muted leading-relaxed mb-6 font-medium">
+          Профессиональная уборка квартир и офисов в Кемерово. Используем безопасную химию и современное оборудование. Работаем с 2018 года.
+        </p>
+        <div class="text-sm text-muted space-y-3 font-medium mb-6">
+          <p class="flex items-center gap-2">
+            <svg class="text-accent shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            г. Кемерово, ул. Ленина, 10
+          </p>
+          <p class="flex items-center gap-2">
+            <svg class="text-accent shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z"/></svg>
+            <a href="tel:+79502766995" class="hover:text-accent transition-colors">+7 (950) 276-69-95</a>
+          </p>
+          <p class="flex items-center gap-2">
+            <svg class="text-accent shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <a href="mailto:info@service-na-dom.ru" class="hover:text-accent transition-colors">info@service-na-dom.ru</a>
+          </p>
+        </div>
+        
+        <!-- Соцсети -->
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full bg-bg border border-border flex items-center justify-center text-text hover:bg-[#2AABEE] hover:text-white hover:border-[#2AABEE] transition-all shine-fix">
+            <span class="relative z-10">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.94 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.06 0zm4.96 7.22c.1 0 .32.03.47.14a.5.5 0 01.17.33c.02.09.04.3.02.47-.18 1.9-.96 6.5-1.36 8.63-.17.9-.5 1.2-.82 1.23-.7.06-1.23-.46-1.9-.9-1.06-.7-1.66-1.13-2.68-1.8-1.19-.79-.42-1.22.26-1.92.17-.18 3.24-2.97 3.3-3.23 0-.03.02-.15-.05-.21-.07-.06-.18-.04-.25-.02-.1.02-1.8 1.14-5.06 3.34-.48.33-.91.5-1.3.48-.43-.01-1.25-.24-1.87-.44-.75-.24-1.35-.37-1.3-.79.03-.22.33-.44.9-.66 3.5-1.53 5.83-2.53 7-3.02 3.33-1.38 4.02-1.62 4.47-1.63z"/></svg>
+            </span>
+          </a>
+          
+          <a href="#" class="w-10 h-10 rounded-full bg-bg border border-border flex items-center justify-center text-text hover:bg-[#0066FF] hover:text-white hover:border-[#0066FF] transition-all shine-fix">
+            <span class="relative z-10">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 5 C 8.13 5 5 8.13 5 12 C 5 13.2 5.3 14.3 5.8 15.3 L 5 19 L 8.7 18.2 C 9.7 18.7 10.8 19 12 19 C 15.87 19 19 15.87 19 12 C 19 8.13 15.87 5 12 5 Z M 12 15.5 C 10.07 15.5 8.5 13.93 8.5 12 C 8.5 10.07 10.07 8.5 12 8.5 C 13.93 8.5 15.5 10.07 15.5 12 C 15.5 13.93 13.93 15.5 12 15.5 Z" fill-rule="evenodd" clip-rule="evenodd"/>
+              </svg>
+            </span>
+          </a>
+
+          <a href="#" class="w-10 h-10 rounded-full bg-bg border border-border flex items-center justify-center text-text hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all shine-fix">
+            <span class="relative z-10">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.7.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-.14.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37A9.86 9.86 0 012.16 11.9c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.17-1.24-6.16-3.48-8.4"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Колонка 2 -->
+      <div>
+        <h4 class="font-display font-bold text-lg text-text mb-5">Наши услуги</h4>
+        <ul class="space-y-3 text-sm text-muted font-medium">
+          <li><a href="#" class="hover:text-accent transition-colors">Генеральная уборка квартир</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Поддерживающая уборка</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Уборка после ремонта</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Химчистка диванов и кресел</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Химчистка ковров и матрасов</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Мойка окон и витрин</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Уборка офисов и бизнес-центров</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 3 -->
+      <div>
+        <h4 class="font-display font-bold text-lg text-text mb-5">Информация</h4>
+        <ul class="space-y-3 text-sm text-muted font-medium">
+          <li><a href="#services" class="smooth-scroll hover:text-accent transition-colors">Услуги и цены</a></li>
+          <li><a href="#calc" class="smooth-scroll hover:text-accent transition-colors">Калькулятор стоимости</a></li>
+          <li><a href="#portfolio" class="smooth-scroll hover:text-accent transition-colors">Наши работы (До/После)</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Отзывы клиентов</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Вопросы и ответы (FAQ)</a></li>
+          <li><a href="#contact" class="smooth-scroll hover:text-accent transition-colors">Контакты</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 4 -->
+      <div>
+        <h4 class="font-display font-bold text-lg text-text mb-5">Документы</h4>
+        <ul class="space-y-3 text-sm text-muted font-medium mb-8">
+          <li><a href="#" class="hover:text-accent transition-colors">Политика конфиденциальности</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Пользовательское соглашение</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors">Договор на оказание услуг</a></li>
+        </ul>
+        
+        <h4 class="font-display font-bold text-lg text-text mb-4">Реквизиты</h4>
+        <div class="text-xs text-muted space-y-1.5 font-medium">
+          <p>ИП Иванова Марина Сергеевна</p>
+          <p>ИНН: 420512345678</p>
+          <p>ОГРНИП: 318420500012345</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted font-medium">
+      <div>© 2018-2025 Сервис на Дом. Все права защищены.</div>
+      <div class="text-center md:text-right max-w-2xl">
+        <p>Информация на сайте не является публичной офертой. Указанные цены являются ориентировочными. Точная стоимость определяется после бесплатного осмотра.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- МОДАЛКА: ПОРТФОЛИО -->
+<div id="projectModal" class="modal-overlay fixed inset-0 z-[100] hidden flex items-center justify-center p-4 sm:p-6">
+  <div class="bg-white/95 backdrop-blur-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative border border-white p-6 md:p-10">
+    
+    <button onclick="closeModal()" class="absolute top-6 right-6 w-10 h-10 bg-white border border-border hover:bg-accent hover:text-white text-text rounded-full flex items-center justify-center transition-colors z-50 cursor-pointer shadow-md">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div class="mb-6 pr-10">
+      <h2 id="modalTitle" class="font-display text-2xl md:text-3xl font-bold text-text mb-2"></h2>
+      <p id="modalDesc" class="text-muted text-sm md:text-base leading-relaxed"></p>
+    </div>
+
+    <div class="ba-slider-container shadow-lg">
+      <!-- Подписи ДО и ПОСЛЕ -->
+      <div class="ba-label before">До</div>
+      <div class="ba-label after">После</div>
+
+      <img id="ba-after" src="" alt="После" class="ba-img-before">
+      <img id="ba-before" src="" alt="До" class="ba-img-after">
+      
+      <div class="ba-handle" id="ba-handle">
+        <div class="ba-circle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+      </div>
+
+      <input type="range" min="0" max="100" value="50" class="ba-input" id="ba-slider">
+    </div>
+    <div class="text-center text-xs text-muted mt-4 font-semibold uppercase tracking-wider">Двигайте ползунок, чтобы увидеть разницу</div>
+
+  </div>
+</div>
+
+<!-- МОДАЛКА: ЗАКАЗ ЗВОНКА -->
+<div id="callbackModal" class="modal-overlay fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+  <div class="bg-white/95 backdrop-blur-2xl w-full max-w-md rounded-3xl p-8 relative shadow-2xl border border-white">
+    <button onclick="closeCallbackModal()" class="absolute top-6 right-6 text-muted hover:text-text transition-colors">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-display text-2xl font-bold mb-2 text-text">Заказать уборку</h3>
+    <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и Марина свяжется с вами в течение 15 минут.</p>
+    
+    <form class="callback-form space-y-4" data-form-type="Заказать уборку">
+      <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-white/60 border border-white/80 rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text">
+      
+      <button type="submit" class="w-full bg-accent text-white font-bold text-lg rounded-xl py-4 shadow-lg shadow-accent/30 relative z-20 shine-fix">
+        <span class="relative z-20">Отправить</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-text text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-[110] pointer-events-none">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+  <span class="font-bold text-sm">Заявка принята! Свяжемся с вами.</span>
+</div>
+
+<!-- КНОПКА НАВЕРХ -->
+<button id="backToTop" aria-label="Вернуться наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+// ==================== ДАННЫЕ ПОРТФОЛИО (ПОКА ЗАГЛУШКИ) ====================
+// Как будут картинки, заменим эти ссылки на твои пути (например, image/cleaning/work1-before.webp)
+const projectsData = [
+  {
+    title: "Генеральная уборка квартиры",
+    desc: "Двухкомнатная квартира, 60 м². Полная уборка после ремонта.",
+    beforeImg: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80",
+    afterImg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Химчистка дивана",
+    desc: "Удаление сложных пятен и запаха. 3-местный диван.",
+    beforeImg: "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=1200&q=80",
+    afterImg: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    title: "Мойка окон",
+    desc: "Панорамное остекление балкона, 6 секций.",
+    beforeImg: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
+    afterImg: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1200&q=80"
+  }
+];
+
+// ==================== ЛОГИКА СЛАЙДЕРА ДО/ПОСЛЕ ====================
+const baSlider = document.getElementById('ba-slider');
+const baBefore = document.getElementById('ba-before');
+const baHandle = document.getElementById('ba-handle');
+
+baSlider.addEventListener('input', (e) => {
+  const value = e.target.value;
+  baBefore.style.clipPath = `polygon(0 0, ${value}% 0, ${value}% 100%, 0 100%)`;
+  baHandle.style.left = `${value}%`;
+});
+
+// ==================== МОДАЛЬНОЕ ОКНО ПОРТФОЛИО ====================
+const modal = document.getElementById('projectModal');
+const mTitle = document.getElementById('modalTitle');
+const mDesc = document.getElementById('modalDesc');
+
+function openProject(index) {
+  const data = projectsData[index];
+  mTitle.textContent = data.title;
+  mDesc.textContent = data.desc;
+  
+  document.getElementById('ba-before').src = data.beforeImg;
+  document.getElementById('ba-after').src = data.afterImg;
+  
+  baSlider.value = 50;
+  baBefore.style.clipPath = `polygon(0 0, 50% 0, 50% 100%, 0 100%)`;
+  baHandle.style.left = `50%`;
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// ==================== БУРГЕР-МЕНЮ ====================
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('active', open);
+});
+document.querySelectorAll('#mobileMenu a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('active');
+  });
+});
+
+// ==================== ПЛАВНЫЙ СКРОЛЛ ====================
+document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if(target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ==================== КНОПКА НАВЕРХ ====================
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTop.classList.add('visible');
+  else backToTop.classList.remove('visible');
+}, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ==================== КАЛЬКУЛЯТОР ====================
+const range = document.getElementById('areaRange');
+const areaValue = document.getElementById('areaValue');
+const totalPrice = document.getElementById('totalPrice');
+const calcSummary = document.getElementById('calcSummary');
+let currentPricePerSqm = 150; 
+let currentType = 'Генеральная';
+
+function formatMoney(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+}
+
+function updateCalc() {
+  const area = parseInt(range.value);
+  areaValue.textContent = area + ' м²';
+  const total = area * currentPricePerSqm;
+  totalPrice.textContent = formatMoney(total);
+  calcSummary.value = `Площадь: ${area} м² | Тип: ${currentType} | Итог: ${formatMoney(total)}`;
+}
+
+function setType(btn, typeName) {
+  document.querySelectorAll('.grid-cols-2 button').forEach(b => {
+    b.className = "border border-border bg-white/50 rounded-xl py-3 text-sm font-semibold text-muted transition-colors hover:bg-surface cursor-pointer";
+  });
+  btn.className = "border border-accent bg-accent text-white rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer";
+  
+  currentPricePerSqm = parseInt(btn.dataset.price);
+  currentType = typeName;
+  updateCalc();
+}
+
+range.addEventListener('input', updateCalc);
+updateCalc();
+
+// ==================== МОДАЛКА ЗВОНКА ====================
+const cbModal = document.getElementById('callbackModal');
+function openCallbackModal() {
+  cbModal.classList.remove('hidden');
+  cbModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+function closeCallbackModal() {
+  cbModal.classList.add('hidden');
+  cbModal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+cbModal.addEventListener('click', (e) => {
+  if (e.target === cbModal) closeCallbackModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeCallbackModal();
+  }
+});
+
+// ==================== АНИМАЦИИ ПОЯВЛЕНИЯ ====================
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in'); io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ==================== МАСКА ТЕЛЕФОНА ====================
+document.querySelectorAll('.phone-mask').forEach(input => {
+  const fmt = v => {
+    let d = v.replace(/\D/g, ''); if (d.startsWith('8')) d = '7' + d.slice(1); if (d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
+    let o = '+7 '; if (d.length) o += '(' + d.slice(0, 3); if (d.length >= 3) o += ') '; if (d.length > 3) o += d.slice(3, 6); if (d.length > 6) o += '-' + d.slice(6, 8); if (d.length > 8) o += '-' + d.slice(8, 10);
+    return o;
+  };
+  input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+  input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+  input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+});
+
+// ==================== ОТПРАВКА В ТГ ====================
+const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.remove('translate-y-20', 'opacity-0');
+  t.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    t.classList.remove('translate-y-0', 'opacity-100');
+    t.classList.add('translate-y-20', 'opacity-0');
+  }, 5000);
+}
+
+async function submitForm(form, type) {
+  const btn = form.querySelector('button[type="submit"]');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Отправка...';
+
+  const data = {};
+  new FormData(form).forEach((v, k) => data[k] = v);
+  
+  let text = `🧹 <b>Новая заявка: ${type}</b>\n\n` +
+             `<b>Имя:</b> ${data.name}\n` +
+             `<b>Телефон:</b> ${data.phone}\n`;
+  
+  if(data.calc_summary) text += `<b>Расчет:</b> ${data.calc_summary}\n\n`;
+  text += `🕐 ${new Date().toLocaleString('ru-RU')}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+    });
+    const json = await res.json();
+    if (json.ok) { 
+      form.reset(); 
+      showToast(); 
+      if (type === 'Заказать уборку') closeCallbackModal();
+    } else { alert('Ошибка отправки.'); }
+  } catch (err) { alert('Ошибка сети.'); }
+  
+  btn.disabled = false; btn.textContent = orig;
+}
+
+document.querySelector('.calc-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Калькулятор уборки'); });
+document.querySelector('.callback-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Заказать уборку'); });
+document.querySelector('.contact-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Быстрая заявка'); });
+</script>
+</body>
+</html>

@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BLACK ART TATTOO — Премиальная тату-студия в Краснодаре</title>
+<meta name="description" content="BLACK ART TATTOO — студия художественной татуировки в Краснодаре. Индивидуальные эскизы, стерильность, мастера с опытом 10+ лет.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#050505',
+          grunge: '#121212',
+          blood: '#b91c1c',
+          bone: '#e7e5e4',
+          muted: '#737373',
+        },
+        fontFamily: {
+          display: ['Cinzel', 'serif'],
+          sans: ['Manrope', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html, body { overflow-x: hidden; }
+  body { 
+    font-family: 'Manrope', sans-serif; 
+    background: radial-gradient(circle at 50% 0%, #111111 0%, #050505 60%); 
+    color: #f5f5f5; 
+    cursor: default; 
+  }
+  section[id] { scroll-margin-top: 80px; }
+
+  /* ---------- НОВЫЕ КНОПКИ (УГЛОВЫЕ СРЕЗЫ) ---------- */
+  .btn-premium {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #fff;
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.1);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    z-index: 1;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .btn-premium::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(185,28,28,0.3) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  .btn-premium:hover {
+    border-color: #b91c1c;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(185,28,28,0.4);
+  }
+  .btn-premium:hover::before { opacity: 1; }
+
+  /* Контурная версия кнопки (для "Смотреть работы") */
+  .btn-outline-premium {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.7);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    z-index: 1;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .btn-outline-premium:hover {
+    color: #fff;
+    border-color: #b91c1c;
+    background: rgba(185,28,28,0.05);
+    box-shadow: 0 0 20px rgba(185,28,28,0.2);
+  }
+
+  /* ---------- АНИМАЦИИ ПОЯВЛЕНИЯ ---------- */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  .reveal-card {
+    opacity: 0; transform: translateY(50px) scale(0.98);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal-card.in { opacity: 1; transform: translateY(0) scale(1); }
+
+  .delay-1 { transition-delay: 0.15s; }
+  .delay-2 { transition-delay: 0.3s; }
+  .delay-3 { transition-delay: 0.45s; }
+
+  /* ---------- КАРТОЧКИ МАСТЕРОВ ---------- */
+  .master-card {
+    background: #0a0a0a; border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.4s ease; position: relative; overflow: hidden; z-index: 1;
+  }
+  .master-card:hover {
+    border-color: rgba(185,28,28,0.4);
+    box-shadow: 0 15px 50px -15px rgba(185,28,28,0.15);
+    transform: translateY(-5px);
+  }
+  .master-card .master-avatar {
+    filter: grayscale(100%) contrast(1.2);
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+  .master-card:hover .master-avatar {
+    filter: grayscale(0%) contrast(1);
+    transform: scale(1.05);
+  }
+
+  /* ---------- ПРАЙС-ЛИСТ ---------- */
+  .price-row {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px dashed rgba(255,255,255,0.1);
+    padding-bottom: 12px; margin-bottom: 16px;
+    transition: all 0.3s ease; position: relative; z-index: 1;
+  }
+  .price-row:hover { border-bottom-color: #b91c1c; padding-left: 10px; }
+  .price-row:hover .price-name { color: #b91c1c; }
+
+  /* ---------- FAQ ---------- */
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .faq-item.active .faq-answer { max-height: 300px; }
+  .faq-item.active .faq-icon { transform: rotate(45deg); color: #b91c1c; }
+  .faq-icon { transition: transform 0.3s ease, color 0.3s ease; }
+
+  /* ---------- МОДАЛКИ ---------- */
+  .modal-overlay { background: rgba(5,5,5,0.95); backdrop-filter: blur(10px); transition: opacity 0.3s ease, visibility 0.3s ease; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .modal-panel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .modal-overlay.hidden .modal-panel { transform: scale(0.95) translateY(20px); }
+  
+  .toast { transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .toast.show { transform: translateY(0); }
+
+  /* ---------- КНОПКА НАВЕРХ ---------- */
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px; z-index: 90;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: #121212; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center; color: #737373;
+    cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  #backToTop:hover { border-color: #b91c1c; color: #b91c1c; background: rgba(185,28,28,0.1); box-shadow: 0 0 20px rgba(185,28,28,0.3); transform: translateY(-3px); }
+
+  /* ---------- ЧАСТИЦЫ (КАПЛИ) ---------- */
+  #global-drops { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .drop-particle {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 60%, #450a0a 100%);
+    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.8), inset 1px 1px 3px rgba(255,255,255,0.4);
+    will-change: transform;
+  }
+
+  /* ---------- КЛЯКСА В HERO ---------- */
+  .ink-wrapper {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 280px; height: 280px; pointer-events: auto; z-index: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @media (min-width: 1024px) { .ink-wrapper { width: 380px; height: 380px; } }
+
+  .ink-blob {
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 40%, #450a0a 80%, #050505 100%);
+    box-shadow: inset -15px -15px 40px rgba(0,0,0,0.9), inset 10px 10px 20px rgba(255,255,255,0.15), 0 0 60px rgba(185,28,28,0.2);
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    transition: box-shadow 0.5s ease, transform 0.5s ease;
+  }
+  .ink-wrapper:hover .ink-blob {
+    transform: scale(1.08);
+    box-shadow: inset -20px -20px 60px rgba(0,0,0,0.95), inset 15px 15px 30px rgba(255,255,255,0.2), 0 0 100px rgba(185,28,28,0.4);
+  }
+
+  .ink-splash {
+    position: absolute; 
+    background: radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 60%, #450a0a 100%);
+    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.8), inset 1px 1px 3px rgba(255,255,255,0.4), 0 2px 10px rgba(185,28,28,0.3);
+    border-radius: 50%; opacity: 0.6;
+    animation: floatSplash 4s ease-in-out infinite alternate;
+    transition: all 0.6s ease;
+  }
+  @keyframes floatSplash { 0% { transform: translateY(0) scale(1); opacity: 0.5; } 50% { transform: translateY(-15px) scale(1.2); opacity: 0.8; } 100% { transform: translateY(-5px) scale(0.9); opacity: 0.6; } }
+  .ink-wrapper:hover .ink-splash { transform: scale(1.5) translateY(-20px); opacity: 1; }
+
+  /* ---------- ГАЛЕРЕЯ (СЕТКА) ---------- */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  }
+  @media (min-width: 1024px) {
+    .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  }
+  .gallery-item {
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    background: #121212;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    opacity: 0.8;
+  }
+  .gallery-item:hover img { transform: scale(1.1); opacity: 1; }
+  .gallery-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(185,28,28,0.4), transparent);
+    opacity: 0; transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .gallery-item:hover::after { opacity: 1; }
+
+  /* Лайтбокс */
+  .lightbox-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,0.95); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .lightbox-overlay.active { opacity: 1; visibility: visible; }
+  .lightbox-img {
+    max-width: 90vw; max-height: 75vh; object-fit: contain;
+    border-radius: 8px; box-shadow: 0 0 50px rgba(185,28,28,0.2);
+    transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lightbox-overlay.active .lightbox-img { transform: scale(1); }
+
+  /* Кастомный скроллбар для модалки галереи */
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(185,28,28,0.5); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(185,28,28,0.8); }
+</style>
+</head>
+<body class="antialiased selection:bg-blood selection:text-white relative">
+
+  <!-- ЧАСТИЦЫ (КАПЛИ) -->
+  <div id="global-drops"></div>
+
+  <!-- ХЕДЕР -->
+  <header class="fixed top-0 inset-x-0 z-40 border-b border-white/5 bg-ink/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex h-20 items-center justify-between px-6">
+      
+      <a href="index.html" class="group flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-blood" aria-label="Вернуться в портфолио">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform group-hover:-translate-x-1"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        В портфолио
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-muted">
+        <a href="#masters" class="hover:text-white transition">Мастера</a>
+        <a href="#works" class="hover:text-white transition">Работы</a>
+        <a href="#philosophy" class="hover:text-white transition">Философия</a>
+        <a href="#prices" class="hover:text-white transition">Прайс</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="tel:+79990000000" class="hidden lg:block font-mono text-sm text-white/80 hover:text-white transition">+7 (999) 000-00-00</a>
+        <a href="#contact" class="btn-premium hidden lg:inline-flex">
+          Записаться
+        </a>
+        <button id="burger" class="lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded hover:bg-white/5">
+          <span class="block w-[22px] h-[1.5px] bg-white"></span>
+          <span class="block w-[22px] h-[1.5px] bg-white"></span>
+          <span class="block w-[22px] h-[1.5px] bg-white"></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-white/5 bg-ink px-6 py-4">
+      <nav class="flex flex-col gap-2 text-sm font-bold uppercase tracking-widest">
+        <a href="#masters" class="py-3 text-muted hover:text-blood border-b border-white/5">Мастера</a>
+        <a href="#works" class="py-3 text-muted hover:text-blood border-b border-white/5">Работы</a>
+        <a href="#philosophy" class="py-3 text-muted hover:text-blood border-b border-white/5">Философия</a>
+        <a href="#prices" class="py-3 text-muted hover:text-blood border-b border-white/5">Прайс</a>
+        <a href="#faq" class="py-3 text-muted hover:text-blood border-b border-white/5">FAQ</a>
+        <a href="#contact" class="mt-4 btn-premium px-5 py-3 text-center">Записаться</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- HERO -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      
+      <div class="ink-wrapper" id="inkWrapper">
+        <div class="ink-blob" id="inkBlob"></div>
+        
+        <div class="ink-splash w-4 h-4 top-4 left-4" style="animation-delay: 0s;"></div>
+        <div class="ink-splash w-2 h-2 top-12 right-8" style="animation-delay: 1.5s;"></div>
+        <div class="ink-splash w-3 h-3 bottom-12 left-10" style="animation-delay: 0.7s;"></div>
+        <div class="ink-splash w-5 h-5 bottom-6 right-12" style="animation-delay: 2.1s;"></div>
+        <div class="ink-splash w-2 h-2 top-1/2 left-2" style="animation-delay: 3s;"></div>
+        <div class="ink-splash w-3 h-3 top-1/3 right-2" style="animation-delay: 1.2s;"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto px-6 text-center relative z-10 pointer-events-none">
+        <div class="reveal">
+          <div class="inline-block border border-white/50 bg-white/5 backdrop-blur-sm px-4 py-2 text-xs font-mono tracking-[0.3em] text-white uppercase mb-8">
+            Tattoo Studio
+          </div>
+          
+          <h1 class="font-display text-6xl sm:text-7xl lg:text-[100px] font-bold leading-[1] tracking-tighter mb-6 text-white drop-shadow-2xl">
+            BLACK ART<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">TATTOO</span>
+          </h1>
+          
+          <p class="text-lg text-gray-300 max-w-xl mx-auto leading-relaxed mb-10 drop-shadow-lg pointer-events-auto">
+            Мы не просто набиваем тату. Мы создаем искусство, которое остается с тобой навсегда. Уникальный эскиз под твой характер.
+          </p>
+
+          <div class="flex flex-col sm:flex-row justify-center gap-4 pointer-events-auto">
+            <button onclick="openConsultationModal()" class="btn-premium">
+              Обсудить эскиз
+            </button>
+            <a href="#works" class="btn-outline-premium">
+              Смотреть работы
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- МАСТЕРА -->
+    <section id="masters" class="py-24 relative border-t border-white/5 bg-ink overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="reveal text-center mb-16">
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">Наши мастера</h2>
+          <p class="text-muted">Художники, которые превратят идею в шедевр.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="reveal-card master-card rounded-xl p-6 text-center delay-1">
+            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
+              <img src="image/tattoo/master1.webp" alt="Алексей Клинок" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-bold text-xl mb-1">Алексей «Клинок»</h3>
+            <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Олдскул / Традишнл</p>
+            <p class="text-sm text-muted">Стаж 12 лет. Четкие линии, яркие цвета, безупречная машинка.</p>
+          </div>
+          <div class="reveal-card master-card rounded-xl p-6 text-center delay-2">
+            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
+              <img src="image/tattoo/master2.webp" alt="Мария Тень" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-bold text-xl mb-1">Мария «Тень»</h3>
+            <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Блэкворк / Леттеринг</p>
+            <p class="text-sm text-muted">Специалист по сложным графическим работам и каллиграфии.</p>
+          </div>
+          <div class="reveal-card master-card rounded-xl p-6 text-center delay-3">
+            <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
+              <img src="image/tattoo/master3.webp" alt="Дмитрий Реалист" class="w-full h-full object-cover">
+            </div>
+            <h3 class="font-bold text-xl mb-1">Дмитрий «Реалист»</h3>
+            <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Реализм / Портреты</p>
+            <p class="text-sm text-muted">Работает в технике микро-реализма. Максимальная детализация.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ГАЛЕРЕЯ (ПРЕВЬЮ) -->
+    <section id="works" class="py-24 relative border-t border-white/5 bg-grunge/30 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="reveal mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-2">Работы</h2>
+            <p class="text-muted">Часть нашего портфолио. Нажмите на работу, чтобы увеличить.</p>
+          </div>
+          <button onclick="openGalleryModal()" class="text-sm font-bold text-blood uppercase tracking-widest hover:text-red-500 transition-colors border-b border-blood pb-1">
+            Все работы
+          </button>
+        </div>
+
+        <!-- Сетка превью (без кнопки "Хочу такую же", только картинка и текст) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+          
+          <!-- Работа 1 -->
+          <div class="bg-ink rounded-xl border border-white/5 overflow-hidden group">
+            <div class="aspect-[4/3] relative cursor-pointer" onclick="openLightbox('image/tattoo/t1.webp')">
+              <img src="image/tattoo/t1.webp" alt="Работа 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-display text-xl font-bold text-white mb-2">Олдскул дракон</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Алексей «Клинок». Размер: 15х20 см. Место: предплечье. Яркие цвета, четкий контур.</p>
+            </div>
+          </div>
+
+          <!-- Работа 2 -->
+          <div class="bg-ink rounded-xl border border-white/5 overflow-hidden group">
+            <div class="aspect-[4/3] relative cursor-pointer" onclick="openLightbox('image/tattoo/t2.webp')">
+              <img src="image/tattoo/t2.webp" alt="Работа 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-display text-xl font-bold text-white mb-2">Геометрия</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Мария «Тень». Размер: 10х10 см. Место: запястье. Минимализм и четкие линии.</p>
+            </div>
+          </div>
+
+          <!-- Работа 3 -->
+          <div class="bg-ink rounded-xl border border-white/5 overflow-hidden group">
+            <div class="aspect-[4/3] relative cursor-pointer" onclick="openLightbox('image/tattoo/t3.webp')">
+              <img src="image/tattoo/t3.webp" alt="Работа 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-display text-xl font-bold text-white mb-2">Реализм: Глаз</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Дмитрий «Реалист». Размер: 8х8 см. Место: плечо. Максимальная детализация.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ФИЛОСОФИЯ -->
+    <section id="philosophy" class="py-24 relative border-t border-white/5 bg-ink overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal order-2 lg:order-1">
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-6">Искусство<br><span class="text-blood">вне времени</span></h2>
+            <p class="text-muted text-lg leading-relaxed mb-6">
+              В BLACK ART TATTOO мы верим, что татуировка — это не просто рисунок на коже. Это история, застывшая в чернилах. Это знак, который остается с вами навсегда.
+            </p>
+            <p class="text-muted text-lg leading-relaxed mb-8">
+              Мы отвергаем конвейер и шаблоны. Каждый эскиз создается с нуля под конкретного человека, его характер и анатомию. Мы используем только стерильные материалы и современное оборудование, чтобы процесс был безопасным, а результат — безупречным.
+            </p>
+            <div class="w-16 h-1 bg-blood"></div>
+          </div>
+          <div class="reveal order-1 lg:order-2 flex justify-center" style="transition-delay: 0.2s;">
+            <div class="relative w-full max-w-[400px] aspect-square">
+              <svg viewBox="0 0 200 200" class="w-full h-full text-blood/20 animate-[spin_30s_linear_infinite]" fill="none" stroke="currentColor" stroke-width="1">
+                <circle cx="100" cy="100" r="90" stroke-dasharray="4 8" />
+                <circle cx="100" cy="100" r="70" stroke-dasharray="10 5" />
+                <circle cx="100" cy="100" r="50" />
+                <path d="M100 10 L190 100 L100 190 L10 100 Z" />
+                <path d="M100 10 L100 190 M10 100 L190 100" />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="font-display text-5xl text-white/10 select-none">ART</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПРАЙС-ЛИСТ -->
+    <section id="prices" class="py-24 relative border-t border-white/5 bg-grunge/30 overflow-hidden">
+      <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <div class="reveal text-center mb-16">
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mb-3">Прайс-лист</h2>
+          <p class="text-muted">Прозрачные цены. Финальная стоимость зависит от сложности.</p>
+        </div>
+
+        <div class="reveal space-y-6 relative z-10">
+          <div class="price-row">
+            <div class="flex flex-col">
+              <span class="price-name font-bold text-lg text-white transition-colors">Минимальная татуировка</span>
+              <span class="text-xs text-muted">До 5 см, контур</span>
+            </div>
+            <span class="font-mono text-blood text-lg">от 5 000 ₽</span>
+          </div>
+          <div class="price-row">
+            <div class="flex flex-col">
+              <span class="price-name font-bold text-lg text-white transition-colors">Средняя работа</span>
+              <span class="text-xs text-muted">До 15 см, с тенями</span>
+            </div>
+            <span class="font-mono text-blood text-lg">от 12 000 ₽</span>
+          </div>
+          <div class="price-row">
+            <div class="flex flex-col">
+              <span class="price-name font-bold text-lg text-white transition-colors">Крупная работа / Рукав</span>
+              <span class="text-xs text-muted">Многосеансовые проекты</span>
+            </div>
+            <span class="font-mono text-blood text-lg">от 35 000 ₽</span>
+          </div>
+          <div class="price-row">
+            <div class="flex flex-col">
+              <span class="price-name font-bold text-lg text-white transition-colors">Перекрытие (Cover-up)</span>
+              <span class="text-xs text-muted">Сложность зависит от старой тату</span>
+            </div>
+            <span class="font-mono text-blood text-lg">индивидуально</span>
+          </div>
+          <div class="price-row">
+            <div class="flex flex-col">
+              <span class="price-name font-bold text-lg text-white transition-colors">Разработка эскиза</span>
+              <span class="text-xs text-muted">Входит в стоимость сеанса</span>
+            </div>
+            <span class="font-mono text-blood text-lg">0 ₽</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 relative border-t border-white/5 bg-ink overflow-hidden">
+      <div class="max-w-3xl mx-auto px-6 relative z-10">
+        <div class="reveal text-center mb-12">
+          <h2 class="font-display text-3xl sm:text-4xl font-bold">Частые вопросы</h2>
+        </div>
+
+        <div class="space-y-3">
+          <div class="faq-item reveal bg-grunge border border-white/5 rounded-lg overflow-hidden hover:border-blood/30 transition-colors delay-1">
+            <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+              <span class="font-bold text-base">Больно ли делать тату?</span>
+              <span class="faq-icon text-2xl leading-none text-blood shrink-0">+</span>
+            </button>
+            <div class="faq-answer px-6 text-sm text-muted leading-relaxed">
+              <div class="pb-6">Ощущения сравнимы с быстрыми покалываниями. На костных участках чувствуется сильнее. Мы используем современные анестетики, чтобы сделать процесс максимально комфортным.</div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal bg-grunge border border-white/5 rounded-lg overflow-hidden hover:border-blood/30 transition-colors delay-2">
+            <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+              <span class="font-bold text-base">Как ухаживать за татуировкой?</span>
+              <span class="faq-icon text-2xl leading-none text-blood shrink-0">+</span>
+            </button>
+            <div class="faq-answer px-6 text-sm text-muted leading-relaxed">
+              <div class="pb-6">Первые 3 дня — не мочить, мазать заживляющим кремом (Бепантен). Избегать бани, сауны и солнца. Через 7-10 дней появится корочка — ее нельзя чесать. Мы выдаем подробную памятку после сеанса.</div>
+            </div>
+          </div>
+
+          <div class="faq-item reveal bg-grunge border border-white/5 rounded-lg overflow-hidden hover:border-blood/30 transition-colors delay-3">
+            <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+              <span class="font-bold text-base">Можно ли прийти со своим эскизом?</span>
+              <span class="faq-icon text-2xl leading-none text-blood shrink-0">+</span>
+            </button>
+            <div class="faq-answer px-6 text-sm text-muted leading-relaxed">
+              <div class="pb-6">Да, конечно. Но мастер всегда предложит адаптировать его под анатомию тела, чтобы татуировка смотрелась органично и не искажалась со временем.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
+    <section id="contact" class="py-24 relative border-t border-white/5 bg-grunge/30 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="reveal bg-ink border border-white/5 rounded-2xl p-8 sm:p-12 lg:p-16 relative overflow-hidden">
+          <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div>
+              <h2 class="font-display text-4xl sm:text-5xl font-bold leading-tight mb-6">Готовы сделать<br><span class="text-blood">свое искусство?</span></h2>
+              <p class="text-muted mb-8 max-w-md">Запишитесь на консультацию. Обсудим эскиз, место и стоимость. Это бесплатно.</p>
+              <div class="flex items-center gap-4 text-sm text-white/80">
+                <div class="w-12 h-12 rounded-full bg-blood/20 border border-blood/30 flex items-center justify-center text-blood">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>Стерильность и одноразовые материалы</div>
+              </div>
+            </div>
+
+            <form id="contactForm" class="space-y-4 relative z-10">
+              <div>
+                <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Имя</label>
+                <input type="text" name="name" required placeholder="Иван" class="w-full bg-grunge border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors relative z-10">
+              </div>
+              <div>
+                <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Телефон</label>
+                <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__" class="phone-mask w-full bg-grunge border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors relative z-10">
+              </div>
+              <div>
+                <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Идея (кратко)</label>
+                <textarea name="idea" rows="2" placeholder="Например: дракон на спине..." class="w-full bg-grunge border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors resize-none relative z-10"></textarea>
+              </div>
+              <button type="submit" class="btn-premium w-full py-4 mt-2 relative z-10">
+                Отправить заявку
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+  <section class="py-12 relative border-t border-white/5 bg-ink">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-[11px] text-muted leading-relaxed opacity-40 text-justify">
+        <p><strong>Тату-студия в Краснодаре BLACK ART TATTOO.</strong> Профессиональное нанесение татуировок любой сложности. Индивидуальные эскизы, художественная татуировка (олдскул, блэкворк, реализм, леттеринг, нео-традишнл, графика). Стерильность, одноразовые материалы, опытные мастера со стажем более 10 лет. Перекрытие старых тату (кавер-ап). Качественное заживление и бесплатные консультации по уходу. Запишитесь на сеанс в нашу студию в центре Краснодара. Работаем ежедневно.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФУТЕР -->
+  <footer class="border-t border-white/5 py-12 bg-ink relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+      <div class="grid md:grid-cols-4 gap-8 mb-12">
+        <div class="md:col-span-2">
+          <div class="font-display font-bold text-2xl tracking-widest mb-4">BLACK ART TATTOO</div>
+          <p class="text-sm text-muted leading-relaxed max-w-sm mb-6">
+            Премиальная тату-студия в Краснодаре. Мы создаем искусство, которое остается навсегда. Индивидуальный подход, стерильность, опытные мастера.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" aria-label="Telegram" class="group w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted hover:text-[#2AABEE] hover:border-[#2AABEE]/50 hover:bg-[#2AABEE]/10 transition-all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.94 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.06 0zm4.96 7.22c.1 0 .32.03.47.14a.5.5 0 01.17.33c.02.09.04.3.02.47-.18 1.9-.96 6.5-1.36 8.63-.17.9-.5 1.2-.82 1.23-.7.06-1.23-.46-1.9-.9-1.06-.7-1.66-1.13-2.68-1.8-1.19-.79-.42-1.22.26-1.92.17-.18 3.24-2.97 3.3-3.23 0-.03.02-.15-.05-.21-.07-.06-.18-.04-.25-.02-.1.02-1.8 1.14-5.06 3.34-.48.33-.91.5-1.3.48-.43-.01-1.25-.24-1.87-.44-.75-.24-1.35-.37-1.3-.79.03-.22.33-.44.9-.66 3.5-1.53 5.83-2.53 7-3.02 3.33-1.38 4.02-1.62 4.47-1.63z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="group w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted hover:text-pink-500 hover:border-pink-500/50 hover:bg-pink-500/10 transition-all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="VK" class="group w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted hover:text-[#0077FF] hover:border-[#0077FF]/50 hover:bg-[#0077FF]/10 transition-all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.8 17.5c-4.4 0-7-3-7.1-8.1h2.2c.1 3.7 1.7 5.3 3 5.6V9.4h2.1v3.2c1.3-.1 2.6-1.6 3-3.2h2.1c-.3 2-1.8 3.5-2.8 4.1 1 .5 2.7 1.8 3.3 4h-2.3c-.5-1.5-1.7-2.7-3.3-2.8v2.8h-.2z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm uppercase tracking-widest mb-4">Навигация</h4>
+          <div class="space-y-2 text-sm text-muted">
+            <a href="#masters" class="block hover:text-white transition">Мастера</a>
+            <a href="#works" class="block hover:text-white transition">Работы</a>
+            <a href="#philosophy" class="block hover:text-white transition">Философия</a>
+            <a href="#prices" class="block hover:text-white transition">Прайс</a>
+            <a href="#faq" class="block hover:text-white transition">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm uppercase tracking-widest mb-4">Контакты</h4>
+          <div class="space-y-2 text-sm text-muted">
+            <a href="tel:+79990000000" class="block hover:text-white transition">+7 (999) 000-00-00</a>
+            <a href="mailto:hello@blackart.tattoo" class="block hover:text-white transition">hello@blackart.tattoo</a>
+            <div>Краснодар, ул. Красная, 10</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted font-mono">
+        <div>© 2026 BLACK ART TATTOO. Все права защищены.</div>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-white transition">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- КНОПКА НАВЕРХ -->
+  <button id="backToTop" aria-label="Вернуться наверх">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <!-- ============ МОДАЛКА: ОБСУДИТЬ ЭСКИЗ ============ -->
+  <div id="consultationModal" class="modal-overlay hidden fixed inset-0 z-[100] p-4">
+    <div class="modal-panel relative w-full max-w-md bg-grunge border border-white/10 rounded-2xl p-8 shadow-2xl overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-blood/10 blur-[50px] pointer-events-none"></div>
+      
+      <button onclick="closeConsultationModal()" class="absolute top-6 right-6 text-muted hover:text-white transition-colors z-20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="relative z-10">
+        <div class="w-12 h-12 rounded-full bg-blood/20 border border-blood/30 flex items-center justify-center text-blood mb-6">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        
+        <h3 class="font-display text-3xl font-bold mb-2">Обсудить эскиз</h3>
+        <p class="text-sm text-muted mb-6">Расскажите о своей идее. Мастер свяжется с вами в течение 15 минут.</p>
+
+        <form id="consultationForm" class="space-y-4">
+          <div>
+            <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Имя</label>
+            <input type="text" name="name" required placeholder="Иван" class="w-full bg-ink border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors">
+          </div>
+          <div>
+            <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Телефон</label>
+            <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__" class="phone-mask w-full bg-ink border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors">
+          </div>
+          <div>
+            <label class="block text-[11px] text-muted uppercase tracking-wider mb-1.5 font-mono">Идея (кратко)</label>
+            <textarea name="idea" rows="3" placeholder="Например: дракон на спине..." class="w-full bg-ink border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/20 outline-none focus:border-blood transition-colors resize-none"></textarea>
+          </div>
+          <button type="submit" class="btn-premium w-full py-4 mt-2">
+            Отправить заявку
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ МОДАЛКА: ВСЯ ГАЛЕРЕЯ ============ -->
+  <div id="galleryModal" class="modal-overlay hidden fixed inset-0 z-[100] p-4 md:p-8 overflow-y-auto custom-scrollbar">
+    <div class="modal-panel relative w-full max-w-6xl bg-grunge border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl my-auto">
+      <button onclick="closeGalleryModal()" class="fixed md:absolute top-6 right-6 w-10 h-10 bg-black/50 hover:bg-black/80 border border-white/20 text-white rounded-full flex items-center justify-center transition-colors z-50 cursor-pointer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="mb-8 pr-10 relative z-10">
+        <h2 class="font-display text-3xl font-bold text-white mb-2">Галерея работ</h2>
+        <p class="text-muted text-sm">Все наши работы. Нажмите на картинку, чтобы увеличить.</p>
+      </div>
+
+      <div id="galleryModalGrid" class="gallery-grid relative z-10"></div>
+    </div>
+  </div>
+
+  <!-- ============ ЛАЙТБОКС (ПОЛНЫЙ ПРОСМОТР) ============ -->
+  <div id="lightbox" class="lightbox-overlay">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-blood hover:border-blood transition-all cursor-pointer">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    
+    <img id="lightboxImg" src="" alt="Просмотр" class="lightbox-img mb-6">
+    
+    <button onclick="closeLightbox(); openConsultationModal();" class="btn-premium py-3 px-8 text-xs relative z-50">
+      Хочу такую же
+    </button>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast fixed bottom-6 right-6 z-[110] bg-grunge border border-blood/50 rounded-lg p-4 shadow-2xl flex items-start gap-3">
+    <div class="w-8 h-8 rounded-full bg-blood/20 flex items-center justify-center shrink-0">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#b91c1c" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <div>
+      <p class="font-bold text-sm text-white">Заявка отправлена!</p>
+      <p class="text-xs text-muted mt-0.5">Мы свяжемся с вами в течение 15 минут</p>
+    </div>
+  </div>
+
+  <script>
+    /* ================== КЛЯКСА ================== */
+    const inkWrapper = document.getElementById('inkWrapper');
+    const inkBlob = document.getElementById('inkBlob');
+    let time = 0;
+    let isHoveringInk = false;
+    let currentRadius = [50, 50, 50, 50, 50, 50, 50, 50];
+    const targetRadius = [70, 30, 60, 40, 30, 70, 30, 70];
+
+    if (inkWrapper) {
+      inkWrapper.addEventListener('mouseenter', () => { isHoveringInk = true; });
+      inkWrapper.addEventListener('mouseleave', () => { isHoveringInk = false; });
+      
+      function animateInk() {
+        time += 0.015;
+        let newRadius = [];
+        for (let i = 0; i < 8; i++) {
+          if (isHoveringInk) {
+            currentRadius[i] += (targetRadius[i] - currentRadius[i]) * 0.05;
+          } else {
+            const wave = Math.sin(time + i * 0.5) * 15;
+            const targetBreath = 50 + wave;
+            currentRadius[i] += (targetBreath - currentRadius[i]) * 0.1;
+          }
+          newRadius.push(currentRadius[i] + '%');
+        }
+        inkBlob.style.borderRadius = `${newRadius[0]} ${newRadius[1]} ${newRadius[2]} ${newRadius[3]} / ${newRadius[4]} ${newRadius[5]} ${newRadius[6]} ${newRadius[7]}`;
+        requestAnimationFrame(animateInk);
+      }
+      animateInk();
+    }
+
+    /* ================== КАПЛИ (ФОН) ================== */
+    const dropsContainer = document.getElementById('global-drops');
+    const dropCount = 30;
+    const drops = [];
+    
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    for (let i = 0; i < dropCount; i++) {
+      const drop = document.createElement('div');
+      drop.classList.add('drop-particle');
+      const size = Math.random() * 8 + 4;
+      drop.style.width = `${size}px`;
+      drop.style.height = `${size}px`;
+      
+      let x, y;
+      let isRightSide = false;
+      
+      if (i < 4) {
+        x = Math.random() * window.innerWidth;
+        y = Math.random() * window.innerHeight;
+      } else {
+        if (Math.random() > 0.5) {
+          x = Math.random() * (window.innerWidth * 0.25);
+          y = Math.random() * window.innerHeight;
+        } else {
+          isRightSide = true;
+          x = window.innerWidth - (Math.random() * (window.innerWidth * 0.25));
+          y = Math.random() * window.innerHeight;
+        }
+      }
+      
+      const dropData = { el: drop, x: x, y: y, baseX: x, baseY: y, vx: 0, vy: 0, size: size, isRight: isRightSide };
+      drop.style.left = `${x}px`;
+      drop.style.top = `${y}px`;
+      dropsContainer.appendChild(drop);
+      drops.push(dropData);
+    }
+
+    window.addEventListener('resize', () => {
+      drops.forEach(d => {
+        if (d.isRight) {
+          const offsetFromRight = window.innerWidth - d.baseX;
+          d.baseX = window.innerWidth - offsetFromRight;
+          d.x = d.baseX;
+        } else {
+          if (d.baseX > window.innerWidth) { d.baseX = window.innerWidth - 20; d.x = d.baseX; }
+        }
+      });
+    });
+
+    function animateDrops() {
+      drops.forEach(d => {
+        const dx = d.x - mouseX;
+        const dy = d.y - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const fleeRadius = 180;
+        
+        if (dist < fleeRadius) {
+          const force = (fleeRadius - dist) / fleeRadius;
+          const angle = Math.atan2(dy, dx);
+          d.vx += Math.cos(angle) * force * 0.4;
+          d.vy += Math.sin(angle) * force * 0.4;
+        } else {
+          d.vx += (d.baseX - d.x) * 0.005;
+          d.vy += (d.baseY - d.y) * 0.005;
+        }
+        
+        d.vx *= 0.92;
+        d.vy *= 0.92;
+        d.x += d.vx;
+        d.y += d.vy;
+        d.el.style.transform = `translate(${d.x - d.baseX}px, ${d.y - d.baseY}px)`;
+      });
+      requestAnimationFrame(animateDrops);
+    }
+    animateDrops();
+
+    /* ================== МОДАЛКА: ОБСУДИТЬ ЭСКИЗ ================== */
+    const consultationModal = document.getElementById('consultationModal');
+    
+    function openConsultationModal() {
+      consultationModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeConsultationModal() {
+      consultationModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    consultationModal.addEventListener('click', (e) => {
+      if (e.target === consultationModal) closeConsultationModal();
+    });
+
+    /* ================== МОДАЛКА: ГАЛЕРЕЯ ================== */
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryModalGrid = document.getElementById('galleryModalGrid');
+    
+    const allWorks = [
+      'image/tattoo/t1.webp', 'image/tattoo/t2.webp', 'image/tattoo/t3.webp', 'image/tattoo/t4.webp',
+      'image/tattoo/t5.webp', 'image/tattoo/t6.webp', 'image/tattoo/t7.webp', 'image/tattoo/t8.webp'
+    ];
+
+    function openGalleryModal() {
+      galleryModalGrid.innerHTML = '';
+      allWorks.forEach(src => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.onclick = () => openLightbox(src);
+        item.innerHTML = `<img src="${src}" alt="Работа" loading="lazy" onerror="this.style.opacity='0.2'">`;
+        galleryModalGrid.appendChild(item);
+      });
+      
+      galleryModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeGalleryModal() {
+      galleryModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    galleryModal.addEventListener('click', (e) => {
+      if (e.target === galleryModal) closeGalleryModal();
+    });
+
+    /* ================== ЛАЙТБОКС ================== */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+      if (!galleryModal.classList.contains('hidden')) {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (lightbox.classList.contains('active')) closeLightbox();
+        else if (!galleryModal.classList.contains('hidden')) closeGalleryModal();
+        else closeConsultationModal();
+      }
+    });
+
+    /* ================== БУРГЕР ================== */
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    /* ================== REVEAL ================== */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal, .reveal-card').forEach(el => io.observe(el));
+
+    /* ================== FAQ ================== */
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+      });
+    });
+
+    /* ================== МАСКА ================== */
+    document.querySelectorAll('.phone-mask').forEach(input => {
+      const fmt = v => {
+        let d = v.replace(/\D/g, '');
+        if (d.startsWith('8')) d = '7' + d.slice(1);
+        if (d.startsWith('7')) d = d.slice(1);
+        d = d.slice(0, 10);
+        let o = '+7 ';
+        if (d.length) o += '(' + d.slice(0, 3);
+        if (d.length >= 3) o += ') ';
+        if (d.length > 3) o += d.slice(3, 6);
+        if (d.length > 6) o += '-' + d.slice(6, 8);
+        if (d.length > 8) o += '-' + d.slice(8, 10);
+        return o;
+      };
+      input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+      input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+      input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+    });
+
+    /* ================== TELEGRAM ================== */
+    const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+    const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 5000);
+    }
+
+    async function submitForm(form, type) {
+      const btn = form.querySelector('button[type="submit"]');
+      const orig = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Отправка...';
+
+      const data = {};
+      new FormData(form).forEach((v, k) => data[k] = v);
+
+      let text = `🩸 <b>Новая заявка: ${type}</b>\n\n` +
+                 `<b>Имя:</b> ${data.name}\n` +
+                 `<b>Телефон:</b> ${data.phone}\n` +
+                 `<b>Идея:</b> ${data.idea || '—'}\n\n` +
+                 `🕐 ${new Date().toLocaleString('ru-RU')}`;
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+        });
+        const json = await res.json();
+        if (json.ok) {
+          form.reset();
+          showToast();
+          closeConsultationModal();
+        } else {
+          alert('Ошибка отправки. Попробуйте позже.');
+        }
+      } catch (err) {
+        alert('Ошибка сети. Попробуйте позже.');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
+
+    document.getElementById('consultationForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(e.target, 'Обсудить эскиз');
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(e.target, 'Запись');
+    });
+
+    /* ================== ПЛАВНЫЙ СКРОЛЛ ================== */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    /* ================== КНОПКА НАВЕРХ ================== */
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) backToTop.classList.add('visible');
+      else backToTop.classList.remove('visible');
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

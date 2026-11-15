@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Натяжные потолки под ключ | Бесплатный замер</title>
+<meta name="description" content="Установка натяжных потолков любой сложности. Бесплатный замер за 24 часа. Монтаж за 3 часа без пыли. Гарантия 15 лет.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#F7F6F2',       
+        surface: '#FFFFFF',  
+        text: '#1C1C1E',     
+        muted: '#7A7A7A',    
+        border: '#E6E4DE',   
+        accent: '#B58E63',   
+      },
+      fontFamily: {
+        sans: ['Manrope', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  section[id] { scroll-margin-top: 100px; }
+  
+  body { 
+    font-family: 'Manrope', sans-serif; 
+    background-color: #F7F6F2; 
+    color: #1C1C1E; 
+    overflow-x: hidden; 
+    position: relative;
+  }
+
+  /* ================= ТЕКСТУРА ФОНА ================= */
+  .bg-texture {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.8;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 10px);
+  }
+
+  .bg-glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.8;
+  }
+  .glow-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: #FFFFFF; }
+  .glow-2 { bottom: -20%; right: -10%; width: 70vw; height: 70vw; background: #B58E63; opacity: 0.15; }
+  .glow-3 { top: 40%; left: 30%; width: 50vw; height: 50vw; background: #FFFFFF; }
+
+  section, header, footer, main {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 700; color: #1C1C1E;
+    background: #FFFFFF; border: 1px solid #E6E4DE;
+    padding: 10px 20px; border-radius: 100px;
+    transition: all 0.3s ease; cursor: pointer;
+    box-shadow: 0 4px 10px -2px rgba(0,0,0,0.05);
+  }
+  .btn-back:hover { background: #1C1C1E; color: #FFFFFF; border-color: #1C1C1E; }
+
+  .pendant-decor {
+    display: inline-block; width: 1px; height: 40px;
+    background: #B58E63; position: relative; margin-bottom: 16px;
+  }
+  .pendant-decor::before {
+    content: ''; position: absolute; top: 0; left: -4.5px;
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 1.5px solid #B58E63; background: #F7F6F2;
+  }
+
+  /* ---------- КАСТОМНЫЙ ПОЛЗУНОК (ЛАМПОЧКА) ---------- */
+  input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
+  
+  /* Сам кружок */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 32px; width: 32px; border-radius: 50%;
+    background: #FFFFFF; cursor: pointer; margin-top: -14px;
+    border: 4px solid #FFFFFF; 
+    box-shadow: 0 0 0 2px #B58E63, 0 0 20px 4px rgba(181, 142, 99, 0.6); /* Свечение */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  /* Увеличение при наведении */
+  input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 2px #B58E63, 0 0 30px 8px rgba(181, 142, 99, 0.8);
+    transform: scale(1.1);
+  }
+  
+  /* Полоса (бежевая, чтобы не сливалась с фоном) */
+  input[type="range"]::-webkit-slider-runnable-track { 
+    width: 100%; height: 6px; cursor: pointer; background: #E6E4DE; border-radius: 3px; 
+  }
+
+  /* Для Firefox */
+  input[type="range"]::-moz-range-thumb {
+    height: 32px; width: 32px; border-radius: 50%;
+    background: #FFFFFF; cursor: pointer;
+    border: 4px solid #FFFFFF; 
+    box-shadow: 0 0 0 2px #B58E63, 0 0 20px 4px rgba(181, 142, 99, 0.6);
+  }
+  input[type="range"]::-moz-range-track {
+    width: 100%; height: 6px; cursor: pointer; background: #E6E4DE; border-radius: 3px; 
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(181, 142, 99, 0.8); }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+  }
+  .modal-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .burger-line { display: block; width: 24px; height: 2px; background: #1C1C1E; border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+  .burger.active .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.active .burger-line:nth-child(2) { opacity: 0; }
+  .burger.active .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .mobile-menu.open { max-height: 400px; }
+
+  /* ---------- ПРЕИМУЩЕСТВА ---------- */
+  .feature-card {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(5px);
+  }
+  .features-container:hover .feature-card {
+    opacity: 0.4; 
+  }
+  .features-container:hover .feature-card:hover {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.05);
+    background: #FFFFFF;
+    box-shadow: 0 20px 40px -10px rgba(181, 142, 99, 0.3), 0 0 0 1px rgba(181, 142, 99, 0.3);
+    z-index: 10;
+  }
+
+  /* ---------- ЭТАПЫ ---------- */
+  .step-circle { transition: all 0.3s ease; }
+  .step-item:hover .step-circle {
+    transform: scale(1.15) translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(181, 142, 99, 0.4);
+    border-color: #B58E63;
+    color: #B58E63;
+  }
+  .step-item:hover .step-circle.active { background: #B58E63; color: white; }
+
+  /* ---------- КАЛЬКУЛЯТОР ---------- */
+  .calc-box {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(247,246,242,0.8) 100%);
+    border: 1px solid #E6E4DE;
+    transition: all 0.3s ease;
+  }
+  .calc-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .calc-box::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 50%; height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: rotate(25deg);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .calc-box.shine::after { animation: calcShine 0.8s ease-in-out forwards; }
+  @keyframes calcShine {
+    0% { left: -50%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { left: 150%; opacity: 0; }
+  }
+  .calc-box > * { position: relative; z-index: 2; }
+
+  /* ---------- КНОПКА НАВЕРХ ---------- */
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px; z-index: 90;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: #FFFFFF; border: 1px solid #E6E4DE;
+    display: flex; align-items: center; justify-content: center; color: #1C1C1E;
+    cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15);
+  }
+  #backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  #backToTop:hover { border-color: #B58E63; color: #B58E63; box-shadow: 0 15px 30px -10px rgba(181,142,99,0.3); transform: translateY(-3px); }
+
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ФОНОВЫЕ СЛОИ -->
+<div class="bg-texture"></div>
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
+<div class="bg-glow glow-3"></div>
+
+<!-- HEADER -->
+<header class="fixed top-0 inset-x-0 z-40 bg-bg/80 backdrop-blur-lg border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    
+    <a href="index.html" class="btn-back group">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="group-hover:-translate-x-1 transition-transform">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      В портфолио
+    </a>
+    
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-muted">
+      <a href="#calc" class="smooth-scroll hover:text-text transition-colors">Цены</a>
+      <a href="#gallery" class="smooth-scroll hover:text-text transition-colors">Наши работы</a>
+      <a href="#process" class="smooth-scroll hover:text-text transition-colors">Этапы</a>
+    </nav>
+    
+    <div class="flex items-center gap-4 md:gap-6">
+      <a href="tel:+79990000000" class="hidden md:block text-sm font-extrabold text-text cursor-pointer hover:text-accent transition-colors">+7 (999) 000-00-00</a>
+      <button onclick="openCallbackModal()" class="hidden md:block bg-text text-white px-6 py-3 rounded-full text-sm font-bold hover:bg-black transition-colors shadow-lg shadow-black/10 cursor-pointer">Вызвать замерщика</button>
+      
+      <button id="burger" class="burger lg:hidden flex flex-col justify-center items-center gap-[6px] w-10 h-10 rounded-lg">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu lg:hidden bg-surface/95 backdrop-blur-md border-t border-border absolute top-full left-0 w-full shadow-lg">
+    <nav class="flex flex-col px-6 py-4 gap-2 text-base font-semibold text-text">
+      <a href="#calc" class="smooth-scroll py-2 border-b border-border hover:text-accent">Цены</a>
+      <a href="#gallery" class="smooth-scroll py-2 border-b border-border hover:text-accent">Наши работы</a>
+      <a href="#process" class="smooth-scroll py-2 hover:text-accent">Этапы</a>
+      <div class="pt-4 flex flex-col gap-3">
+        <a href="tel:+79990000000" class="text-accent font-bold text-lg">+7 (999) 000-00-00</a>
+        <button onclick="openCallbackModal()" class="bg-text text-white font-bold px-6 py-3 rounded-xl hover:bg-black transition-colors">Вызвать замерщика</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+    
+    <div class="absolute inset-0 z-0">
+      <img src="image/celling/hero.webp" alt="Натяжной потолок" class="w-full h-full object-cover opacity-60">
+      <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/80 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent h-full"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 border border-border bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-accent mb-8 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            Бесплатный замер за 24 часа
+          </div>
+          <h1 class="text-5xl sm:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6 text-text drop-shadow-sm">
+            Идеальный <br>свет и <span class="text-accent">геометрия</span>
+          </h1>
+          <p class="text-lg text-text/80 max-w-md mb-10 leading-relaxed font-medium">
+            Натяжные потолки премиум-класса из Европы. Монтаж под ключ за 3 часа с идеальной чистотой. Без швов и скрытых платежей.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+            <a href="#calc" class="smooth-scroll bg-accent text-white px-8 py-4 rounded-xl font-bold text-center text-lg hover:bg-[#9a7752] transition-colors shadow-xl shadow-accent/20 cursor-pointer">
+              Рассчитать смету
+            </a>
+            <a href="#gallery" class="smooth-scroll bg-white/80 backdrop-blur-sm border border-border text-text px-8 py-4 rounded-xl font-bold hover:bg-white transition-colors text-center text-lg shadow-sm cursor-pointer">
+              Смотреть работы
+            </a>
+          </div>
+          
+          <div class="flex items-center gap-8 text-sm text-text font-semibold">
+            <div class="flex items-center gap-2">
+              <svg class="text-accent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+              Без предоплаты
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="text-accent" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+              Гарантия 15 лет
+            </div>
+          </div>
+        </div>
+
+        <div class="relative reveal w-full max-w-[400px] mx-auto lg:ml-auto" data-delay="1">
+          <div class="bg-white/90 backdrop-blur-xl border border-white rounded-[32px] p-6 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] relative z-10">
+            <div class="absolute top-6 right-6 bg-green-50 text-green-600 text-[10px] font-bold px-3 py-1.5 rounded-full border border-green-200 flex items-center gap-1.5">
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+              В наличии
+            </div>
+            <div class="text-[10px] font-mono font-semibold text-muted tracking-widest uppercase mb-2">Материалы</div>
+            <h3 class="text-2xl font-extrabold mb-6 text-text">ПВХ MSD Premium</h3>
+            
+            <div class="space-y-3 mb-8">
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <div class="text-sm font-medium text-text/80">Бельгийское полотно</div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <div class="text-sm font-medium text-text/80">Гарантия 15 лет</div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <div class="text-sm font-medium text-text/80">Безопасность для детей</div>
+              </div>
+            </div>
+
+            <div class="bg-bg rounded-2xl p-4 border border-border flex items-center justify-between">
+              <div>
+                <div class="text-[10px] uppercase tracking-widest text-muted font-bold mb-1">Цена под ключ</div>
+                <div class="text-xl font-extrabold text-text">от 450 ₽ <span class="text-xs text-muted font-medium">/ м²</span></div>
+              </div>
+              <button class="w-11 h-11 rounded-full bg-text text-white flex items-center justify-center hover:bg-accent transition-colors shadow-md">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- НАШИ РАБОТЫ -->
+  <section id="gallery" class="py-24 bg-surface/50 border-y border-border backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 reveal relative">
+        <div class="pendant-decor"></div>
+        <h2 class="text-3xl md:text-5xl font-extrabold mb-4">Наши работы</h2>
+        <p class="text-muted text-lg font-medium max-w-2xl">Более 2500 установленных потолков. Нажмите на проект, чтобы посмотреть детали.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full reveal">
+        
+        <!-- Карточка 1 -->
+        <div onclick="openProject(0)" class="gallery-item relative rounded-2xl overflow-hidden aspect-[4/3] shadow-sm cursor-pointer group block w-full border border-border bg-gray-200">
+          <img src="image/celling/11.webp" alt="Натяжной потолок в загородном доме" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <div class="font-bold text-lg leading-tight mb-1">Натяжной потолок в загородном доме</div>
+            <div class="text-xs text-gray-300">Мансарда · 32 м²</div>
+          </div>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div onclick="openProject(1)" class="gallery-item relative rounded-2xl overflow-hidden aspect-[4/3] shadow-sm cursor-pointer group block w-full border border-border bg-gray-200">
+          <img src="image/celling/21.webp" alt="Натяжной потолок в новостройке" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <div class="font-bold text-lg leading-tight mb-1">Натяжной потолок в новостройке ЖК Чемпион Парк</div>
+            <div class="text-xs text-gray-300">3 помещения · 43 м²</div>
+          </div>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div onclick="openProject(2)" class="gallery-item relative rounded-2xl overflow-hidden aspect-[4/3] shadow-sm cursor-pointer group block w-full border border-border bg-gray-200">
+          <img src="image/celling/31.webp" alt="Натяжной потолок в кухне-гостиной" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <div class="font-bold text-lg leading-tight mb-1">Натяжной потолок в кухне-гостиной в ЖК Восточный</div>
+            <div class="text-xs text-gray-300">Кухня-гостиная · 30 м²</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРЕИМУЩЕСТВА -->
+  <section id="features" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 max-w-2xl reveal relative">
+        <div class="pendant-decor"></div>
+        <h2 class="text-3xl md:text-5xl font-extrabold mb-4">Почему выбирают нас</h2>
+        <p class="text-muted text-lg font-medium">Мы сделали процесс установки максимально комфортным для вас.</p>
+      </div>
+
+      <div class="features-container grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        <div class="feature-card p-8 rounded-3xl border border-border shadow-sm w-full min-w-0 reveal">
+          <div class="w-14 h-14 bg-bg rounded-full flex items-center justify-center mb-6 text-accent shadow-sm">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Идеальная плоскость</h3>
+          <p class="text-sm text-muted leading-relaxed font-medium">Теневой профиль создает эффект парящего потолка. Никаких стыков и зазоров.</p>
+        </div>
+
+        <div class="feature-card p-8 rounded-3xl border border-border shadow-sm w-full min-w-0 reveal" data-delay="1">
+          <div class="w-14 h-14 bg-bg rounded-full flex items-center justify-center mb-6 text-accent shadow-sm">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Монтаж за 3 часа</h3>
+          <p class="text-sm text-muted leading-relaxed font-medium">Используем промышленные пылесосы. Вам не придется делать уборку после установки.</p>
+        </div>
+
+        <div class="feature-card p-8 rounded-3xl border border-border shadow-sm w-full min-w-0 reveal" data-delay="2">
+          <div class="w-14 h-14 bg-bg rounded-full flex items-center justify-center mb-6 text-accent shadow-sm">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-3">Безопасность</h3>
+          <p class="text-sm text-muted leading-relaxed font-medium">Сертифицированные материалы из Европы. Без запаха и вредных примесей.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- КАЛЬКУЛЯТОР -->
+  <section id="calc" class="py-24 bg-surface/50 border-y border-border backdrop-blur-sm relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal relative flex flex-col items-center">
+        <div class="pendant-decor"></div>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-text mb-4">Узнайте стоимость</h2>
+        <p class="text-muted font-medium max-w-lg mx-auto">Передвиньте ползунок, чтобы увидеть предварительную смету. Точная цена фиксируется после замера.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start w-full">
+        <div class="reveal w-full min-w-0 flex flex-col h-full">
+          <div id="calcBox" class="calc-box flex-1 p-8 rounded-3xl shadow-lg shadow-black/5">
+            <div class="mb-8">
+              <div class="flex justify-between items-end mb-4">
+                <span class="text-sm font-semibold text-muted">Площадь помещения</span>
+                <span class="font-extrabold text-3xl text-text" id="areaValue">30 м²</span>
+              </div>
+              <input type="range" id="areaRange" min="10" max="150" value="30" step="5">
+            </div>
+
+            <div class="mb-8">
+              <span class="text-sm font-semibold text-muted block mb-3">Тип полотна</span>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" class="border border-border rounded-xl py-3 text-sm font-semibold text-muted transition-colors hover:bg-surface cursor-pointer" data-price="390" onclick="setType(this, 'Матовый')">Матовый</button>
+                <button type="button" class="border border-text bg-text text-white rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer" data-price="450" onclick="setType(this, 'Сатиновый')">Сатиновый</button>
+                <button type="button" class="border border-border rounded-xl py-3 text-sm font-semibold text-muted transition-colors hover:bg-surface cursor-pointer" data-price="590" onclick="setType(this, 'Глянцевый')">Глянцевый</button>
+              </div>
+            </div>
+
+            <div class="border-t border-border/50 pt-6">
+              <div class="text-sm font-medium text-muted mb-1">Примерная стоимость "под ключ":</div>
+              <div class="font-extrabold text-5xl text-accent transition-all duration-300" id="totalPrice">13 500 ₽</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal w-full min-w-0 flex flex-col h-full" data-delay="1">
+          <form class="ceiling-form flex-1 bg-surface/80 backdrop-blur-md border border-border p-8 rounded-3xl shadow-lg shadow-black/5 space-y-4" data-form-type="Потолки-Калькулятор">
+            <input type="hidden" id="calcSummary" name="calc_summary" value="">
+            <h3 class="text-2xl font-extrabold mb-2 text-text">Зафиксировать скидку 10%</h3>
+            <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и мы вышлем детальную смету в мессенджер.</p>
+            
+            <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-white/50 border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400">
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-white/50 border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text placeholder-gray-400">
+            <button type="submit" class="w-full bg-accent text-white font-bold text-lg rounded-xl py-4 hover:bg-[#9a7752] transition-colors shadow-lg shadow-accent/20 cursor-pointer">Получить смету</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭТАПЫ -->
+  <section id="process" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16 reveal relative flex flex-col items-center">
+        <div class="pendant-decor"></div>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-text">Всего 4 шага</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative reveal">
+        <div class="hidden md:block absolute top-6 left-[12%] right-[12%] h-px bg-border/60"></div>
+        
+        <div class="step-item text-center relative z-10 cursor-default">
+          <div class="step-circle w-12 h-12 bg-surface border border-border text-text font-bold rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">01</div>
+          <h4 class="font-bold mb-2 text-lg text-text">Заявка</h4>
+          <p class="text-sm text-muted font-medium">Вы оставляете заявку на сайте</p>
+        </div>
+        
+        <div class="step-item text-center relative z-10 cursor-default">
+          <div class="step-circle w-12 h-12 bg-surface border border-border text-text font-bold rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">02</div>
+          <h4 class="font-bold mb-2 text-lg text-text">Замер</h4>
+          <p class="text-sm text-muted font-medium">Бесплатный выезд инженера</p>
+        </div>
+        
+        <div class="step-item text-center relative z-10 cursor-default">
+          <div class="step-circle w-12 h-12 bg-surface border border-border text-text font-bold rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">03</div>
+          <h4 class="font-bold mb-2 text-lg text-text">Монтаж</h4>
+          <p class="text-sm text-muted font-medium">Установка за 2-3 часа без пыли</p>
+        </div>
+        
+        <div class="step-item text-center relative z-10 cursor-default">
+          <div class="step-circle active w-12 h-12 bg-accent text-white font-bold rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-accent/30">04</div>
+          <h4 class="font-bold mb-2 text-lg text-text">Наслаждение</h4>
+          <p class="text-sm text-muted font-medium">Уборка и гарантия на 15 лет</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+<section class="py-12 relative border-t border-border">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-[11px] text-muted leading-relaxed opacity-60 text-justify">
+      <p><strong>Натяжные потолки под ключ в Белово и Кемеровской области.</strong> Компания «ПОТОЛКИ.ПРО» предлагает профессиональный монтаж натяжных потолков любой сложности. Мы используем только сертифицированные материалы премиум-класса из Европы (Бельгия, Германия). В нашем ассортименте: матовые, сатиновые, глянцевые полотна, а также современные теневые профили EuroKraab и световые линии. Установка занимает всего 2-3 часа с использованием промышленных пылесосов, что гарантирует идеальную чистоту. Бесплатный выезд замерщика в день обращения. Гарантия на все работы — 15 лет. Без предоплаты и скрытых платежей. Узнайте точную стоимость с помощью нашего онлайн-калькулятора или закажите бесплатный замер прямо сейчас.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer class="bg-surface pt-16 pb-8 border-t border-border">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      
+      <div>
+        <div class="font-extrabold text-2xl tracking-tighter text-text mb-4">ПОТОЛКИ.ПРО</div>
+        <p class="text-sm text-muted leading-relaxed mb-4 font-medium">
+          Профессиональная установка натяжных потолков в Белово и Кемеровской области. Работаем с 2015 года.
+        </p>
+        <div class="text-sm text-muted font-medium space-y-2">
+          <p>📍 г. Белово, ул. Ленина, д. 10</p>
+          <p>📞 <a href="tel:+79990000000" class="hover:text-accent font-bold cursor-pointer">+7 (999) 000-00-00</a></p>
+          <p>✉️ <a href="mailto:info@potolki.pro" class="hover:text-accent font-bold cursor-pointer">info@potolki.pro</a></p>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-text font-bold mb-4 uppercase tracking-wider text-sm">Услуги</h4>
+        <ul class="space-y-2 text-sm text-muted font-medium">
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Матовые потолки</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Глянцевые потолки</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Сатиновые полотна</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Теневые потолки</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-text font-bold mb-4 uppercase tracking-wider text-sm">Информация</h4>
+        <ul class="space-y-2 text-sm text-muted font-medium">
+          <li><a href="#calc" class="smooth-scroll hover:text-accent transition-colors cursor-pointer">Калькулятор</a></li>
+          <li><a href="#gallery" class="smooth-scroll hover:text-accent transition-colors cursor-pointer">Наши работы</a></li>
+          <li><a href="#process" class="smooth-scroll hover:text-accent transition-colors cursor-pointer">Этапы работы</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Отзывы клиентов</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-text font-bold mb-4 uppercase tracking-wider text-sm">Документы</h4>
+        <ul class="space-y-2 text-sm text-muted font-medium mb-6">
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Политика конфиденциальности</a></li>
+          <li><a href="#" class="hover:text-accent transition-colors cursor-pointer">Договор на услуги</a></li>
+        </ul>
+        
+        <h4 class="text-text font-bold mb-4 uppercase tracking-wider text-sm">Реквизиты</h4>
+        <div class="text-xs text-muted font-medium space-y-1">
+          <p>ИП Иванов Иван Иванович</p>
+          <p>ИНН: 420000000000</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted font-medium">
+      <div>© 2015-2026 ПОТОЛКИ.ПРО. Все права защищены.</div>
+      <div class="text-center md:text-right max-w-2xl">
+        <p>Информация на сайте не является публичной офертой. Точная стоимость определяется после бесплатного замера.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- МОДАЛКА: ГАЛЕРЕЯ -->
+<div id="projectModal" class="modal-overlay fixed inset-0 z-[100] hidden">
+  <div class="custom-scrollbar bg-[#1C1C1E] w-full max-w-3xl rounded-3xl overflow-y-auto shadow-2xl relative border border-gray-800 mx-4 my-8 max-h-[90vh] flex flex-col">
+    <button onclick="closeModal()" class="fixed md:absolute top-6 right-6 w-10 h-10 bg-black/50 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors z-50 cursor-pointer">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="p-6 md:p-10 pb-4 shrink-0">
+      <h2 id="modalTitle" class="text-2xl md:text-3xl font-extrabold text-white mb-4 pr-10"></h2>
+      <div id="modalDesc" class="text-gray-300 font-medium text-sm md:text-base leading-relaxed whitespace-pre-line"></div>
+    </div>
+    <div id="modalImages" class="px-6 md:px-10 pb-10 space-y-4">
+      <!-- Заполняется через JS -->
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА: ЗАКАЗ ЗВОНКА -->
+<div id="callbackModal" class="modal-overlay fixed inset-0 z-[100] hidden">
+  <div class="bg-surface w-full max-w-md rounded-3xl p-8 relative shadow-2xl mx-4">
+    <button onclick="closeCallbackModal()" class="absolute top-6 right-6 text-muted hover:text-text transition-colors">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="pendant-decor mb-6"></div>
+    <h3 class="text-3xl font-extrabold mb-2">Вызвать замерщика</h3>
+    <p class="text-sm text-muted font-medium mb-6">Оставьте номер, и мы свяжемся с вами в течение 15 минут.</p>
+    
+    <form class="callback-form space-y-4" data-form-type="Вызвать замерщика">
+      <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-bg border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-bg border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-accent font-medium text-text">
+      <button type="submit" class="w-full bg-text text-white font-bold text-lg rounded-xl py-4 hover:bg-black transition-colors">Жду звонка</button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-text text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-[110] pointer-events-none">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B58E63" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+  <span class="font-bold text-sm">Заявка принята! Свяжемся с вами.</span>
+</div>
+
+<!-- КНОПКА НАВЕРХ -->
+<button id="backToTop" aria-label="Вернуться наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+// ==================== БУРГЕР-МЕНЮ ====================
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('active', open);
+});
+document.querySelectorAll('#mobileMenu a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('active');
+  });
+});
+
+// ==================== ПЛАВНЫЙ СКРОЛЛ ====================
+document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if(target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ==================== КНОПКА НАВЕРХ ====================
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTop.classList.add('visible');
+  else backToTop.classList.remove('visible');
+}, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ==================== КАЛЬКУЛЯТОР ====================
+const range = document.getElementById('areaRange');
+const areaValue = document.getElementById('areaValue');
+const totalPrice = document.getElementById('totalPrice');
+const calcSummary = document.getElementById('calcSummary');
+const calcBox = document.getElementById('calcBox');
+let currentPricePerSqm = 450; 
+let currentType = 'Сатиновый';
+
+function formatMoney(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+}
+
+function updateCalc() {
+  const area = parseInt(range.value);
+  areaValue.textContent = area + ' м²';
+  const total = area * currentPricePerSqm;
+  totalPrice.textContent = formatMoney(total);
+  calcSummary.value = `Площадь: ${area} м² | Тип: ${currentType} | Итог: ${formatMoney(total)}`;
+}
+
+function setType(btn, typeName) {
+  document.querySelectorAll('.grid-cols-3 button').forEach(b => {
+    b.className = "border border-border rounded-xl py-3 text-sm font-semibold text-muted transition-colors hover:bg-surface cursor-pointer";
+  });
+  btn.className = "border border-text bg-text text-white rounded-xl py-3 text-sm font-semibold transition-colors cursor-pointer";
+  
+  currentPricePerSqm = parseInt(btn.dataset.price);
+  currentType = typeName;
+  
+  calcBox.classList.remove('shine');
+  void calcBox.offsetWidth; 
+  calcBox.classList.add('shine');
+  
+  updateCalc();
+}
+
+range.addEventListener('input', updateCalc);
+updateCalc();
+
+// ==================== ДАННЫЕ ДЛЯ ГАЛЕРЕИ ====================
+const projectsData = [
+  {
+    title: "Натяжной потолок в загородном доме",
+    desc: "Мансарда с большим перепадом высоты: тёплая светодиодная подсветка по периметру и вдоль деревянных балок создаёт уютный акцент без единого точечного светильника.\n\nО проекте:\nИзготовили матовое ПВХ полотно MSD Premium под мансардное помещение с выраженным перепадом высоты. По периметру и вокруг балок проложили светодиодную ленту тёплого света — она подчёркивает архитектуру деревянного дома и мягко освещает пространство без резких теней.\n\nЧто сделали:\n— Изготовление и монтаж матового ПВХ полотна MSD Premium\n— Парящая светодиодная подсветка тёплого света по периметру\n— Подсветка вдоль деревянных балок\n\nИтог: 32 м² — 4 дня",
+    images: [
+      "image/celling/11.webp", "image/celling/12.webp", "image/celling/13.webp",
+      "image/celling/14.webp", "image/celling/15.webp", "image/celling/16.webp"
+    ]
+  },
+  {
+    title: "Натяжной потолок в новостройке ЖК Чемпион Парк",
+    desc: "Единым полотном сразу в трёх помещениях — прихожей, кухне и гостиной — с зонированным светом, который включается по отдельности в каждой зоне.\n\nО проекте:\nИзготовили матовое полотно MSD Evolution на всю площадь сразу в трёх помещениях — ширина сторон превышает 5,5 м, поэтому полотно установили со швом, но на матовой фактуре он совершенно не виден. По периметру смонтировали теневой Европрофиль, а парящий профиль выделил отдельные зоны. Шинопровод интегрировали в трековый профиль Flexy — однофазная трек-система даёт гибкий направленный свет без точечных светильников. Декоративные рейки, стеновые панели и ниши для штор подсветили светодиодной лентой, а над обеденной зоной смонтировали светильники на подвесах. Под встроенные и подвесные светильники заложили платформы, обошли дополнительные углы помещения.\n\nЧто сделали:\n— Изготовление и монтаж полотна MSD Evolution (матовая фактура) на 3 помещения\n— Теневой Европрофиль по периметру\n— Парящий профиль\n— Трековый профиль Flexy с однофазным шинопроводом\n— Закладные платформы под встроенные и подвесные светильники\n— Подсветка реек, панелей и ниш для штор светодиодной лентой\n— Светильники на подвесах над обеденной зоной\n\nИтог: 43 м² — 5 дней",
+    images: [
+      "image/celling/21.webp", "image/celling/22.webp", "image/celling/23.webp",
+      "image/celling/24.webp", "image/celling/25.webp", "image/celling/26.webp"
+    ]
+  },
+  {
+    title: "Натяжной потолок в кухне-гостиной в ЖК Восточный",
+    desc: "Сложная геометрия с множеством мелких углов, трековое освещение вместо люстры и скрытая вентиляция — потолок подчёркивает архитектуру, а не прячет её.\n\nО проекте:\nИзготовили матовое ПВХ полотно под сложную геометрию помещения с панорамными окнами. По периметру установили теневой профиль Eurokraab — чёткие линии и аккуратное примыкание к стенам даже на нестандартных углах. Основное освещение — трековая система Denkirs, гибкий свет без точечных светильников. Встроили чёрный карниз Р-50 с подсветкой и теневой диффузор для вентиляции, полностью скрытый в потолке. Над обеденной зоной — люстра на подвесах, завершающий акцент композиции.\n\nЧто сделали:\n— Изготовление и монтаж матового ПВХ полотна\n— Адаптация под сложную геометрию с мелкими углами\n— Теневой профиль Eurokraab по периметру\n— Трековая система освещения Denkirs\n— Встроенный карниз Р-50 с подсветкой\n— Скрытый теневой диффузор для вентиляции\n— Люстра на подвесах\n\nИтог: 30 м² — 4 дня",
+    images: [
+      "image/celling/31.webp", "image/celling/32.webp", "image/celling/33.webp",
+      "image/celling/34.webp", "image/celling/35.webp", "image/celling/36.webp"
+    ]
+  }
+];
+
+// ==================== МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ ====================
+const modal = document.getElementById('projectModal');
+const mTitle = document.getElementById('modalTitle');
+const mDesc = document.getElementById('modalDesc');
+const mImages = document.getElementById('modalImages');
+
+function openProject(index) {
+  const data = projectsData[index];
+  mTitle.textContent = data.title;
+  mDesc.textContent = data.desc;
+  
+  mImages.innerHTML = '';
+  
+  data.images.forEach((src, i) => {
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = "w-full rounded-xl overflow-hidden border border-gray-800 bg-gray-900";
+    imgWrapper.innerHTML = `<img src="${src}" alt="Фото ${i+1}" class="w-full h-auto object-cover" loading="lazy">`;
+    mImages.appendChild(imgWrapper);
+  });
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// ==================== МОДАЛКА ЗВОНКА ====================
+const cbModal = document.getElementById('callbackModal');
+
+function openCallbackModal() {
+  cbModal.classList.remove('hidden');
+  cbModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCallbackModal() {
+  cbModal.classList.add('hidden');
+  cbModal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+cbModal.addEventListener('click', (e) => {
+  if (e.target === cbModal) closeCallbackModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeCallbackModal();
+  }
+});
+
+// ==================== АНИМАЦИИ ПОЯВЛЕНИЯ ====================
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in'); io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ==================== МАСКА ТЕЛЕФОНА ====================
+document.querySelectorAll('.phone-mask').forEach(input => {
+  const fmt = v => {
+    let d = v.replace(/\D/g, ''); if (d.startsWith('8')) d = '7' + d.slice(1); if (d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
+    let o = '+7 '; if (d.length) o += '(' + d.slice(0, 3); if (d.length >= 3) o += ') '; if (d.length > 3) o += d.slice(3, 6); if (d.length > 6) o += '-' + d.slice(6, 8); if (d.length > 8) o += '-' + d.slice(8, 10);
+    return o;
+  };
+  input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+  input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+  input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+});
+
+// ==================== ОТПРАВКА В ТГ ====================
+const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.remove('translate-y-20', 'opacity-0');
+  t.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    t.classList.remove('translate-y-0', 'opacity-100');
+    t.classList.add('translate-y-20', 'opacity-0');
+  }, 5000);
+}
+
+async function submitForm(form, type) {
+  const btn = form.querySelector('button[type="submit"]');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Отправка...';
+
+  const data = {};
+  new FormData(form).forEach((v, k) => data[k] = v);
+  
+  let text = `🏠 <b>Новая заявка: ${type}</b>\n\n` +
+             `<b>Имя:</b> ${data.name}\n` +
+             `<b>Телефон:</b> ${data.phone}\n`;
+  
+  if(data.calc_summary) text += `<b>Расчет:</b> ${data.calc_summary}\n\n`;
+  text += `🕐 ${new Date().toLocaleString('ru-RU')}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+    });
+    const json = await res.json();
+    if (json.ok) { 
+      form.reset(); 
+      showToast(); 
+      if (type === 'Вызвать замерщика') closeCallbackModal();
+    } else { alert('Ошибка отправки.'); }
+  } catch (err) { alert('Ошибка сети.'); }
+  
+  btn.disabled = false; btn.textContent = orig;
+}
+
+document.querySelector('.ceiling-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Потолки-Калькулятор'); });
+document.querySelector('.callback-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Вызвать замерщика'); });
+</script>
+</body>
+</html>

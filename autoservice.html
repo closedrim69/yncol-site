@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Favorit — Премиальный автосервис и детейлинг</title>
+<meta name="description" content="Favorit — премиальный автосервис и детейлинг. Компьютерная диагностика, ТО, полировка, керамика. Гарантия на все работы. Онлайн-запись.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          asphalt: '#09090b',
+          card:    '#121215',
+          line:    '#27272a',
+          accent:  '#ef4444',
+          muted:   '#a1a1aa'
+        },
+        fontFamily: {
+          sans: ['Manrope', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html, body { overflow-x: hidden; }
+  body { font-family: 'Manrope', sans-serif; background: #09090b; color: #f4f4f5; }
+
+  section[id] { scroll-margin-top: 100px; }
+
+  /* ---------- ФОН: ЛУЧИ ---------- */
+  .ray{
+    position: absolute;
+    left: 0;
+    top: var(--top, 20%);
+    height: 1px;
+    width: var(--len, 40vw);
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(239,68,68,.9) 45%,
+      rgba(239,68,68,.9) 55%,
+      transparent 100%);
+    transform: translateX(-80vw) rotate(var(--rot, -10deg));
+    opacity: 0;
+    animation: rayMove var(--dur, 12s) linear var(--delay, 0s) infinite;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+  .ray.thick{ height: 2px; filter: blur(1.5px); }
+  .ray.white{
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255,255,255,.5) 45%,
+      rgba(255,255,255,.5) 55%,
+      transparent 100%);
+  }
+  @keyframes rayMove{
+    0%   { transform: translateX(-80vw) rotate(var(--rot, -10deg)); opacity: 0; }
+    6%   { opacity: var(--op, .5); }
+    94%  { opacity: var(--op, .5); }
+    100% { transform: translateX(160vw) rotate(var(--rot, -10deg)); opacity: 0; }
+  }
+
+  /* ---------- БЛИК НА КНОПКАХ ---------- */
+  .btn-shine{ position: relative; overflow: hidden; }
+  .btn-shine::after{
+    content: "";
+    position: absolute;
+    top: -50%; left: 0;
+    width: 38%; height: 200%;
+    background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+    transform: translateX(-250%) skewX(-20deg);
+    pointer-events: none;
+  }
+  .btn-shine:hover::after{ animation: shine .85s cubic-bezier(.4,0,.2,1); }
+  @keyframes shine{
+    0%   { transform: translateX(-250%) skewX(-20deg); }
+    100% { transform: translateX(350%) skewX(-20deg); }
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .9s cubic-bezier(.16,1,.3,1),
+                transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.is-visible{ opacity: 1; transform: none; }
+
+  /* ---------- СПИДОМЕТР ---------- */
+  .speed-arc{
+    stroke-dasharray: 0 100;
+    transition: stroke-dasharray 2.1s cubic-bezier(.16,1,.3,1);
+  }
+  #speedo.live .speed-arc{ stroke-dasharray: 78 100; }
+
+  @keyframes ringPulse{
+    0%, 100%{ opacity: .25; transform: scale(1); }
+    50%     { opacity: .5;  transform: scale(1.03); }
+  }
+  .ring-pulse{ animation: ringPulse 4.5s ease-in-out infinite; }
+
+  /* ---------- КАРТОЧКИ УСЛУГ ---------- */
+  .service-card{
+    background: linear-gradient(180deg, #121215 0%, #09090b 100%);
+    border: 1px solid rgba(255,255,255,.06);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .4s ease, box-shadow .4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% -20%, rgba(239,68,68,.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+  }
+  .service-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(239,68,68,.45);
+    box-shadow: 0 20px 40px -10px rgba(239,68,68,.15);
+    z-index: 10;
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  /* ---------- ПРЕИМУЩЕСТВА (ИНТЕРАКТИВ) ---------- */
+  .adv-card {
+    background: #121215;
+    border: 1px solid rgba(255,255,255,.06);
+    transition: all .4s cubic-bezier(.16,1,.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .adv-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(239,68,68,.12) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+  }
+  .adv-card:hover {
+    transform: scale(1.05);
+    border-color: rgba(239,68,68,.5);
+    box-shadow: 0 0 30px -5px rgba(239,68,68,.3);
+    z-index: 10;
+  }
+  .adv-card:hover::before { opacity: 1; }
+
+  /* ---------- КАЛЬКУЛЯТОР (ЧЕКБОКСЫ) ---------- */
+  .calc-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #121215;
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.16,1,.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .calc-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at left, rgba(239,68,68,.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+  }
+  .calc-row:hover {
+    border-color: rgba(239,68,68,.45);
+    box-shadow: 0 0 25px -10px rgba(239,68,68,.4);
+    transform: scale(1.01);
+  }
+  .calc-row:hover::before { opacity: 1; }
+
+  .calc-check {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 6px;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: all .25s cubic-bezier(.16,1,.3,1);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .calc-row:hover .calc-check {
+    border-color: rgba(239,68,68,.6);
+    transform: scale(1.1);
+  }
+  .calc-check:checked {
+    background: #ef4444;
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239,68,68,.6);
+    transform: scale(1.1);
+  }
+  .calc-check:checked::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkPop .3s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes checkPop {
+    0% { transform: rotate(45deg) scale(0); opacity: 0; }
+    100% { transform: rotate(45deg) scale(1); opacity: 1; }
+  }
+  .calc-row:has(.calc-check:checked) {
+    border-color: rgba(239,68,68,.4);
+    background: #18181b;
+  }
+  .calc-row:has(.calc-check:checked)::before {
+    opacity: 1;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-answer{ max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  .faq-item.active .faq-answer{ max-height: 300px; }
+  .faq-item.active .faq-icon{ transform: rotate(45deg); color: #ef4444; }
+  .faq-icon{ transition: transform .3s ease, color .3s ease; }
+
+  /* ---------- МОДАЛКИ ---------- */
+  .modal-overlay{
+    background: rgba(0,0,0,.85);
+    backdrop-filter: blur(8px);
+    transition: opacity .3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.hidden{ opacity: 0; pointer-events: none; }
+
+  /* ---------- КНОПКА НАВЕРХ ---------- */
+  #backToTop {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 90;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #121215;
+    border: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a1a1aa;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: all .35s cubic-bezier(.16,1,.3,1);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,.8);
+  }
+  #backToTop.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  #backToTop:hover {
+    border-color: rgba(239,68,68,.6);
+    color: #ef4444;
+    background: rgba(239,68,68,.08);
+    box-shadow: 0 0 30px -8px rgba(239,68,68,.6);
+    transform: translateY(-3px) scale(1.06);
+  }
+  #backToTop:active {
+    transform: translateY(0) scale(0.96);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ray, .ring-pulse{ animation: none !important; }
+    .reveal{ opacity: 1; transform: none; transition: none; }
+    #backToTop { transition: none; }
+  }
+</style>
+</head>
+
+<body class="antialiased selection:bg-accent/30">
+
+<!-- ============ ФОН: ЛУЧИ + СВЕЧЕНИЯ ============ -->
+<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+  <div class="absolute -right-40 -top-60 h-[720px] w-[720px] rounded-full bg-accent/10 blur-[170px]"></div>
+  <div class="absolute -left-52 bottom-0 h-[520px] w-[520px] rounded-full bg-accent/5 blur-[150px]"></div>
+  <div class="absolute right-[10%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-accent/[0.07] blur-[130px]"></div>
+
+  <div class="ray"       style="--top:8%;  --dur:9s;   --delay:0s;   --op:.55; --rot:-12deg; --len:44vw"></div>
+  <div class="ray white" style="--top:18%; --dur:15s;  --delay:2.6s; --op:.28; --rot:-7deg;  --len:30vw"></div>
+  <div class="ray thick" style="--top:33%; --dur:12s;  --delay:1.2s; --op:.22; --rot:-14deg; --len:52vw"></div>
+  <div class="ray"       style="--top:47%; --dur:18s;  --delay:4.5s; --op:.35; --rot:-9deg;  --len:38vw"></div>
+  <div class="ray"       style="--top:58%; --dur:11s;  --delay:0.8s; --op:.25; --rot:-16deg; --len:26vw"></div>
+  <div class="ray thick" style="--top:71%; --dur:16s;  --delay:3.4s; --op:.18; --rot:-6deg;  --len:60vw"></div>
+  <div class="ray"       style="--top:84%;  --dur:13s;  --delay:5.2s; --op:.40; --rot:-11deg; --len:34vw"></div>
+  <div class="ray"       style="--top:93%;  --dur:20s;  --delay:1.8s; --op:.28; --rot:-13deg; --len:46vw"></div>
+</div>
+
+<!-- ============ ХЕДЕР ============ -->
+<header class="sticky top-0 z-40 border-b border-white/[0.06] bg-asphalt/80 backdrop-blur-xl">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
+
+    <a href="index.html"
+       class="group flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-accent"
+       aria-label="Вернуться в портфолио">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           class="transition-transform group-hover:-translate-x-1">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      В портфолио
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      <a href="#services" class="text-sm font-medium text-muted transition hover:text-white">Услуги</a>
+      <a href="#calc"     class="text-sm font-medium text-muted transition hover:text-white">Калькулятор</a>
+      <a href="#why"      class="text-sm font-medium text-muted transition hover:text-white">Преимущества</a>
+      <a href="#faq"      class="text-sm font-medium text-muted transition hover:text-white">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="tel:+79990000000" class="hidden text-sm font-medium text-white/80 transition hover:text-white lg:block">
+        +7 (999) 000-00-00
+      </a>
+      <!-- Кнопка открывает модалку -->
+      <button onclick="openBookingModal()"
+         class="btn-shine hidden items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-bold shadow-[0_10px_30px_-12px_rgba(239,68,68,.9)] transition hover:bg-red-500 md:inline-flex">
+        Записаться
+      </button>
+      <button id="burger" aria-label="Меню"
+              class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/[0.03] md:hidden">
+        <svg class="h-5 w-5 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="hidden border-t border-white/[0.06] bg-asphalt/95 px-5 pb-5 pt-3 md:hidden">
+    <nav class="flex flex-col gap-1">
+      <a href="#services" class="rounded-lg px-3 py-2.5 text-sm text-muted transition hover:bg-white/5 hover:text-white">Услуги</a>
+      <a href="#calc"     class="rounded-lg px-3 py-2.5 text-sm text-muted transition hover:bg-white/5 hover:text-white">Калькулятор</a>
+      <a href="#why"      class="rounded-lg px-3 py-2.5 text-sm text-muted transition hover:bg-white/5 hover:text-white">Преимущества</a>
+      <a href="#faq"      class="rounded-lg px-3 py-2.5 text-sm text-muted transition hover:bg-white/5 hover:text-white">FAQ</a>
+      <a href="tel:+79990000000" class="mt-2 rounded-lg px-3 py-2.5 text-sm font-bold text-accent">+7 (999) 000-00-00</a>
+      <!-- Кнопка открывает модалку -->
+      <button onclick="openBookingModal()" class="mt-1 rounded-xl bg-accent px-4 py-3 text-center text-sm font-bold">Записаться</button>
+    </nav>
+  </div>
+</header>
+
+<main class="relative z-10">
+
+  <!-- ============ HERO ============ -->
+  <section class="relative">
+    <div class="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-8 lg:pb-24 lg:pt-20">
+      <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-10">
+
+        <div>
+          <div class="reveal inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5">
+            <span class="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_rgba(239,68,68,.95)]"></span>
+            <span class="text-[11px] font-semibold tracking-[0.18em] text-white/70">ПРЕМИАЛЬНЫЙ АВТОСЕРВИС</span>
+          </div>
+
+          <h1 class="reveal mt-6 text-[38px] font-extrabold leading-[1.06] tracking-tight sm:text-5xl lg:text-[58px]"
+              style="transition-delay:.08s">
+            Ваш автомобиль<br>
+            заслуживает <span class="text-accent">инженерии</span>
+          </h1>
+
+          <p class="reveal mt-6 max-w-lg text-[15px] leading-relaxed text-muted sm:text-base"
+             style="transition-delay:.16s">
+            Детейлинг, диагностика и техническое обслуживание премиальных автомобилей.
+            Оборудование дилерского уровня, оригинальные запчасти и гарантия на каждую работу.
+          </p>
+
+          <div class="reveal mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
+               style="transition-delay:.24s">
+            <!-- Кнопка открывает модалку -->
+            <button onclick="openBookingModal()"
+               class="btn-shine inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-7 py-4 text-sm font-bold shadow-[0_16px_40px_-16px_rgba(239,68,68,.95)] transition hover:bg-red-500">
+              Записаться на сервис
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+            <a href="#calc"
+               class="btn-shine inline-flex items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.02] px-7 py-4 text-sm font-semibold text-white/80 transition hover:border-white/25 hover:text-white">
+              Рассчитать стоимость
+            </a>
+          </div>
+
+          <div class="reveal mt-5 flex items-center gap-2 text-[13px] text-muted" style="transition-delay:.3s">
+            <svg class="h-4 w-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+            Бесплатная компьютерная диагностика при онлайн-записи
+          </div>
+
+          <div class="reveal mt-10 grid max-w-md grid-cols-3 gap-4" style="transition-delay:.38s">
+            <div>
+              <div class="text-2xl font-extrabold sm:text-3xl">12</div>
+              <div class="mt-1 text-[11px] font-medium uppercase tracking-wider text-muted">лет опыта</div>
+            </div>
+            <div class="border-l border-white/10 pl-4">
+              <div class="text-2xl font-extrabold sm:text-3xl">2 400<span class="text-accent">+</span></div>
+              <div class="mt-1 text-[11px] font-medium uppercase tracking-wider text-muted">авто в год</div>
+            </div>
+            <div class="border-l border-white/10 pl-4">
+              <div class="text-2xl font-extrabold sm:text-3xl">4.9</div>
+              <div class="mt-1 text-[11px] font-medium uppercase tracking-wider text-muted">рейтинг</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СПИДОМЕТР -->
+        <div class="relative flex justify-center lg:justify-end">
+          <div class="relative w-full max-w-[480px]">
+            <div class="absolute inset-0 -m-10 rounded-full bg-accent/10 blur-3xl"></div>
+
+            <div id="speedo" class="reveal relative aspect-square w-full" style="transition-delay:.18s">
+              <svg viewBox="0 0 200 200" class="absolute inset-0 h-full w-full ring-pulse">
+                <circle cx="100" cy="100" r="94" fill="none" stroke="#ef4444" stroke-opacity="0.18" stroke-width="0.6"/>
+              </svg>
+              <svg viewBox="0 0 200 200" class="absolute inset-0 h-full w-full ring-pulse" style="animation-delay:1.2s">
+                <circle cx="100" cy="100" r="86" fill="none" stroke="#ef4444" stroke-opacity="0.10" stroke-width="0.6"/>
+              </svg>
+
+              <svg viewBox="0 0 200 200" class="relative h-full w-full">
+                <path d="M 44.85 155.15 A 78 78 0 1 1 155.15 155.15"
+                      fill="none" stroke="#1b1b21" stroke-width="11" stroke-linecap="round"/>
+                <path class="speed-arc"
+                      d="M 44.85 155.15 A 78 78 0 1 1 155.15 155.15"
+                      fill="none" stroke="#ef4444" stroke-width="11" stroke-linecap="round"
+                      pathLength="100"
+                      style="filter: drop-shadow(0 0 8px rgba(239,68,68,.85))"/>
+                <g id="ticks"></g>
+              </svg>
+
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-[9px] font-semibold tracking-[0.32em] text-white/30">MAX 320</span>
+                <span id="speedVal" class="text-[64px] font-extrabold leading-none tracking-tight sm:text-[76px]">0</span>
+                <span class="mt-1 text-[10px] font-bold tracking-[0.32em] text-accent">KM/H</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ УСЛУГИ ============ -->
+  <section id="services" class="border-t border-white/[0.06] bg-asphalt/40 py-20 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="reveal mb-12 max-w-2xl">
+        <div class="text-[11px] font-semibold tracking-[0.25em] text-accent">УСЛУГИ</div>
+        <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Полный цикл работ</h2>
+        <p class="mt-3 text-muted">От диагностики до защиты кузова. Всё в одном месте, с гарантией.</p>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:0s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Компьютерная диагностика</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Полное сканирование всех систем автомобиля. Выявление ошибок и скрытых неисправностей.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">1 500 ₽</span>
+          </div>
+        </div>
+
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:.06s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 4l6 6-9 9H5v-6l9-9z"/><path d="M13 5l6 6"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Техническое обслуживание</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Замена масла, фильтров, жидкостей. Регламентное ТО с оригинальными расходниками.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">4 900 ₽</span>
+          </div>
+        </div>
+
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:.12s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6L7.1 18.2l.9-5.5-4-3.9 5.5-.8L12 3z"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Детейлинг и полировка</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Восстановительная полировка, керамика, защитные покрытия и химчистка салона.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">7 900 ₽</span>
+          </div>
+        </div>
+
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:.18s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Ремонт ходовой</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Диагностика и ремонт подвески, замена амортизаторов, рычагов, ступиц.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">3 200 ₽</span>
+          </div>
+        </div>
+
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:.24s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 16V8a4 4 0 014-4h8a4 4 0 014 4v8a4 4 0 01-4 4H8a4 4 0 01-4-4z"/>
+              <path d="M9 12h6"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Шиномонтаж и балансировка</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Сезонная смена шин, балансировка на современном оборудовании, ремонт проколов.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">2 400 ₽</span>
+          </div>
+        </div>
+
+        <div class="reveal service-card rounded-2xl p-6" style="transition-delay:.3s">
+          <div class="grid h-11 w-11 place-items-center rounded-xl border border-accent/25 bg-accent/10">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h18M12 3v18"/>
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-bold">Предпродажная подготовка</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Полный комплекс работ перед продажей: от мойки двигателя до полировки кузова.</p>
+          <div class="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+            <span class="text-sm text-muted">от</span>
+            <span class="text-lg font-extrabold">9 900 ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ КАЛЬКУЛЯТОР ============ -->
+  <section id="calc" class="border-t border-white/[0.06] bg-asphalt py-20 sm:py-28">
+    <div class="mx-auto max-w-5xl px-5 sm:px-8">
+      
+      <div class="reveal mb-12 text-center">
+        <div class="text-[11px] font-semibold tracking-[0.25em] text-accent">КАЛЬКУЛЯТОР</div>
+        <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Рассчитайте стоимость</h2>
+        <p class="mx-auto mt-3 max-w-md text-muted">Выберите услуги — стоимость обновится автоматически. Точная цена — после осмотра.</p>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12">
+        
+        <div class="reveal space-y-3">
+          <label class="calc-row">
+            <span class="flex items-center gap-4">
+              <input type="checkbox" class="calc-check" data-price="1500" data-name="Компьютерная диагностика">
+              <span class="text-sm font-medium sm:text-base">Компьютерная диагностика</span>
+            </span>
+            <span class="font-mono text-sm text-muted">1 500 ₽</span>
+          </label>
+
+          <label class="calc-row">
+            <span class="flex items-center gap-4">
+              <input type="checkbox" class="calc-check" data-price="4900" data-name="Техническое обслуживание">
+              <span class="text-sm font-medium sm:text-base">Техническое обслуживание</span>
+            </span>
+            <span class="font-mono text-sm text-muted">4 900 ₽</span>
+          </label>
+
+          <label class="calc-row">
+            <span class="flex items-center gap-4">
+              <input type="checkbox" class="calc-check" data-price="7900" data-name="Детейлинг и полировка">
+              <span class="text-sm font-medium sm:text-base">Детейлинг и полировка</span>
+            </span>
+            <span class="font-mono text-sm text-muted">7 900 ₽</span>
+          </label>
+
+          <label class="calc-row">
+            <span class="flex items-center gap-4">
+              <input type="checkbox" class="calc-check" data-price="3200" data-name="Ремонт ходовой">
+              <span class="text-sm font-medium sm:text-base">Ремонт ходовой</span>
+            </span>
+            <span class="font-mono text-sm text-muted">3 200 ₽</span>
+          </label>
+
+          <label class="calc-row">
+            <span class="flex items-center gap-4">
+              <input type="checkbox" class="calc-check" data-price="2400" data-name="Шиномонтаж">
+              <span class="text-sm font-medium sm:text-base">Шиномонтаж</span>
+            </span>
+            <span class="font-mono text-sm text-muted">2 400 ₽</span>
+          </label>
+        </div>
+
+        <div class="reveal" style="transition-delay:.1s">
+          <div class="sticky top-28 rounded-3xl border border-white/[0.08] bg-card p-6 sm:p-8">
+            <div class="text-sm text-muted">Итого</div>
+            <div class="mt-1 flex items-end gap-2">
+              <span id="calcTotal" class="text-5xl font-extrabold tracking-tight">0</span>
+              <span class="mb-2 text-lg font-semibold text-muted">₽</span>
+            </div>
+
+            <div id="calcList" class="mt-6 min-h-[60px] space-y-1.5 text-sm text-muted">
+              <div class="text-white/30">Выберите услуги слева</div>
+            </div>
+
+            <div class="mt-6 border-t border-white/[0.06] pt-6">
+              <a href="#contact"
+                 class="btn-shine flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-4 text-sm font-bold shadow-[0_16px_40px_-16px_rgba(239,68,68,.95)] transition hover:bg-red-500">
+                Записаться с этим списком
+              </a>
+              <p class="mt-3 text-center text-[11px] text-white/30">Точная стоимость — после осмотра автомобиля</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ПРЕИМУЩЕСТВА ============ -->
+  <section id="why" class="border-t border-white/[0.06] bg-asphalt/40 py-20 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="reveal mb-12 max-w-2xl">
+        <div class="text-[11px] font-semibold tracking-[0.25em] text-accent">ПОЧЕМУ МЫ</div>
+        <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Инженерный подход</h2>
+        <p class="mt-3 text-muted">Мы не «делаем на глаз». Каждая операция — по регламенту и с контролем качества.</p>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="reveal adv-card rounded-2xl p-6" style="transition-delay:0s">
+          <div class="text-3xl font-extrabold text-accent">01</div>
+          <h3 class="mt-4 font-bold">Оригинальные запчасти</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Только проверенные поставщики и сертифицированные расходники.</p>
+        </div>
+        <div class="reveal adv-card rounded-2xl p-6" style="transition-delay:.06s">
+          <div class="text-3xl font-extrabold text-accent">02</div>
+          <h3 class="mt-4 font-bold">Гарантия на работы</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">До 24 месяцев на выполненные работы и установленные детали.</p>
+        </div>
+        <div class="reveal adv-card rounded-2xl p-6" style="transition-delay:.12s">
+          <div class="text-3xl font-extrabold text-accent">03</div>
+          <h3 class="mt-4 font-bold">Прозрачные цены</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Смета до начала работ. Без скрытых доплат и «сюрпризов».</p>
+        </div>
+        <div class="reveal adv-card rounded-2xl p-6" style="transition-delay:.18s">
+          <div class="text-3xl font-extrabold text-accent">04</div>
+          <h3 class="mt-4 font-bold">Опытные мастера</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">Средний стаж команды — 9 лет. Регулярное обучение.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="border-t border-white/[0.06] bg-asphalt py-20 sm:py-28">
+    <div class="mx-auto max-w-3xl px-5 sm:px-8">
+      <div class="reveal mb-10 text-center">
+        <div class="text-[11px] font-semibold tracking-[0.25em] text-accent">FAQ</div>
+        <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Частые вопросы</h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="faq-item reveal overflow-hidden rounded-2xl border border-white/[0.08] bg-card">
+          <button class="faq-q flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/[0.02]">
+            <span class="text-sm font-semibold sm:text-base">Сколько времени занимает диагностика?</span>
+            <span class="faq-icon text-xl leading-none text-muted">+</span>
+          </button>
+          <div class="faq-answer px-5 text-sm leading-relaxed text-muted">
+            <div class="pb-5">Стандартная компьютерная диагностика занимает 30–40 минут. Расширенная — до 1,5 часов. Мы всегда предупреждаем заранее.</div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal overflow-hidden rounded-2xl border border-white/[0.08] bg-card" style="transition-delay:.06s">
+          <button class="faq-q flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/[0.02]">
+            <span class="text-sm font-semibold sm:text-base">Можно ли приехать со своими запчастями?</span>
+            <span class="faq-icon text-xl leading-none text-muted">+</span>
+          </button>
+          <div class="faq-answer px-5 text-sm leading-relaxed text-muted">
+            <div class="pb-5">Да, можно. При этом гарантия распространяется только на выполненные работы. На детали клиента гарантия не предоставляется.</div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal overflow-hidden rounded-2xl border border-white/[0.08] bg-card" style="transition-delay:.12s">
+          <button class="faq-q flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/[0.02]">
+            <span class="text-sm font-semibold sm:text-base">Работаете ли вы в выходные?</span>
+            <span class="faq-icon text-xl leading-none text-muted">+</span>
+          </button>
+          <div class="faq-answer px-5 text-sm leading-relaxed text-muted">
+            <div class="pb-5">Да, мы работаем ежедневно с 09:00 до 21:00, включая субботу и воскресенье. Запись по телефону или через сайт.</div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal overflow-hidden rounded-2xl border border-white/[0.08] bg-card" style="transition-delay:.18s">
+          <button class="faq-q flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/[0.02]">
+            <span class="text-sm font-semibold sm:text-base">Есть ли скидки для постоянных клиентов?</span>
+            <span class="faq-icon text-xl leading-none text-muted">+</span>
+          </button>
+          <div class="faq-answer px-5 text-sm leading-relaxed text-muted">
+            <div class="pb-5">Да. После третьего визита клиент получает карту постоянного клиента со скидкой 10% на работы и 5% на запчасти.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ КОНТАКТЫ / ЗАПИСЬ ============ -->
+  <section id="contact" class="border-t border-white/[0.06] bg-asphalt/40 py-20 sm:py-28">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+
+        <div class="reveal">
+          <div class="text-[11px] font-semibold tracking-[0.25em] text-accent">ЗАПИСЬ</div>
+          <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Оставьте заявку</h2>
+          <p class="mt-3 max-w-md text-muted">Перезвоним в течение 15 минут, уточним детали и подберём удобное время.</p>
+
+          <div class="mt-8 space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.08] bg-card">
+                <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase tracking-wider text-muted">Телефон</div>
+                <a href="tel:+79990000000" class="text-base font-semibold transition hover:text-accent">+7 (999) 000-00-00</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.08] bg-card">
+                <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase tracking-wider text-muted">Email</div>
+                <a href="mailto:hello@favorit-service.ru" class="text-base font-semibold transition hover:text-accent">hello@favorit-service.ru</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.08] bg-card">
+                <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase tracking-wider text-muted">Адрес</div>
+                <div class="text-base font-semibold">Москва, ул. Автозаводская, 18</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/[0.08] bg-card">
+                <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[11px] uppercase tracking-wider text-muted">Режим работы</div>
+                <div class="text-base font-semibold">Ежедневно, 09:00 – 21:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal" style="transition-delay:.1s">
+          <form id="contactForm" class="rounded-3xl border border-white/[0.08] bg-card p-6 sm:p-8">
+            <div class="grid gap-4">
+              <div>
+                <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Ваше имя</label>
+                <input type="text" name="name" required placeholder="Иван"
+                       class="w-full rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50">
+              </div>
+              <div>
+                <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Телефон</label>
+                <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__"
+                       class="phone-mask w-full rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50">
+              </div>
+              
+              <div>
+                <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Комментарий (необязательно)</label>
+                <textarea name="comment" rows="3" placeholder="Марка авто, удобное время..."
+                          class="w-full resize-none rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50"></textarea>
+              </div>
+            </div>
+
+            <button type="submit"
+                    class="btn-shine mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-4 text-sm font-bold shadow-[0_16px_40px_-16px_rgba(239,68,68,.95)] transition hover:bg-red-500">
+              Отправить заявку
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+            <p class="mt-3 text-center text-[11px] text-white/30">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+<section class="relative z-10 py-10 border-t border-white/[0.06] bg-asphalt">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="text-[10px] leading-relaxed text-white/20 text-justify">
+      <p><strong>Favorit — премиальный автосервис и детейлинг в Москве.</strong> Профессиональная компьютерная диагностика, плановое ТО, ремонт ходовой части, шиномонтаж и детейлинг автомобилей премиум-класса. Работаем с 2014 года. Оборудование дилерского уровня, оригинальные запчасти и расходники, гарантия на все виды работ. Полировка кузова, нанесение керамических покрытий, химчистка салона. Запись онлайн на удобное время. Расположены в районе Автозаводской. Опытные мастера со стажем от 9 лет. Прозрачные цены и смета до начала работ. Доверьте свой автомобиль профессионалам.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ФУТЕР ============ -->
+<footer class="relative z-10 border-t border-white/[0.06] bg-asphalt">
+  <div class="pointer-events-none absolute bottom-0 left-1/2 h-64 w-full max-w-4xl -translate-x-1/2 bg-accent/5 blur-[100px]"></div>
+
+  <div class="relative mx-auto max-w-7xl px-5 pt-16 sm:px-8">
+    <div class="mb-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="grid h-9 w-9 place-items-center rounded-lg bg-accent">
+            <span class="text-sm font-extrabold italic text-white">F</span>
+          </span>
+          <span class="text-lg font-extrabold tracking-[0.16em]">FAVORIT</span>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-muted">
+          Премиальный автосервис и детейлинг в Москве. Инженерный подход к каждому автомобилю с 2014 года.
+        </p>
+
+        <div class="mt-6 flex gap-3">
+          <a href="#" aria-label="Telegram" class="group grid h-10 w-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.02] transition hover:border-accent/50 hover:bg-accent/10">
+            <svg class="h-4 w-4 text-white/60 transition group-hover:text-accent" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.94 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.06 0zm4.96 7.22c.1 0 .32.03.47.14a.5.5 0 01.17.33c.02.09.04.3.02.47-.18 1.9-.96 6.5-1.36 8.63-.17.9-.5 1.2-.82 1.23-.7.06-1.23-.46-1.9-.9-1.06-.7-1.66-1.13-2.68-1.8-1.19-.79-.42-1.22.26-1.92.17-.18 3.24-2.97 3.3-3.23 0-.03.02-.15-.05-.21-.07-.06-.18-.04-.25-.02-.1.02-1.8 1.14-5.06 3.34-.48.33-.91.5-1.3.48-.43-.01-1.25-.24-1.87-.44-.75-.24-1.35-.37-1.3-.79.03-.22.33-.44.9-.66 3.5-1.53 5.83-2.53 7-3.02 3.33-1.38 4.02-1.62 4.47-1.63z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="WhatsApp" class="group grid h-10 w-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.02] transition hover:border-accent/50 hover:bg-accent/10">
+            <svg class="h-4 w-4 text-white/60 transition group-hover:text-accent" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.5-1.7-1.7-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm0 18.3c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.3 8.3 0 1112 20.3z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="group grid h-10 w-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.02] transition hover:border-accent/50 hover:bg-accent/10">
+            <svg class="h-4 w-4 text-white/60 transition group-hover:text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="VK" class="group grid h-10 w-10 place-items-center rounded-full border border-white/[0.08] bg-white/[0.02] transition hover:border-accent/50 hover:bg-accent/10">
+            <svg class="h-4 w-4 text-white/60 transition group-hover:text-accent" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.8 17.5c-4.4 0-7-3-7.1-8.1h2.2c.1 3.7 1.7 5.3 3 5.6V9.4h2.1v3.2c1.3-.1 2.6-1.6 3-3.2h2.1c-.3 2-1.8 3.5-2.8 4.1 1 .5 2.7 1.8 3.3 4h-2.3c-.5-1.5-1.7-2.7-3.3-2.8v2.8h-.2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Услуги</h4>
+        <ul class="space-y-2.5 text-sm text-muted">
+          <li><a href="#services" class="transition hover:text-accent">Компьютерная диагностика</a></li>
+          <li><a href="#services" class="transition hover:text-accent">Техническое обслуживание</a></li>
+          <li><a href="#services" class="transition hover:text-accent">Детейлинг и полировка</a></li>
+          <li><a href="#services" class="transition hover:text-accent">Ремонт ходовой</a></li>
+          <li><a href="#services" class="transition hover:text-accent">Шиномонтаж</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Информация</h4>
+        <ul class="space-y-2.5 text-sm text-muted">
+          <li><a href="#why" class="transition hover:text-accent">О сервисе</a></li>
+          <li><a href="#calc" class="transition hover:text-accent">Калькулятор</a></li>
+          <li><a href="#faq" class="transition hover:text-accent">Вопросы и ответы</a></li>
+          <li><a href="#" class="transition hover:text-accent">Политика конфиденциальности</a></li>
+          <li><a href="#" class="transition hover:text-accent">Публичная оферта</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="mb-4 text-sm font-bold uppercase tracking-wider">Контакты</h4>
+        <ul class="space-y-3 text-sm text-muted">
+          <li><a href="tel:+79990000000" class="font-semibold text-white transition hover:text-accent">+7 (999) 000-00-00</a></li>
+          <li><a href="mailto:hello@favorit-service.ru" class="font-semibold text-white transition hover:text-accent">hello@favorit-service.ru</a></li>
+          <li>Москва, ул. Автозаводская, 18</li>
+          <li class="pt-1 text-xs text-white/40">Ежедневно, 09:00 – 21:00</li>
+        </ul>
+
+        <h4 class="mb-2 mt-6 text-sm font-bold uppercase tracking-wider">Реквизиты</h4>
+        <div class="space-y-1 text-xs text-white/40">
+          <p>ООО «ФАВОРИТ СЕРВИС»</p>
+          <p>ИНН: 7700000000</p>
+          <p>ОГРН: 1147700000000</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] py-8 text-xs text-white/40 md:flex-row">
+      <div>© 2026 Favorit. Все права защищены.</div>
+      <div class="max-w-2xl text-center md:text-right">
+        Информация на сайте не является публичной офертой. Указанные цены являются ориентировочными.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ КНОПКА НАВЕРХ ============ -->
+<button id="backToTop" aria-label="Вернуться наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<!-- ============ МОДАЛКА: ЗАПИСЬ ============ -->
+<div id="bookingModal" class="modal-overlay fixed inset-0 z-[100] hidden p-4">
+  <div class="relative w-full max-w-md bg-card border border-white/[0.08] rounded-3xl p-7 shadow-2xl overflow-hidden">
+    <!-- Декор -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-[50px] pointer-events-none"></div>
+
+    <button onclick="closeBookingModal()" aria-label="Закрыть"
+            class="absolute right-5 top-5 text-muted transition hover:text-white z-20">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div class="relative z-10">
+      <h3 class="text-2xl font-extrabold tracking-tight">Запись на сервис</h3>
+      <p class="mt-1.5 text-sm text-muted">Оставьте номер — перезвоним в течение 15 минут.</p>
+
+      <form id="modalForm" class="mt-6 space-y-4">
+        <div>
+          <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Имя</label>
+          <input type="text" name="name" required placeholder="Иван"
+                 class="w-full rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50">
+        </div>
+        <div>
+          <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Телефон</label>
+          <input type="tel" name="phone" required placeholder="+7 (___) ___-__-__"
+                 class="phone-mask w-full rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50">
+        </div>
+        
+        <div>
+          <label class="mb-1.5 block text-[11px] uppercase tracking-wider text-muted">Комментарий</label>
+          <textarea name="comment" rows="2" placeholder="Марка авто, удобное время..."
+                    class="w-full resize-none rounded-xl border border-white/[0.08] bg-asphalt px-4 py-3.5 text-sm text-white placeholder-white/25 outline-none transition focus:border-accent/50"></textarea>
+        </div>
+
+        <button type="submit"
+                class="btn-shine flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-bold shadow-[0_16px_40px_-16px_rgba(239,68,68,.95)] transition hover:bg-red-500">
+          Отправить
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="pointer-events-none fixed bottom-8 left-1/2 z-[110] flex -translate-x-1/2 translate-y-24 items-center gap-3 rounded-full bg-accent px-6 py-3.5 opacity-0 shadow-2xl transition-all duration-500">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+  <span class="text-sm font-bold text-black">Заявка отправлена! Мы свяжемся с вами.</span>
+</div>
+
+<script>
+  /* ---------- Бургер ---------- */
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => mobileMenu.classList.add('hidden'))
+  );
+
+  /* ---------- Reveal ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ---------- Деления спидометра ---------- */
+  (function buildTicks(){
+    const g = document.getElementById('ticks');
+    if (!g) return;
+    const NS = 'http://www.w3.org/2000/svg';
+    const cx = 100, cy = 100, total = 40;
+
+    for (let i = 0; i <= total; i++) {
+      const a = (135 + (270 * i / total)) * Math.PI / 180;
+      const major = i % 5 === 0;
+      const r1 = 66, r2 = major ? 54 : 60;
+
+      const ln = document.createElementNS(NS, 'line');
+      ln.setAttribute('x1', (cx + r1 * Math.cos(a)).toFixed(2));
+      ln.setAttribute('y1', (cy + r1 * Math.sin(a)).toFixed(2));
+      ln.setAttribute('x2', (cx + r2 * Math.cos(a)).toFixed(2));
+      ln.setAttribute('y2', (cy + r2 * Math.sin(a)).toFixed(2));
+      ln.setAttribute('stroke', '#ffffff');
+      ln.setAttribute('stroke-opacity', major ? '0.6' : '0.16');
+      ln.setAttribute('stroke-width', major ? '2' : '1.1');
+      ln.setAttribute('stroke-linecap', 'round');
+      g.appendChild(ln);
+    }
+  })();
+
+  /* ---------- Запуск спидометра ---------- */
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('speedo').classList.add('live'), 250);
+
+    const speedEl = document.getElementById('speedVal');
+    const target = 320, dur = 2200;
+    let start = null;
+
+    function step(t) {
+      if (!start) start = t;
+      const p = Math.min((t - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      speedEl.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    setTimeout(() => requestAnimationFrame(step), 350);
+  });
+
+  /* ---------- FAQ ---------- */
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      if (!isActive) item.classList.add('active');
+    });
+  });
+
+  /* ---------- Калькулятор ---------- */
+  const checks = document.querySelectorAll('.calc-check');
+  const totalEl = document.getElementById('calcTotal');
+  const listEl = document.getElementById('calcList');
+
+  function updateCalc() {
+    let sum = 0;
+    const items = [];
+    checks.forEach(c => {
+      if (c.checked) {
+        sum += Number(c.dataset.price);
+        items.push(c.dataset.name);
+      }
+    });
+    totalEl.textContent = sum.toLocaleString('ru-RU');
+    if (items.length === 0) {
+      listEl.innerHTML = '<div class="text-white/30">Выберите услуги слева</div>';
+    } else {
+      listEl.innerHTML = items.map(n => `<div class="flex items-center gap-2"><span class="h-1 w-1 rounded-full bg-accent"></span>${n}</div>`).join('');
+    }
+  }
+  checks.forEach(c => c.addEventListener('change', updateCalc));
+
+  /* ---------- Модалка ---------- */
+  const bookingModal = document.getElementById('bookingModal');
+  function openBookingModal() {
+    bookingModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBookingModal() {
+    bookingModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  bookingModal.addEventListener('click', (e) => { if (e.target === bookingModal) closeBookingModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBookingModal(); });
+
+  /* ---------- Маска телефона ---------- */
+  document.querySelectorAll('.phone-mask').forEach(input => {
+    const fmt = v => {
+      let d = v.replace(/\D/g, '');
+      if (d.startsWith('8')) d = '7' + d.slice(1);
+      if (d.startsWith('7')) d = d.slice(1);
+      d = d.slice(0, 10);
+      let o = '+7 ';
+      if (d.length) o += '(' + d.slice(0, 3);
+      if (d.length >= 3) o += ') ';
+      if (d.length > 3) o += d.slice(3, 6);
+      if (d.length > 6) o += '-' + d.slice(6, 8);
+      if (d.length > 8) o += '-' + d.slice(8, 10);
+      return o;
+    };
+    input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+    input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+    input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+  });
+
+  /* ---------- Telegram ---------- */
+  const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+  const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+
+  function showToast() {
+    const t = document.getElementById('toast');
+    t.classList.remove('translate-y-24', 'opacity-0');
+    t.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      t.classList.remove('translate-y-0', 'opacity-100');
+      t.classList.add('translate-y-24', 'opacity-0');
+    }, 5000);
+  }
+
+  async function submitForm(form, type) {
+    const btn = form.querySelector('button[type="submit"]');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Отправка...';
+
+    const data = {};
+    new FormData(form).forEach((v, k) => data[k] = v);
+
+    let text = `🚗 <b>Новая заявка: ${type}</b>\n\n` +
+               `<b>Имя:</b> ${data.name || '—'}\n` +
+               `<b>Телефон:</b> ${data.phone || '—'}\n`;
+    if (data.comment) text += `<b>Комментарий:</b> ${data.comment}\n`;
+    text += `\n🕐 ${new Date().toLocaleString('ru-RU')}`;
+
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+      });
+      const json = await res.json();
+      if (json.ok) {
+        form.reset();
+        showToast();
+        closeBookingModal();
+      } else {
+        alert('Ошибка отправки. Попробуйте позже.');
+      }
+    } catch (err) {
+      alert('Ошибка сети. Попробуйте позже.');
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm(e.target, 'Запись через форму');
+  });
+
+  document.getElementById('modalForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm(e.target, 'Запись через модалку');
+  });
+
+  /* ---------- Плавная прокрутка по якорям ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  /* ---------- Кнопка «Наверх» ---------- */
+  const backToTop = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+</script>
+
+</body>
+</html>

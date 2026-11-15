@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIST & LEAF — Премиальный китайский чай</title>
+<meta name="description" content="Элитный китайский чай с высокогорных плантаций. Прямые поставки, ручной сбор. Доставка по всей России.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        dark: '#080808',       
+        surface: '#121212',    
+        border: '#222222',     
+        gold: '#D4AF37',       
+        goldLight: '#F3E5AB',  
+        text: '#F5F5F5',       
+        muted: '#8A8A8A',      
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
+        cjk: ['"Noto Serif SC"', 'serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  section[id] { scroll-margin-top: 100px; }
+  
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: #080808; 
+    color: #F5F5F5; 
+    overflow-x: hidden; 
+    background-image: radial-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .font-serif { font-family: 'Playfair Display', serif; }
+  .font-cjk { font-family: 'Noto Serif SC', serif; }
+
+  /* ================= БЛИК ================= */
+  .shine-fix { position: relative; overflow: hidden; }
+  .shine-fix::after {
+    content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4), transparent);
+    transform: skewX(-25deg); z-index: 10; pointer-events: none;
+  }
+  .shine-fix:hover::after { left: 150%; transition: left 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* ================= ПОЯВЛЕНИЕ ================= */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ================= ГРАФИКА HERO ================= */
+  .zen-scene {
+    position: relative; width: 100%; height: 550px;
+    display: flex; justify-content: center; align-items: center; perspective: 1000px;
+  }
+  .zen-ring {
+    position: absolute; width: 400px; height: 400px; border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.05), inset 0 0 80px rgba(212, 175, 55, 0.05);
+    animation: spinRing 25s linear infinite;
+  }
+  .zen-ring-2 {
+    position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    border: 1px dashed rgba(212, 175, 55, 0.15); animation: spinRingReverse 20s linear infinite;
+  }
+  .center-glyph {
+    position: relative; z-index: 10; font-size: 200px; line-height: 1;
+    animation: floatElement 6s ease-in-out infinite;
+    background: linear-gradient(135deg, #FFF5C2 0%, #D4AF37 40%, #8B6914 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.3));
+  }
+  .center-glyph::before {
+    content: '茶'; position: absolute; top: 0; left: 0;
+    color: rgba(255, 255, 255, 0.05); z-index: -1; transform: translate(3px, 3px);
+  }
+  .steam-svg {
+    position: absolute; top: 25%; left: 50%; transform: translateX(-50%);
+    z-index: 5; opacity: 0.3; pointer-events: none;
+  }
+  .steam-line { animation: steamRise 4s ease-in-out infinite; opacity: 0; }
+  .steam-line:nth-child(2) { animation-delay: 1.5s; }
+  .steam-line:nth-child(3) { animation-delay: 3s; }
+  
+  .particle { 
+    position: absolute; background: #D4AF37; border-radius: 50%; 
+    box-shadow: 0 0 15px #D4AF37; animation: floatParticle 5s ease-in-out infinite alternate; 
+  }
+
+  /* ================= 3D НАКЛОН ================= */
+  .tilt-box {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+  }
+
+  /* ================= КАРТОЧКИ ТОВАРОВ ================= */
+  .tea-card {
+    background: linear-gradient(180deg, #121212 0%, #080808 100%);
+    border: 1px solid #222222;
+    transition: all 0.4s ease;
+  }
+  .tea-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.15);
+  }
+
+  /* ================= РИТУАЛ (ИНТЕРАКТИВ) ================= */
+  .ritual-circle {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+  }
+  .ritual-item:hover .ritual-circle {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(212, 175, 55, 0.2);
+    border-color: #D4AF37;
+  }
+  .ritual-item:hover .ritual-circle span {
+    color: #F3E5AB;
+    text-shadow: 0 0 15px rgba(243, 229, 171, 0.8);
+  }
+
+  /* FAQ */
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .faq-item.active .faq-answer { max-height: 200px; }
+  .faq-item.active .faq-icon { transform: rotate(45deg); color: #D4AF37; }
+  .faq-icon { transition: transform 0.3s ease, color 0.3s ease; }
+
+  /* Модалки */
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); transition: opacity 0.3s ease;
+  }
+  .modal-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  /* Бургер-меню */
+  .burger-line { display: block; width: 24px; height: 2px; background: #F5F5F5; border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+  .burger.active .burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger.active .burger-line:nth-child(2) { opacity: 0; }
+  .burger.active .burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .mobile-menu.open { max-height: 400px; }
+
+  /* ================= КНОПКА НАВЕРХ ================= */
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px; z-index: 90;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: #121212; border: 1px solid #222222;
+    display: flex; align-items: center; justify-content: center; color: #D4AF37;
+    cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  }
+  #backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  #backToTop:hover { border-color: #D4AF37; box-shadow: 0 15px 30px -10px rgba(212,175,55,0.3); transform: translateY(-3px); }
+
+  /* Анимации */
+  @keyframes spinRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes spinRingReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+  @keyframes floatElement { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.02); } }
+  @keyframes floatParticle { 0% { transform: translateY(0) scale(1); opacity: 0.2; } 100% { transform: translateY(-40px) scale(1.5); opacity: 0.8; } }
+  @keyframes steamRise {
+    0% { transform: translateY(0) scaleX(1); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-60px) scaleX(1.5); opacity: 0; }
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- HEADER -->
+<header class="fixed top-0 inset-x-0 z-40 bg-dark/90 backdrop-blur-lg border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    
+    <a href="index.html" class="flex items-center gap-2 group text-sm font-medium text-muted hover:text-gold transition-colors">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="group-hover:-translate-x-1 transition-transform">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      В портфолио
+    </a>
+    
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-muted">
+      <a href="#philosophy" class="smooth-scroll hover:text-gold transition-colors">Философия</a>
+      <a href="#catalog" class="smooth-scroll hover:text-gold transition-colors">Каталог</a>
+      <a href="#ritual" class="smooth-scroll hover:text-gold transition-colors">Ритуал</a>
+      <a href="#reviews" class="smooth-scroll hover:text-gold transition-colors">Отзывы</a>
+      <a href="#faq" class="smooth-scroll hover:text-gold transition-colors">FAQ</a>
+    </nav>
+    
+    <div class="flex items-center gap-6">
+      <a href="tel:+79990000000" class="hidden md:block text-sm font-medium text-light hover:text-gold transition-colors">+7 (999) 000-00-00</a>
+      
+      <button onclick="openCallbackModal()" class="hidden md:block bg-gold text-black px-6 py-2.5 rounded-full text-sm font-bold shadow-[0_0_20px_rgba(212,175,55,0.3)] shine-fix">
+        <span class="relative z-20">Заказать чай</span>
+      </button>
+      
+      <button id="burger" class="burger lg:hidden flex flex-col justify-center items-center gap-[6px] w-10 h-10 rounded-lg">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu lg:hidden bg-surface border-t border-border absolute top-full left-0 w-full shadow-2xl">
+    <nav class="flex flex-col px-6 py-4 gap-2 text-base font-medium text-light">
+      <a href="#philosophy" class="smooth-scroll py-2 border-b border-border hover:text-gold">Философия</a>
+      <a href="#catalog" class="smooth-scroll py-2 border-b border-border hover:text-gold">Каталог</a>
+      <a href="#ritual" class="smooth-scroll py-2 border-b border-border hover:text-gold">Ритуал</a>
+      <a href="#reviews" class="smooth-scroll py-2 border-b border-border hover:text-gold">Отзывы</a>
+      <a href="#faq" class="smooth-scroll py-2 hover:text-gold">FAQ</a>
+      <div class="pt-4 flex flex-col gap-3">
+        <a href="tel:+79990000000" class="text-gold font-bold text-lg">+7 (999) 000-00-00</a>
+        <button onclick="openCallbackModal()" class="bg-gold text-black font-bold px-6 py-3 rounded-xl shine-fix">
+          <span class="relative z-20">Заказать чай</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden min-h-screen flex items-center">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="reveal">
+          <div class="inline-flex items-center gap-3 border border-gold/30 bg-gold/5 px-5 py-2 rounded-full text-xs font-medium text-gold mb-10 tracking-[0.2em] uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+            Коллекция весна 2026
+          </div>
+          
+          <h1 class="font-serif text-6xl sm:text-8xl font-bold leading-[1] tracking-tight mb-8 text-white">
+            Искусство <br>
+            <span class="text-gold italic text-7xl sm:text-8xl">китайского</span> <br>
+            чая
+          </h1>
+          
+          <p class="text-lg text-muted max-w-md mb-12 leading-relaxed font-light">
+            Отборные листья с высокогорных плантаций провинции Юньнань. Древние традиции в современном ритме.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 mb-16">
+            <a href="#catalog" class="smooth-scroll bg-gold text-black px-10 py-4 rounded-full font-semibold text-center text-lg shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:bg-goldLight transition-colors shine-fix cursor-pointer">
+              <span class="relative z-20">Открыть каталог</span>
+            </a>
+            <button onclick="openCallbackModal()" class="bg-transparent border border-border text-white px-10 py-4 rounded-full font-semibold text-center text-lg hover:border-gold hover:text-gold transition-colors shine-fix cursor-pointer">
+              <span class="relative z-20">Подобрать чай</span>
+            </button>
+          </div>
+          
+          <div class="flex items-center gap-10 text-sm text-muted font-light">
+            <div class="flex items-center gap-2">
+              <svg class="text-gold" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z"/></svg>
+              Ручной сбор
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="text-gold" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Прямые поставки
+            </div>
+          </div>
+        </div>
+
+        <div class="relative reveal" data-delay="1">
+          <div class="zen-scene">
+            <div class="zen-ring"></div>
+            <div class="zen-ring-2"></div>
+
+            <svg class="w-32 h-48 steam-svg" viewBox="0 0 100 200" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round">
+              <path d="M 30 200 Q 10 150 30 100 T 30 0" class="steam-line"/>
+              <path d="M 50 200 Q 70 150 50 100 T 50 0" class="steam-line"/>
+              <path d="M 70 200 Q 50 150 70 100 T 70 0" class="steam-line"/>
+            </svg>
+
+            <div class="center-glyph font-cjk select-none">茶</div>
+
+            <div class="particle w-2 h-2 top-20 left-10"></div>
+            <div class="particle w-1.5 h-1.5 bottom-32 right-16" style="animation-delay: 1.5s;"></div>
+            <div class="particle w-2.5 h-2.5 top-40 right-10" style="animation-delay: 2.5s;"></div>
+            <div class="particle w-1 h-1 bottom-20 left-20" style="animation-delay: 3s;"></div>
+
+            <div class="absolute bottom-10 left-10 text-gold/5 font-cjk text-9xl select-none z-0">道</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ФИЛОСОФИЯ (С КАРТИНКОЙ ava.webp) -->
+  <section id="philosophy" class="py-32 bg-surface border-y border-border relative overflow-hidden">
+    <div class="absolute -top-20 -left-20 text-[400px] font-serif text-white/[0.02] select-none leading-none">“</div>
+    
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="reveal">
+          <div class="text-gold font-cjk text-3xl mb-6">道</div>
+          <h2 class="font-serif text-4xl md:text-6xl font-bold mb-8 text-white leading-[1.1]">
+            Больше, чем <br>просто напиток.
+          </h2>
+          <p class="text-lg text-muted font-light leading-relaxed mb-6">
+            <span class="float-left text-6xl font-serif text-gold leading-[0.8] mr-3 mt-1">«</span>
+            MIST & LEAF — это не просто магазин. Это клуб ценителей, где каждый лист имеет свою историю. Мы привозим чай с фермерских хозяйств, чтобы вы могли почувствовать истинный вкус Поднебесной.
+          </p>
+          <p class="text-lg text-muted font-light leading-relaxed">
+            Наши мастера лично отбирают каждую партию, гарантируя, что в вашу чашку попадет только лучшее.
+          </p>
+        </div>
+
+        <!-- КВАДРАТ С 3D-НАКЛОНОМ -->
+        <div class="relative reveal flex justify-center" data-delay="1">
+          
+          <div class="w-full max-w-[450px]" style="perspective: 1000px;">
+            
+            <div class="tilt-box relative aspect-square rounded-[32px] bg-dark border border-gold/20 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] overflow-hidden group">
+              
+              <!-- Твоя картинка ava.webp -->
+              <img 
+                src="image/tea/ava.webp" 
+                alt="Философия чая" 
+                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+              >
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-80 pointer-events-none"></div>
+              <div class="absolute inset-4 border border-gold/20 rounded-[20px] pointer-events-none z-10"></div>
+              <div class="absolute bottom-6 right-8 text-gold/40 font-cjk text-5xl select-none z-10 pointer-events-none">茶</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- КАТАЛОГ (С ТВОИМИ КАРТИНКАМИ) -->
+  <section id="catalog" class="py-24 bg-dark">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 reveal text-center">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 text-white">Избранные сорта</h2>
+        <p class="text-muted text-lg font-light max-w-2xl mx-auto">Наша гордость. Сорта, которые перевернут ваше представление о чае.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Сорт 1: Да Хун Пао -->
+        <div class="tea-card p-8 rounded-3xl reveal flex flex-col">
+          <div class="w-full aspect-square rounded-2xl bg-gradient-to-br from-[#2a1a10] to-[#0a0502] flex items-center justify-center mb-6 border border-border overflow-hidden relative group">
+             <img src="image/tea/1.webp" alt="Да Хун Пао" class="w-full h-full object-cover relative z-10 group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-white mb-2">Да Хун Пао</h3>
+          <p class="text-sm text-muted mb-6 flex-1 font-light">Легендарный утесный чай. Насыщенный вкус с нотами шоколада и печеной сливы.</p>
+          <div class="text-2xl font-serif font-bold text-gold mb-6">2 800 ₽ <span class="text-sm text-muted font-sans font-normal">/ 50г</span></div>
+          <button onclick="openBuyModal('Да Хун Пао')" class="w-full bg-surface border border-border text-light font-bold py-3 rounded-xl hover:border-gold hover:text-gold transition-all shine-fix">
+            <span class="relative z-20">Купить</span>
+          </button>
+        </div>
+
+        <!-- Сорт 2: Те Гуань Инь -->
+        <div class="tea-card p-8 rounded-3xl reveal flex flex-col" data-delay="1">
+          <div class="w-full aspect-square rounded-2xl bg-gradient-to-br from-[#102a1a] to-[#020a05] flex items-center justify-center mb-6 border border-border overflow-hidden relative group">
+             <img src="image/tea/2.webp" alt="Те Гуань Инь" class="w-full h-full object-cover relative z-10 group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-white mb-2">Те Гуань Инь</h3>
+          <p class="text-sm text-muted mb-6 flex-1 font-light">Утонченный цветочный аромат. Классический светлый улун с мягким сливочным послевкусием.</p>
+          <div class="text-2xl font-serif font-bold text-gold mb-6">1 600 ₽ <span class="text-sm text-muted font-sans font-normal">/ 100г</span></div>
+          <button onclick="openBuyModal('Те Гуань Инь')" class="w-full bg-surface border border-border text-light font-bold py-3 rounded-xl hover:border-gold hover:text-gold transition-all shine-fix">
+            <span class="relative z-20">Купить</span>
+          </button>
+        </div>
+
+        <!-- Сорт 3: Шу Пуэр -->
+        <div class="tea-card p-8 rounded-3xl reveal flex flex-col" data-delay="2">
+          <div class="w-full aspect-square rounded-2xl bg-gradient-to-br from-[#1a102a] to-[#05020a] flex items-center justify-center mb-6 border border-border overflow-hidden relative group">
+             <img src="image/tea/3.webp" alt="Шу Пуэр" class="w-full h-full object-cover relative z-10 group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-white mb-2">Шу Пуэр</h3>
+          <p class="text-sm text-muted mb-6 flex-1 font-light">Выдержанный черный чай. Землистый, глубокий вкус, бодрящий эффект. Прессованный блин.</p>
+          <div class="text-2xl font-serif font-bold text-gold mb-6">3 500 ₽ <span class="text-sm text-muted font-sans font-normal">/ 357г</span></div>
+          <button onclick="openBuyModal('Шу Пуэр')" class="w-full bg-surface border border-border text-light font-bold py-3 rounded-xl hover:border-gold hover:text-gold transition-all shine-fix">
+            <span class="relative z-20">Купить</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- РИТУАЛ (С ИНТЕРАКТИВОМ) -->
+  <section id="ritual" class="py-32 bg-surface border-t border-border relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="text-center mb-20 reveal">
+        <div class="text-gold/50 font-cjk text-4xl mb-4">礼</div>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Чайный ритуал</h2>
+        <p class="text-muted font-light max-w-xl mx-auto">Превратите обычное чаепитие в медитацию. Следуйте древним правилам.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-4 gap-8 relative">
+        <div class="hidden md:block absolute top-[60px] left-[10%] right-[10%] h-px bg-border"></div>
+
+        <div class="ritual-item relative reveal">
+          <div class="ritual-circle w-24 h-24 mx-auto bg-dark border border-gold/30 rounded-full flex items-center justify-center mb-8 relative z-10">
+            <span class="font-serif text-3xl text-gold">I</span>
+          </div>
+          <div class="text-center">
+            <h4 class="font-bold mb-3 text-white text-lg font-serif">Вода</h4>
+            <p class="text-sm text-muted font-light leading-relaxed">Используйте мягкую воду. Температура 85-95°C в зависимости от сорта.</p>
+          </div>
+        </div>
+
+        <div class="ritual-item relative reveal" data-delay="1">
+          <div class="ritual-circle w-24 h-24 mx-auto bg-dark border border-gold/30 rounded-full flex items-center justify-center mb-8 relative z-10">
+            <span class="font-serif text-3xl text-gold">II</span>
+          </div>
+          <div class="text-center">
+            <h4 class="font-bold mb-3 text-white text-lg font-serif">Посуда</h4>
+            <p class="text-sm text-muted font-light leading-relaxed">Обдайте чайник и пиалы кипятком, чтобы прогреть их и раскрыть аромат.</p>
+          </div>
+        </div>
+
+        <div class="ritual-item relative reveal" data-delay="2">
+          <div class="ritual-circle w-24 h-24 mx-auto bg-dark border border-gold/30 rounded-full flex items-center justify-center mb-8 relative z-10">
+            <span class="font-serif text-3xl text-gold">III</span>
+          </div>
+          <div class="text-center">
+            <h4 class="font-bold mb-3 text-white text-lg font-serif">Пробуждение</h4>
+            <p class="text-sm text-muted font-light leading-relaxed">Первая заварка сливается через 5-10 секунд. Она нужна для промывки листа.</p>
+          </div>
+        </div>
+
+        <div class="ritual-item relative reveal" data-delay="3">
+          <div class="ritual-circle w-24 h-24 mx-auto bg-dark border border-gold rounded-full flex items-center justify-center mb-8 relative z-10">
+            <span class="font-serif text-3xl text-gold">IV</span>
+          </div>
+          <div class="text-center">
+            <h4 class="font-bold mb-3 text-white text-lg font-serif">Наслаждение</h4>
+            <p class="text-sm text-muted font-light leading-relaxed">Пейте маленькими глотками. Каждая новая заварка раскрывает новые грани.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section id="reviews" class="py-24 bg-dark border-t border-border">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 reveal">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold mb-4 text-white">Отзывы ценителей</h2>
+        <p class="text-muted text-lg font-light max-w-2xl">Что говорят те, кто уже открыл для себя наш чай.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-surface p-8 rounded-3xl border border-border reveal">
+          <div class="flex gap-1 text-gold mb-6">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+          </div>
+          <p class="text-light font-light leading-relaxed mb-6">"Да Хун Пао просто космос. Такой глубокий вкус, что кажется, будто пьешь историю. Доставка быстрая, упаковка шикарная."</p>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#2a1a10] to-[#0a0502] border border-gold/30 flex items-center justify-center text-gold font-serif">А</div>
+            <div>
+              <div class="text-white font-medium text-sm">Алексей М.</div>
+              <div class="text-muted text-xs">Москва</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-surface p-8 rounded-3xl border border-border reveal" data-delay="1">
+          <div class="flex gap-1 text-gold mb-6">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+          </div>
+          <p class="text-light font-light leading-relaxed mb-6">"Заказывала Те Гуань Инь в подарок мужу. В итоге пьем всей семьей. Аромат невероятный, чувствуется качество."</p>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#102a1a] to-[#020a05] border border-gold/30 flex items-center justify-center text-gold font-serif">Е</div>
+            <div>
+              <div class="text-white font-medium text-sm">Екатерина В.</div>
+              <div class="text-muted text-xs">Санкт-Петербург</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-surface p-8 rounded-3xl border border-border reveal" data-delay="2">
+          <div class="flex gap-1 text-gold mb-6">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 17l-6.5 4 2-7.5L2 9h7l3-7z"/></svg>
+          </div>
+          <p class="text-light font-light leading-relaxed mb-6">"Шу Пуэр — это любовь с первой чашки. Очень бодрит и согревает. Спасибо за подробные инструкции по завариванию!"</p>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#1a102a] to-[#05020a] border border-gold/30 flex items-center justify-center text-gold font-serif">Д</div>
+            <div>
+              <div class="text-white font-medium text-sm">Дмитрий К.</div>
+              <div class="text-muted text-xs">Казань</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-24 bg-surface border-t border-border">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-white">Вопросы и ответы</h2>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="faq-item bg-dark border border-border rounded-2xl overflow-hidden reveal">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors">
+            <span class="font-serif text-lg font-bold text-white pr-4">Как хранить чай, чтобы он не выдыхался?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-muted font-light leading-relaxed">
+            <div class="pb-6">Храните чай в плотно закрытой керамической или жестяной банке, в темном месте, вдали от сильных запахов (специи, кофе). Оптимальная температура — комнатная.</div>
+          </div>
+        </div>
+
+        <div class="faq-item bg-dark border border-border rounded-2xl overflow-hidden reveal" data-delay="1">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors">
+            <span class="font-serif text-lg font-bold text-white pr-4">Сколько раз можно заваривать чай?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-muted font-light leading-relaxed">
+            <div class="pb-6">Качественный чай выдерживает от 5 до 10 заварок. Улуны и пуэры завариваются большее количество раз, чем зеленый чай. С каждым разом время настаивания следует немного увеличивать.</div>
+          </div>
+        </div>
+
+        <div class="faq-item bg-dark border border-border rounded-2xl overflow-hidden reveal" data-delay="2">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors">
+            <span class="font-serif text-lg font-bold text-white pr-4">Какая посуда лучше всего подходит?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-muted font-light leading-relaxed">
+            <div class="pb-6">Идеальный вариант — глиняный чайник (исинская глина) или стеклянная гайвань. Для пуэров лучше использовать глину, так как она «запоминает» вкус, а для улунов — фарфор или стекло.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+<section class="py-12 relative border-t border-border bg-dark">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-[11px] text-muted leading-relaxed opacity-40 text-justify">
+      <p><strong>Премиальный китайский чай в Москве.</strong> Интернет-магазин «MIST & LEAF» предлагает купить элитный чай прямых поставок из провинции Юньнань. В нашем ассортименте: улуны (Те Гуань Инь, Да Хун Пао), выдержанные пуэры (Шу и Шэн), красный чай, зелёный чай, а также чайная посуда (исинские чайники, гайвани, пиалы). Мы работаем только с проверенными фермерскими хозяйствами, гарантируя ручной сбор и свежесть каждого листа. Доставка по всей России. Поможем подобрать сорт, расскажем о правилах заваривания и хранения. Закажите настоящий китайский чай с доставкой на дом.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer class="bg-dark border-t border-border pt-16 pb-8 relative overflow-hidden">
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-gold/5 blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      
+      <div>
+        <div class="font-serif text-3xl font-bold text-white mb-4 tracking-wider">MIST <span class="text-gold">&</span> LEAF</div>
+        <p class="text-sm text-muted leading-relaxed mb-6 font-light">
+          Элитный китайский чай с доставкой по всей России. Мы работаем только с проверенными фермерами и гарантируем свежесть каждого листа.
+        </p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-light hover:bg-gold hover:text-dark hover:border-gold transition-all shine-fix">
+            <span class="relative z-10"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.94 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.06 0zm4.96 7.22c.1 0 .32.03.47.14a.5.5 0 01.17.33c.02.09.04.3.02.47-.18 1.9-.96 6.5-1.36 8.63-.17.9-.5 1.2-.82 1.23-.7.06-1.23-.46-1.9-.9-1.06-.7-1.66-1.13-2.68-1.8-1.19-.79-.42-1.22.26-1.92.17-.18 3.24-2.97 3.3-3.23 0-.03.02-.15-.05-.21-.07-.06-.18-.04-.25-.02-.1.02-1.8 1.14-5.06 3.34-.48.33-.91.5-1.3.48-.43-.01-1.25-.24-1.87-.44-.75-.24-1.35-.37-1.3-.79.03-.22.33-.44.9-.66 3.5-1.53 5.83-2.53 7-3.02 3.33-1.38 4.02-1.62 4.47-1.63z"/></svg></span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-light hover:text-white hover:border-transparent transition-all shine-fix relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <span class="relative z-10"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Каталог</h4>
+        <ul class="space-y-2 text-sm text-muted font-light">
+          <li><a href="#" class="hover:text-gold transition-colors">Улуны</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Красный чай</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Шу Пуэры</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Шэн Пуэры</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Чайная посуда</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Информация</h4>
+        <ul class="space-y-2 text-sm text-muted font-light">
+          <li><a href="#ritual" class="smooth-scroll hover:text-gold transition-colors">Как заваривать</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Доставка и оплата</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Отзывы покупателей</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Политика конфиденциальности</a></li>
+          <li><a href="#" class="hover:text-gold transition-colors">Публичная оферта</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Контакты</h4>
+        <ul class="space-y-3 text-sm text-muted font-light">
+          <li><a href="tel:+79990000000" class="hover:text-gold transition-colors font-medium">+7 (999) 000-00-00</a></li>
+          <li><a href="mailto:hello@mistandleaf.ru" class="hover:text-gold transition-colors font-medium">hello@mistandleaf.ru</a></li>
+          <li>Москва, ул. Тверская, 1</li>
+          <li class="pt-2 text-xs opacity-70">Ежедневно с 10:00 до 21:00</li>
+        </ul>
+        
+        <h4 class="text-white font-bold mt-6 mb-2 uppercase tracking-wider text-sm">Реквизиты</h4>
+        <div class="text-xs text-muted space-y-1">
+          <p>ООО «МИСТ И ЛИФ»</p>
+          <p>ИНН: 7700000000</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted font-light">
+      <div>© 2026 MIST & LEAF. Все права защищены.</div>
+      <div class="text-center md:text-right max-w-2xl">
+        <p>Информация на сайте не является публичной офертой. Указанные цены являются ориентировочными.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- МОДАЛКА: КУПИТЬ ЧАЙ -->
+<div id="buyModal" class="modal-overlay fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+  <div class="bg-surface w-full max-w-md rounded-3xl p-8 relative shadow-2xl border border-border">
+    <button onclick="closeBuyModal()" class="absolute top-6 right-6 text-muted hover:text-white transition-colors">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-serif text-3xl font-bold mb-2 text-white">Оформление заказа</h3>
+    <p class="text-sm text-muted font-light mb-6">Вы выбрали: <span id="selectedTeaName" class="text-gold font-bold"></span></p>
+    
+    <form class="buy-form space-y-4" data-form-type="Покупка чая">
+      <input type="hidden" id="buyTeaInput" name="tea_name" value="">
+      <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-dark border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-gold font-light text-white placeholder-muted">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-dark border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-gold font-light text-white placeholder-muted">
+      <button type="submit" class="w-full bg-gold text-black font-bold text-lg rounded-xl py-4 hover:bg-goldLight transition-colors shadow-lg shadow-gold/20 shine-fix">
+        <span class="relative z-20">Подтвердить заказ</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- МОДАЛКА: ЗАКАЗ ЗВОНКА -->
+<div id="callbackModal" class="modal-overlay fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+  <div class="bg-surface w-full max-w-md rounded-3xl p-8 relative shadow-2xl border border-border">
+    <button onclick="closeCallbackModal()" class="absolute top-6 right-6 text-muted hover:text-white transition-colors">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 class="font-serif text-3xl font-bold mb-2 text-white">Консультация</h3>
+    <p class="text-sm text-muted font-light mb-6">Поможем выбрать сорт или подберем идеальный подарок.</p>
+    
+    <form class="callback-form space-y-4" data-form-type="Консультация по чаю">
+      <input type="text" name="name" placeholder="Ваше имя" required class="w-full bg-dark border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-gold font-light text-white">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="phone-mask w-full bg-dark border border-border rounded-xl px-5 py-4 focus:outline-none focus:border-gold font-light text-white">
+      <button type="submit" class="w-full bg-gold text-black font-bold text-lg rounded-xl py-4 hover:bg-goldLight transition-colors shadow-lg shadow-gold/20 shine-fix">
+        <span class="relative z-20">Жду звонка</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-gold text-black px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-500 z-[110] pointer-events-none">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#080808" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+  <span class="font-bold text-sm">Заявка принята! Мы свяжемся с вами.</span>
+</div>
+
+<!-- КНОПКА НАВЕРХ -->
+<button id="backToTop" aria-label="Вернуться наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+// ==================== БУРГЕР-МЕНЮ ====================
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('active', open);
+});
+document.querySelectorAll('#mobileMenu a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('active');
+  });
+});
+
+// ==================== ПЛАВНЫЙ СКРОЛЛ ====================
+document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if(target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ==================== КНОПКА НАВЕРХ ====================
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTop.classList.add('visible');
+  else backToTop.classList.remove('visible');
+}, { passive: true });
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ==================== 3D TILT ЭФФЕКТ (ОСЛАБЛЕН В 2 РАЗА) ====================
+const tiltBoxes = document.querySelectorAll('.tilt-box');
+tiltBoxes.forEach(box => {
+  box.addEventListener('mousemove', e => {
+    const rect = box.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Было / 15, стало / 30 (в 2 раза слабее)
+    const rotateX = (centerY - y) / 30; 
+    const rotateY = (x - centerX) / 30;
+    
+    box.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    box.style.transition = 'transform 0.1s ease-out';
+  });
+  
+  box.addEventListener('mouseleave', () => {
+    box.style.transform = `rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+    box.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+});
+
+// ==================== FAQ АККОРДЕОН ====================
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item');
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+    if (!isActive) item.classList.add('active');
+  });
+});
+
+// ==================== МОДАЛЬНЫЕ ОКНА ====================
+const buyModal = document.getElementById('buyModal');
+const cbModal = document.getElementById('callbackModal');
+
+function openBuyModal(teaName) {
+  document.getElementById('selectedTeaName').textContent = teaName;
+  document.getElementById('buyTeaInput').value = teaName;
+  buyModal.classList.remove('hidden');
+  buyModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBuyModal() {
+  buyModal.classList.add('hidden');
+  buyModal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+function openCallbackModal() {
+  cbModal.classList.remove('hidden');
+  cbModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCallbackModal() {
+  cbModal.classList.add('hidden');
+  cbModal.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+buyModal.addEventListener('click', (e) => { if (e.target === buyModal) closeBuyModal(); });
+cbModal.addEventListener('click', (e) => { if (e.target === cbModal) closeCallbackModal(); });
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeBuyModal();
+    closeCallbackModal();
+  }
+});
+
+// ==================== АНИМАЦИИ ПОЯВЛЕНИЯ ====================
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in'); io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ==================== МАСКА ТЕЛЕФОНА ====================
+document.querySelectorAll('.phone-mask').forEach(input => {
+  const fmt = v => {
+    let d = v.replace(/\D/g, ''); if (d.startsWith('8')) d = '7' + d.slice(1); if (d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
+    let o = '+7 '; if (d.length) o += '(' + d.slice(0, 3); if (d.length >= 3) o += ') '; if (d.length > 3) o += d.slice(3, 6); if (d.length > 6) o += '-' + d.slice(6, 8); if (d.length > 8) o += '-' + d.slice(8, 10);
+    return o;
+  };
+  input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+  input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+  input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+});
+
+// ==================== ОТПРАВКА В ТГ ====================
+const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
+const CHAT_ID = 'YOUR_CHAT_ID_HERE';
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.remove('translate-y-20', 'opacity-0');
+  t.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    t.classList.remove('translate-y-0', 'opacity-100');
+    t.classList.add('translate-y-20', 'opacity-0');
+  }, 5000);
+}
+
+async function submitForm(form, type) {
+  const btn = form.querySelector('button[type="submit"]');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Отправка...';
+
+  const data = {};
+  new FormData(form).forEach((v, k) => data[k] = v);
+  
+  let text = `🍵 <b>Новая заявка: ${type}</b>\n\n` +
+             `<b>Имя:</b> ${data.name}\n` +
+             `<b>Телефон:</b> ${data.phone}\n`;
+  
+  if(data.tea_name) text += `<b>Товар:</b> ${data.tea_name}\n\n`;
+  text += `🕐 ${new Date().toLocaleString('ru-RU')}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+    });
+    const json = await res.json();
+    if (json.ok) { 
+      form.reset(); 
+      showToast(); 
+      if (type === 'Покупка чая') closeBuyModal();
+      if (type === 'Консультация по чаю') closeCallbackModal();
+    } else { alert('Ошибка отправки.'); }
+  } catch (err) { alert('Ошибка сети.'); }
+  
+  btn.disabled = false; btn.textContent = orig;
+}
+
+document.querySelector('.buy-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Покупка чая'); });
+document.querySelector('.callback-form').addEventListener('submit', (e) => { e.preventDefault(); submitForm(e.target, 'Консультация по чаю'); });
+</script>
+</body>
+</html>

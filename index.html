@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yncol — Digital Agency | Сайты, которые приносят прибыль</title>
+<meta name="description" content="Yncol — студия веб-разработки. Создаем премиальные сайты и лендинги на чистом коде с интеграцией заявок в Telegram.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#05060a',
+        card: '#0c0e14',
+        line: 'rgba(255,255,255,0.07)',
+        neon: { purple: '#a855f7', cyan: '#22d3ee' },
+        muted: '#71717a',
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+
+<style>
+  :root { --purple: #a855f7; --cyan: #22d3ee; }
+  * { -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #05060a; color: #f4f4f5; overflow-x: hidden; cursor: none; }
+  
+  @media (max-width: 1024px) {
+    body { cursor: auto; }
+    #cursor, #cursorDot { display: none !important; }
+  }
+
+  h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.03em; }
+
+  /* ================= ГЛАДКИЙ ФОН ================= */
+  .bg-premium {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 50%, rgba(34, 211, 238, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 0% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+  }
+
+  /* Custom Cursor */
+  #cursor { position: fixed; width: 32px; height: 32px; border: 1.5px solid var(--cyan); border-radius: 50%; pointer-events: none; z-index: 9999; transition: width .3s ease, height .3s ease, background .3s ease, border-color .3s ease; transform: translate(-50%, -50%); box-shadow: 0 0 12px rgba(34, 211, 238, 0.3); }
+  #cursor.hover { width: 56px; height: 56px; background: rgba(168, 85, 247, 0.15); border-color: var(--purple); box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); }
+  #cursorDot { position: fixed; width: 6px; height: 6px; background: #ffffff; border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); box-shadow: 0 0 10px #fff; }
+
+  /* Scroll progress */
+  #scrollProgress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, #a855f7, #22d3ee); z-index: 100; width: 0%; box-shadow: 0 0 12px rgba(168,85,247,0.6); transition: width .05s linear; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal[data-delay="1"] { transition-delay: .1s; } .reveal[data-delay="2"] { transition-delay: .2s; }
+  .reveal[data-delay="3"] { transition-delay: .3s; } .reveal[data-delay="4"] { transition-delay: .4s; }
+
+  /* Gradient text & Rotator */
+  .grad-text { background: linear-gradient(120deg, #a855f7 0%, #22d3ee 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .rotator-wrap { display: inline-flex; align-items: baseline; height: 1em; overflow: hidden; vertical-align: bottom; position: relative; }
+  #rotator { display: inline-block; background: linear-gradient(120deg, #a855f7, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; transition: opacity .3s ease, transform .3s ease; }
+  #rotator.out { opacity: 0; transform: translateY(-100%); } #rotator.in { opacity: 1; transform: translateY(0); }
+
+  /* Glass & Buttons */
+  .glass { background: rgba(5,6,10,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .btn-primary { position: relative; background: linear-gradient(120deg, #a855f7, #6366f1); color: #fff; font-weight: 600; border-radius: 999px; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease; box-shadow: 0 8px 32px -8px rgba(168,85,247,0.6); }
+  .btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, #22d3ee, #a855f7); opacity: 0; transition: opacity .4s ease; z-index: 0; }
+  .btn-primary:hover::before { opacity: 1; } .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 48px -8px rgba(168,85,247,0.9); }
+  .btn-primary > * { position: relative; z-index: 1; }
+  .btn-ghost { border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; color: #f4f4f5; transition: all .3s ease; background: rgba(255,255,255,0.02); }
+  .btn-ghost:hover { border-color: rgba(168,85,247,0.6); background: rgba(168,85,247,0.08); }
+
+  /* Голографический эффект */
+  .bento, .portfolio-item, .process-card {
+    position: relative; background: #0c0e14; border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; overflow: hidden; transform-style: preserve-3d; will-change: transform; z-index: 10; transition: box-shadow .4s ease;
+  }
+  .bento::before, .portfolio-item::before, .process-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(168, 85, 247, 0.06) 0%, rgba(34, 211, 238, 0.10) 25%, rgba(168, 85, 247, 0.02) 50%, rgba(34, 211, 238, 0.10) 75%, rgba(168, 85, 247, 0.06) 100%); background-size: 300% 300%; background-position: var(--bg-x, 50%) var(--bg-y, 50%); opacity: 0; transition: opacity .5s ease; pointer-events: none; z-index: 1; }
+  .bento::after, .portfolio-item::after, .process-card::after { content: ''; position: absolute; inset: 0; border-radius: 24px; padding: 1.5px; background: linear-gradient(115deg, rgba(168, 85, 247, 0.6) 0%, rgba(34, 211, 238, 0.8) 25%, rgba(168, 85, 247, 0.2) 50%, rgba(34, 211, 238, 0.8) 75%, rgba(168, 85, 247, 0.6) 100%); background-size: 300% 300%; background-position: var(--bg-x, 50%) var(--bg-y, 50%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity .5s ease; pointer-events: none; z-index: 1; }
+  .bento:hover, .portfolio-item:hover, .process-card:hover { box-shadow: 0 10px 40px -10px rgba(168,85,247,0.15); } 
+  .bento:hover::before, .portfolio-item:hover::before, .process-card:hover::before, .bento:hover::after, .portfolio-item:hover::after, .process-card:hover::after { opacity: 1; }
+  .content-inner { position: relative; z-index: 2; }
+
+  /* Marquee */
+  .marquee-wrapper { overflow: hidden; display: flex; width: 100%; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+  .marquee-track { display: flex; flex-shrink: 0; gap: 4rem; padding-right: 4rem; animation: marquee 30s linear infinite; width: max-content; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* FAQ */
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(0.16, 1, 0.3, 1); }
+  .faq-item.open .faq-answer { max-height: 300px; } .faq-item.open .faq-icon { transform: rotate(45deg); color: #a855f7; }
+  .faq-icon { transition: transform .4s ease, color .3s ease; }
+
+  /* Modal & Toast */
+  .modal-overlay { transition: opacity .3s ease, visibility .3s ease; } .modal-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .modal-panel { transition: transform .4s cubic-bezier(0.16, 1, 0.3, 1), opacity .4s ease; } .modal-overlay.hidden .modal-panel { transform: scale(.95) translateY(20px); opacity: 0; }
+  .toast { transform: translateY(150%); transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1); } .toast.show { transform: translateY(0); }
+
+  /* Inputs */
+  .form-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 14px 18px; font-size: 14px; color: #f4f4f5; transition: all .3s ease; }
+  .form-input::placeholder { color: #52525b; }
+  .form-input:focus { outline: none; border-color: #a855f7; background: rgba(168,85,247,0.05); box-shadow: 0 0 0 4px rgba(168,85,247,0.1); }
+
+  /* Burger */
+  .burger-line { display: block; width: 22px; height: 1.5px; background: #fff; border-radius: 2px; transition: transform .3s ease, opacity .3s ease; }
+  .burger.active .burger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); } .burger.active .burger-line:nth-child(2) { opacity: 0; } .burger.active .burger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu { max-height: 0; overflow: hidden; transition: max-height .4s ease; } .mobile-menu.open { max-height: 500px; }
+
+  .badge { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem 1rem; border-radius: 999px; background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25); font-size: .75rem; font-weight: 500; color: #d8b4fe; letter-spacing: .05em; text-transform: uppercase; }
+  ::selection { background: rgba(168,85,247,0.3); color: #fff; }
+
+  /* Кнопка вверх */
+  #backToTop {
+    position: fixed; bottom: 30px; right: 30px; z-index: 90; width: 50px; height: 50px; border-radius: 50%;
+    background: rgba(12, 14, 20, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(168, 85, 247, 0.3);
+    display: flex; align-items: center; justify-content: center; color: #a855f7; cursor: pointer; 
+    opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+  }
+  #backToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+  #backToTop:hover { background: rgba(168, 85, 247, 0.15); border-color: #a855f7; box-shadow: 0 0 30px rgba(168, 85, 247, 0.4); transform: translateY(-4px) scale(1.05); }
+
+  /* Портфолио мини-мокапы */
+  .portfolio-item { aspect-ratio: 4 / 3; position: relative; border-radius: 24px; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+  .portfolio-item:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6); }
+  .mini-browser { background: #12141c; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8); transition: transform 0.4s ease; position: absolute; inset: 24px; display: flex; flex-direction: column; z-index: 10; }
+  .portfolio-item:hover .mini-browser { transform: scale(1.02); }
+  .mock-content { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+  /* Спец-анимации */
+  @keyframes shine { 0% { transform: translateX(-150%) skewX(-20deg); } 100% { transform: translateX(150%) skewX(-20deg); } }
+  .blik-active { animation: shine 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+</style>
+</head>
+<body>
+
+<div class="bg-premium"></div>
+<canvas id="globalCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+<div id="scrollProgress"></div>
+<div id="cursor"></div>
+<div id="cursorDot"></div>
+
+<!-- HEADER -->
+<header class="fixed top-0 inset-x-0 z-50 glass border-b border-line">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative w-10 h-10 transition-transform duration-300 group-hover:scale-105">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+            <rect x="3" y="3" width="54" height="54" rx="14" fill="transparent" stroke="url(#logoGrad)" stroke-width="2.5"/>
+            <path d="M16 16 L27 29 V40 L30 46 L33 40 V29 L44 16 H37 L30 24 L23 16 Z" fill="#ffffff"/>
+            <circle cx="30" cy="50" r="2" fill="#22d3ee"/>
+          </svg>
+        </div>
+        <div class="leading-tight">
+          <div class="font-display font-bold text-[17px] tracking-tight">Yncol<span class="text-neon-cyan">.</span></div>
+          <div class="text-[10px] text-muted tracking-widest uppercase font-mono">Digital Agency</div>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-9 text-sm text-zinc-400">
+        <a href="#portfolio" class="hover:text-white transition-colors">Портфолио</a>
+        <a href="#services" class="hover:text-white transition-colors">Услуги</a>
+        <a href="#process" class="hover:text-white transition-colors">Процесс</a>
+        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-4">
+        <button type="button" class="open-modal btn-primary px-6 py-2.5 text-sm">
+          <span>Обсудить проект</span>
+        </button>
+      </div>
+
+      <button id="burger" class="burger lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-lg hover:bg-white/5">
+        <span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu lg:hidden glass border-t border-line">
+    <nav class="flex flex-col px-6 py-4 gap-1 text-base">
+      <a href="#portfolio" class="py-3 px-3 rounded-lg hover:bg-white/5">Портфолио</a>
+      <a href="#services" class="py-3 px-3 rounded-lg hover:bg-white/5">Услуги</a>
+      <a href="#process" class="py-3 px-3 rounded-lg hover:bg-white/5">Процесс</a>
+      <a href="#faq" class="py-3 px-3 rounded-lg hover:bg-white/5">FAQ</a>
+      <button type="button" class="open-modal btn-primary px-6 py-3 mt-2"><span>Обсудить проект</span></button>
+    </nav>
+  </div>
+</header>
+
+<main class="relative z-10">
+
+  <!-- HERO -->
+  <section class="relative min-h-screen flex items-center overflow-hidden pt-24 pb-20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative w-full">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7">
+          <div class="reveal">
+            <div class="badge mb-6">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Свободны для 2 проектов в этом месяце
+            </div>
+          </div>
+
+          <h1 class="reveal font-display font-bold text-[44px] sm:text-6xl lg:text-[86px] leading-[0.95] tracking-tighter">
+            Создаем<br>
+            <span class="rotator-wrap"><span id="rotator" class="in">сайты</span></span><br>
+            которые <span class="grad-text">продают</span>.
+          </h1>
+
+          <p class="reveal mt-8 text-lg text-zinc-400 max-w-xl leading-relaxed" data-delay="1">
+            Yncol — студия веб-разработки. Мы создаём премиальные лендинги на чистом коде. Без шаблонов и конструкторов. С интеграцией заявок в <strong class="text-zinc-200">Telegram</strong> и дизайном, который выделяет вас среди конкурентов.
+          </p>
+
+          <div class="reveal mt-10 flex flex-col sm:flex-row gap-4" data-delay="2">
+            <a href="#portfolio" class="btn-primary px-8 py-4 text-base text-center">
+              <span class="inline-flex items-center gap-2">
+                Смотреть работы
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+            <button type="button" class="open-modal btn-ghost px-8 py-4 text-base">
+              Заказать сайт
+            </button>
+          </div>
+
+          <div class="reveal mt-16 grid grid-cols-3 gap-6 max-w-lg" data-delay="3">
+            <div>
+              <div class="font-display font-bold text-3xl lg:text-4xl"><span class="counter" data-target="12">0</span></div>
+              <div class="text-xs text-muted uppercase tracking-widest mt-1 font-mono">сдано проектов</div>
+            </div>
+            <div class="border-l border-line pl-6">
+              <div class="font-display font-bold text-3xl lg:text-4xl"><span class="counter" data-target="3">0</span><span class="text-neon-cyan">дн</span></div>
+              <div class="text-xs text-muted uppercase tracking-widest mt-1 font-mono">средний срок</div>
+            </div>
+            <div class="border-l border-line pl-6">
+              <div class="font-display font-bold text-3xl lg:text-4xl"><span class="counter" data-target="100">0</span><span class="text-neon-cyan">%</span></div>
+              <div class="text-xs text-muted uppercase tracking-widest mt-1 font-mono">в срок</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 relative">
+          <div class="relative w-full max-w-[500px] mx-auto" style="perspective: 1000px;">
+            <div class="absolute -inset-10 orbit pointer-events-none">
+              <svg viewBox="0 0 500 500" class="w-full h-full"><circle cx="250" cy="250" r="220" fill="none" stroke="rgba(168,85,247,0.15)" stroke-dasharray="2 8"/></svg>
+            </div>
+            
+            <div class="browser-mockup float relative z-10 tilt bg-card border border-white/10 rounded-2xl shadow-[0_20px_80px_-20px_rgba(168,85,247,0.4)] overflow-hidden">
+              <div class="bg-[#12141c] border-b border-white/5 px-4 py-3 flex gap-1.5 items-center">
+                <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                <div class="ml-4 h-5 bg-black/40 rounded flex-1 flex items-center px-2">
+                   <span class="text-[9px] font-mono text-zinc-500">yncol.ru</span>
+                </div>
+              </div>
+              <div class="p-6 bg-[#0a0b10] relative overflow-hidden h-[300px]">
+                <div class="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-neon-cyan/10"></div>
+                <div class="relative z-10 space-y-3">
+                   <div class="w-1/2 h-4 bg-white/20 rounded"></div>
+                   <div class="w-3/4 h-2 bg-white/10 rounded"></div>
+                   <div class="w-2/3 h-2 bg-white/10 rounded"></div>
+                   <div class="mt-6 flex gap-3">
+                     <div class="w-24 h-8 bg-neon-purple rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)]"></div>
+                     <div class="w-24 h-8 bg-white/5 border border-white/10 rounded-lg"></div>
+                   </div>
+                   <div class="mt-8 flex items-end gap-2 h-24">
+                     <div class="w-full bg-neon-purple/40 rounded-t h-[40%]"></div>
+                     <div class="w-full bg-neon-purple/60 rounded-t h-[60%]"></div>
+                     <div class="w-full bg-neon-cyan/80 rounded-t h-[90%] shadow-[0_0_20px_rgba(34,211,238,0.4)]"></div>
+                     <div class="w-full bg-neon-cyan rounded-t h-[100%] shadow-[0_0_20px_rgba(34,211,238,0.8)]"></div>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute -top-6 -right-6 glass rounded-2xl px-4 py-3 border border-line float z-20">
+              <div class="flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="#22d3ee"><path d="M8 0L0 8h3v8h10V8h3L8 0z"/></svg>
+                <span class="text-xs font-mono text-zinc-300">Telegram API</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="py-8 border-y border-line bg-card/40 overflow-hidden relative z-10">
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <span class="font-display font-bold text-2xl text-zinc-600">HTML5</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">CSS3</span> <span class="text-neon-cyan">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">JAVASCRIPT</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">TAILWIND</span> <span class="text-neon-cyan">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">FIGMA</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">TELEGRAM BOT</span> <span class="text-neon-cyan">✦</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span class="font-display font-bold text-2xl text-zinc-600">HTML5</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">CSS3</span> <span class="text-neon-cyan">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">JAVASCRIPT</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">TAILWIND</span> <span class="text-neon-cyan">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">FIGMA</span> <span class="text-neon-purple">✦</span>
+        <span class="font-display font-bold text-2xl text-zinc-600">TELEGRAM BOT</span> <span class="text-neon-cyan">✦</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="py-24 lg:py-40 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16">
+        <div class="max-w-3xl">
+          <div class="badge mb-6"><span class="w-2 h-2 rounded-full bg-neon-purple"></span>Портфолио</div>
+          <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+            Наши последние<br><span class="grad-text">работы</span>.
+          </h2>
+        </div>
+        <p class="text-zinc-400 max-w-sm">6 разных ниш. 6 уникальных дизайнов. Нажмите на карточку, чтобы посмотреть кейс.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- 1. Клининг -->
+        <a href="cleaning.html" class="portfolio-item reveal block group relative">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-[#0b1712] flex items-center justify-center">
+              <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#10B981 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-80"></div>
+              
+              <div class="relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out group-hover:[transform:perspective(800px)_rotateY(-15deg)_rotateX(5deg)_scale(1.05)]">
+                <div class="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-8 py-5 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col items-center overflow-hidden">
+                  <div class="blik-el absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[150%] skew-x-12 pointer-events-none z-10"></div>
+                  
+                  <div class="text-[9px] font-bold tracking-[0.3em] text-[#10B981] uppercase mb-1">Сервис на</div>
+                  <div class="text-3xl font-black text-white leading-none mb-1">ДОМ</div>
+                  <div class="w-2 h-2 bg-[#10B981] rounded-full shadow-[0_0_10px_#10B981]"></div>
+                </div>
+              </div>
+
+              <div class="absolute top-1/4 left-1/4 w-8 h-8 rounded-full bg-gradient-to-br from-[#10B981] to-transparent opacity-40 blur-[2px] transition-all duration-700 ease-out group-hover:-translate-y-6 group-hover:-translate-x-2"></div>
+              <div class="absolute bottom-1/4 right-1/4 w-12 h-12 rounded-full bg-gradient-to-br from-[#10B981] to-transparent opacity-20 blur-[3px] transition-all duration-700 ease-out group-hover:-translate-y-8 group-hover:translate-x-4"></div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Клининг</h4>
+            </div>
+          </div>
+        </a>
+
+        <!-- 2. Автосервис -->
+        <a href="autoservice.html" class="portfolio-item reveal block group relative" data-delay="1">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-[#09090b] flex items-center justify-center p-4">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(239,68,68,0.1)_0%,_transparent_60%)]"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-80"></div>
+              
+              <div class="relative w-[150px] h-[150px] flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full blur-[25px] bg-red-500/15"></div>
+                
+                <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0 p-2">
+                  <path d="M 48 155 A 74 74 0 1 1 152 155" fill="none" stroke="#27272a" stroke-width="10" stroke-linecap="round"/>
+                  <path id="speed-arc" d="M 48 155 A 74 74 0 1 1 152 155" fill="none" stroke="#ef4444" stroke-width="10" stroke-linecap="round" class="drop-shadow-[0_0_12px_rgba(239,68,68,0.9)] transition-all duration-[2000ms] ease-out"/>
+                  
+                  <g fill="rgba(255,255,255,0.4)">
+                    <circle cx="100" cy="44" r="1.5"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(15 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(30 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(45 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(60 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(75 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(90 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(105 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(120 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(135 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(150 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(165 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(180 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(195 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(210 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(225 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(240 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(255 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(270 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(285 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(300 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(315 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(330 100 100)"/>
+                    <circle cx="100" cy="44" r="1.5" transform="rotate(345 100 100)"/>
+                  </g>
+                </svg>
+                
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-2">
+                  <span class="speed-counter text-[32px] font-black text-white italic leading-none tracking-tighter" data-target="320">320</span>
+                  <span class="text-[7px] text-[#ef4444] uppercase tracking-[0.3em] font-bold mt-1">km/h</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Автосервис</h4>
+            </div>
+          </div>
+        </a>
+
+        <!-- 3. Тату -->
+        <a href="tattoo.html" class="portfolio-item reveal block group relative" data-delay="2">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-[#050505] flex flex-col items-center justify-center">
+              <div id="tattoo-ink" class="absolute w-32 h-32 bg-gradient-to-br from-[#ef4444] to-[#450a0a] opacity-80" style="border-radius: 50%; transition: border-radius 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease;"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-80"></div>
+              
+              <div class="relative z-10 text-center flex flex-col items-center transform group-hover:scale-105 transition-transform duration-500">
+                <div class="text-[8px] border border-white/40 text-white/70 px-2 py-0.5 rounded-sm tracking-[0.2em] mb-2 backdrop-blur-sm">TATTOO STUDIO</div>
+                <h3 class="font-serif text-3xl font-bold text-white leading-none tracking-wider drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]" style="font-family: 'Playfair Display', serif;">BLACK ART<br>TATTOO</h3>
+              </div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-600"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Тату-студия</h4>
+            </div>
+          </div>
+        </a>
+
+        <!-- 4. Потолки -->
+        <a href="celling.html" class="portfolio-item reveal block group relative" data-delay="1">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-gradient-to-br from-[#2a241f] to-[#110f0d] flex flex-col items-center justify-center">
+              
+              <div class="blik-el absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 pointer-events-none z-20"></div>
+
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(181,142,99,0.15)_0%,_transparent_70%)]"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-60"></div>
+              
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-10 bg-[#B58E63] opacity-50 z-10"></div>
+              <div class="absolute top-10 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full border border-[#B58E63] bg-transparent -mt-1 z-10 origin-center group-hover:scale-110 transition-transform duration-500"></div>
+              
+              <div class="text-center relative z-10 transition-transform duration-500 group-hover:scale-105">
+                <h3 class="font-extrabold text-2xl text-white tracking-tighter drop-shadow-md">ПОТОЛКИ<span class="text-[#B58E63]">.ПРО</span></h3>
+                <p class="text-[9px] text-[#B58E63] font-bold mt-1 uppercase tracking-widest">Идеальный свет</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-[#B58E63]"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Потолки</h4>
+            </div>
+          </div>
+        </a>
+
+        <!-- 5. Бизнес (Исправлена ссылка на buisness.html) -->
+        <a href="buisness.html" class="portfolio-item reveal block group relative" data-delay="2">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-[#070b14] flex flex-col items-center justify-center">
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-900/30 via-transparent to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-80"></div>
+              
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-28 h-28 border border-cyan-500/30 rounded-full transition-transform duration-[1500ms] ease-in-out group-hover:scale-125"></div>
+                <div class="absolute w-10 h-10 bg-cyan-500/20 rounded-full blur-[6px] transition-all duration-500 group-hover:scale-150 group-hover:bg-cyan-400/40"></div>
+              </div>
+              
+              <div class="relative z-10 text-center">
+                <h3 class="font-display font-bold text-2xl text-white tracking-tight drop-shadow-md">ORBITA</h3>
+                <div class="text-[8px] text-cyan-400 tracking-[0.2em] font-mono mt-1 uppercase">Digital Agency</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Бизнес</h4>
+            </div>
+          </div>
+        </a>
+
+        <!-- 6. Чай -->
+        <a href="tea.html" class="portfolio-item reveal block group relative" data-delay="3">
+          <div class="absolute inset-4 mini-browser z-10 flex flex-col overflow-hidden">
+            <div class="bg-[#1a1d26] px-3 py-2 flex gap-1.5 items-center border-b border-white/5">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500/50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-green-500/50"></div>
+              <div class="ml-2 h-3 bg-black/30 rounded-sm flex-1"></div>
+            </div>
+            <div class="flex-1 relative overflow-hidden bg-[#080808] flex flex-col items-center justify-center">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.15)_0%,_transparent_70%)]"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#05060a] via-transparent to-transparent opacity-80"></div>
+              
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div id="tea-ring" class="w-24 h-24 border border-[#D4AF37]/30 rounded-full transition-transform duration-[1200ms] ease-in-out"></div>
+                <div id="tea-ring-inner" class="absolute w-20 h-20 border border-dashed border-[#D4AF37]/20 rounded-full transition-transform duration-[1200ms] ease-in-out"></div>
+              </div>
+              
+              <div class="relative z-20 text-center transform group-hover:scale-105 transition-transform duration-500">
+                <div class="text-6xl font-serif text-transparent bg-clip-text bg-gradient-to-b from-[#FFF5C2] to-[#8B6914] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)]" style="font-family: 'Noto Serif SC', serif;">茶</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="absolute bottom-8 left-8 z-20 pointer-events-none transform group-hover:-translate-y-1 transition-transform duration-500">
+            <div class="inline-flex items-center gap-2.5 bg-[#0c0e14]/90 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-xl shadow-lg">
+              <div class="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></div>
+              <h4 class="font-medium text-xs text-white tracking-wide">Магазин чая</h4>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-24 lg:py-40 relative border-t border-line">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
+      <div class="reveal max-w-3xl mb-16">
+        <div class="badge mb-6"><span class="w-2 h-2 rounded-full bg-neon-purple"></span>Услуги и цены</div>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+          Прозрачные<br><span class="grad-text">тарифы</span>.
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <div class="reveal bento p-8 flex flex-col">
+          <div class="content-inner">
+            <div class="text-sm font-mono text-muted mb-4">01 / ЛЕНДИНГ</div>
+            <h3 class="font-display font-bold text-2xl mb-2">Landing Page</h3>
+            <p class="text-zinc-400 text-sm mb-6">Одностраничный сайт под запуск рекламы или презентацию услуги. Идеально для быстрого старта.</p>
+            <div class="text-3xl font-display font-bold mb-6">от 25 000 ₽</div>
+            <ul class="space-y-3 mb-8 text-sm text-zinc-300">
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Индивидуальный дизайн</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Адаптив под телефоны</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span><strong class="text-white">Заявки в Telegram</strong></span></li>
+            </ul>
+            <button class="open-modal btn-ghost w-full py-3 text-sm font-semibold">Заказать</button>
+          </div>
+        </div>
+
+        <!-- Card 2 (Highlight) -->
+        <div class="reveal bento p-8 flex flex-col border-neon-purple/50 shadow-[0_0_40px_rgba(168,85,247,0.15)] relative" data-delay="1">
+          <div class="content-inner">
+            <div class="absolute top-0 right-0 bg-neon-purple text-white text-xs font-bold px-4 py-1 rounded-bl-xl rounded-tr-2xl z-10">ХИТ</div>
+            <div class="text-sm font-mono text-neon-purple mb-4">02 / БИЗНЕС</div>
+            <h3 class="font-display font-bold text-2xl mb-2">Сайт под ключ</h3>
+            <p class="text-zinc-400 text-sm mb-6">Многостраничный сайт с <strong class="text-zinc-200">SEO-структурой</strong>: отдельные страницы под каждую услугу, семантическое ядро, техническая оптимизация кода. Плюс все возможности лендинга: калькуляторы, анимации и заявки в Telegram.</p>
+            <div class="text-3xl font-display font-bold mb-6">от 45 000 ₽</div>
+            <ul class="space-y-3 mb-8 text-sm text-zinc-300">
+              <li class="flex items-center gap-2"><svg class="text-neon-purple shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Всё из тарифа "Лендинг"</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-purple shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Сложные анимации (GSAP/CSS)</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-purple shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Квиз-калькулятор</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-purple shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> SEO-структура: отдельные URL, микроразметка</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-purple shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span><strong class="text-white">Заявки в Telegram</strong></span></li>
+            </ul>
+            <button class="open-modal btn-primary w-full py-3 text-sm font-semibold"><span>Заказать</span></button>
+          </div>
+        </div>
+
+        <!-- Card 3 (Support) -->
+        <div class="reveal bento p-8 flex flex-col" data-delay="2">
+          <div class="content-inner">
+            <div class="text-sm font-mono text-muted mb-4">03 / ПОДДЕРЖКА</div>
+            <h3 class="font-display font-bold text-2xl mb-2">Сопровождение</h3>
+            <p class="text-zinc-400 text-sm mb-6">Техническая поддержка, обновление контента, правки и развитие сайта после запуска.</p>
+            <div class="text-3xl font-display font-bold mb-6">от 5 000 ₽<span class="text-base text-muted font-normal">/мес</span></div>
+            <ul class="space-y-3 mb-8 text-sm text-zinc-300">
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Мониторинг работы сайта</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Мелкие правки контента</li>
+              <li class="flex items-center gap-2"><svg class="text-neon-cyan shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Консультации и доработки</li>
+            </ul>
+            <button class="open-modal btn-ghost w-full py-3 text-sm font-semibold">Обсудить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="py-24 lg:py-40 relative border-t border-line">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="reveal max-w-3xl mb-16">
+        <div class="badge mb-6"><span class="w-2 h-2 rounded-full bg-neon-cyan"></span>Процесс</div>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+          Как мы будем<br><span class="grad-text">работать</span>.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div class="reveal process-card p-6 pt-10 relative">
+          <div class="content-inner">
+            <div class="font-mono text-7xl font-bold text-neon-purple/20 absolute top-4 left-4 z-0">01</div>
+            <div class="relative z-10 pt-6 border-t-2 border-neon-purple/40">
+              <h3 class="font-display font-bold text-xl mb-3 mt-2">Заявка и брифинг</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Обсуждаем задачу, цели и референсы. Заполняем бриф.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal process-card p-6 pt-10 relative" data-delay="1">
+          <div class="content-inner">
+            <div class="font-mono text-7xl font-bold text-neon-cyan/20 absolute top-4 left-4 z-0">02</div>
+            <div class="relative z-10 pt-6 border-t-2 border-neon-cyan/40">
+              <h3 class="font-display font-bold text-xl mb-3 mt-2">Прототип и дизайн</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Собираем структуру, пишем тексты. Согласовываем визуал и цвета.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal process-card p-6 pt-10 relative" data-delay="2">
+          <div class="content-inner">
+            <div class="font-mono text-7xl font-bold text-neon-purple/20 absolute top-4 left-4 z-0">03</div>
+            <div class="relative z-10 pt-6 border-t-2 border-neon-purple/40">
+              <h3 class="font-display font-bold text-xl mb-3 mt-2">Разработка</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Пишем код, добавляем анимации, подключаем Telegram.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal process-card p-6 pt-10 relative" data-delay="3">
+          <div class="content-inner">
+            <div class="font-mono text-7xl font-bold text-neon-cyan/20 absolute top-4 left-4 z-0">04</div>
+            <div class="relative z-10 pt-6 border-t-2 border-neon-cyan/40">
+              <h3 class="font-display font-bold text-xl mb-3 mt-2">Запуск</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">Переносим на ваш домен, настраиваем аналитику. Обучаем управлению.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-24 lg:py-40 relative border-t border-line">
+    <div class="max-w-4xl mx-auto px-6 lg:px-10">
+      <div class="reveal text-center mb-16">
+        <div class="badge mb-6"><span class="w-2 h-2 rounded-full bg-neon-cyan"></span>FAQ</div>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+          Частые <span class="grad-text">вопросы</span>.
+        </h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="faq-item reveal bg-card border border-line rounded-2xl overflow-hidden transition-all hover:border-neon-purple/30">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors relative z-10">
+            <span class="font-medium text-base lg:text-lg pr-4">Почему чистый код, а не Tilda?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-zinc-400 leading-relaxed relative z-10">
+            <div class="pb-6">Tilda — это конструктор. Он медленный и имеет ограничения по дизайну. Чистый код (HTML/CSS/JS) — это максимальная скорость загрузки (100/100 в PageSpeed), уникальный дизайн, которого нет ни у кого, и отсутствие абонентской платы за сам сайт.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal bg-card border border-line rounded-2xl overflow-hidden transition-all hover:border-neon-purple/30" data-delay="1">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors relative z-10">
+            <span class="font-medium text-base lg:text-lg pr-4">Куда будут приходить заявки с сайта?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-zinc-400 leading-relaxed relative z-10">
+            <div class="pb-6">Прямо в ваш <strong class="text-zinc-200">Telegram</strong>. Вы получаете мгновенное пуш-уведомление, имя и телефон клиента. Никаких потерянных писем на почте.</div>
+          </div>
+        </div>
+        <div class="faq-item reveal bg-card border border-line rounded-2xl overflow-hidden transition-all hover:border-neon-purple/30" data-delay="2">
+          <button class="faq-q w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.02] transition-colors relative z-10">
+            <span class="font-medium text-base lg:text-lg pr-4">Что нужно для старта?</span>
+            <span class="faq-icon text-2xl leading-none text-muted shrink-0">+</span>
+          </button>
+          <div class="faq-answer px-6 text-zinc-400 leading-relaxed relative z-10">
+            <div class="pb-6">Только ваше желание и информация о бизнесе (услуги, цены, фото). Тексты мы помогаем писать, структуру предлагаем сами на основе анализа конкурентов. Вам не нужно готовить ТЗ на 50 страниц.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT -->
+  <section id="contact" class="py-24 lg:py-40 relative border-t border-line">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="reveal relative rounded-[32px] overflow-hidden border border-neon-purple/30 p-8 sm:p-12 lg:p-16 bg-gradient-to-br from-neon-purple/20 via-card to-neon-cyan/10 text-center">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neon-purple/20 via-transparent to-transparent opacity-50 pointer-events-none"></div>
+
+        <div class="relative max-w-2xl mx-auto z-10">
+          <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+            Готовы обсудить<br>ваш <span class="grad-text">проект</span>?
+          </h2>
+          <p class="mt-6 text-zinc-300 text-lg mb-8">
+            Оставьте заявку, и мы свяжемся с вами в течение 15 минут. Бесплатно проконсультируем по структуре и ценам.
+          </p>
+          
+          <form class="contact-form bg-black/40 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 space-y-3 text-left max-w-md mx-auto" data-form-type="Обсудить проект">
+            <input type="text" name="name" placeholder="Ваше имя" required class="form-input">
+            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="form-input phone-mask">
+            <button type="submit" class="btn-primary w-full py-4 text-base mt-2"><span>Получить консультацию</span></button>
+            <p class="text-[11px] text-muted text-center pt-2">Нажимая, вы соглашаетесь с политикой конфиденциальности</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO ТЕКСТ ПЕРЕД ФУТЕРОМ -->
+  <section class="py-12 relative border-t border-line bg-card/20">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-[11px] text-muted leading-relaxed opacity-60 text-justify">
+        <p><strong>Создание сайтов под ключ в России.</strong> Digital-студия «Yncol» разрабатывает премиальные лендинги и корпоративные сайты на чистом коде (HTML, CSS, JavaScript). Мы не используем шаблоны и конструкторы, создавая уникальный дизайн под ваш бизнес. Наши специалисты обеспечивают высокую скорость загрузки (PageSpeed 100/100), идеальную адаптацию под мобильные устройства и современную верстку. Интегрируем формы заявок напрямую в Telegram, настраиваем квиз-калькуляторы и сложные анимации. Разрабатываем сайты для клининга, автосервисов, тату-студий, строительных компаний, агентств и интернет-магазинов. Гарантируем прозрачные тарифы, соблюдение сроков и техническую поддержку после запуска. Закажите разработку лендинга или многостраничного сайта, который приносит прибыль.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-line py-16 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div class="md:col-span-2">
+          <a href="#" class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10">
+              <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <defs>
+                  <linearGradient id="logoGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#a855f7"/>
+                    <stop offset="100%" stop-color="#22d3ee"/>
+                  </linearGradient>
+                </defs>
+                <rect x="3" y="3" width="54" height="54" rx="14" fill="transparent" stroke="url(#logoGradFooter)" stroke-width="2.5"/>
+                <path d="M16 16 L27 29 V40 L30 46 L33 40 V29 L44 16 H37 L30 24 L23 16 Z" fill="#ffffff"/>
+                <circle cx="30" cy="50" r="2" fill="#22d3ee"/>
+              </svg>
+            </div>
+            <div class="font-display font-bold text-lg">Yncol<span class="text-neon-cyan">.</span></div>
+          </a>
+          <p class="text-zinc-400 text-sm leading-relaxed max-w-sm mb-6">
+            Создаем сайты, которые продают. Чистый код, премиальный дизайн, интеграция с Telegram. Работаем по всей России.
+          </p>
+          <div class="flex gap-3">
+            <!-- Telegram -->
+            <a href="#" aria-label="Telegram" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 hover:border-white/30 border border-white/10 flex items-center justify-center transition-all group">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="12" fill="url(#tg-grad)"/>
+                <path d="M17.4 6.2L5.8 10.7C5.0 11.0 5.0 11.4 5.7 11.6L8.6 12.5L15.4 8.2C15.7 8.0 16.0 8.1 15.7 8.4L10.2 13.4L9.9 16.2C10.3 16.2 10.5 16.0 10.8 15.7L13.1 13.5L16.0 15.6C16.5 15.9 16.9 15.7 17.0 15.1L18.0 7.0C18.2 6.3 17.8 6.0 17.4 6.2Z" fill="white"/>
+                <defs><linearGradient id="tg-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#2AABEE"/><stop offset="1" stop-color="#229ED9"/></linearGradient></defs>
+              </svg>
+            </a>
+            <!-- VK -->
+            <a href="#" aria-label="VK" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 hover:border-white/30 border border-white/10 flex items-center justify-center transition-all">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0077FF" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974h-3.255c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.575 2.389 7.47 2.389z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs uppercase tracking-widest text-muted font-mono mb-4">Навигация</h4>
+          <div class="space-y-2 text-sm">
+            <a href="#portfolio" class="block text-zinc-400 hover:text-white transition-colors">Портфолио</a>
+            <a href="#services" class="block text-zinc-400 hover:text-white transition-colors">Услуги</a>
+            <a href="#process" class="block text-zinc-400 hover:text-white transition-colors">Процесс</a>
+            <a href="#faq" class="block text-zinc-400 hover:text-white transition-colors">FAQ</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs uppercase tracking-widest text-muted font-mono mb-4">Контакты</h4>
+          <div class="space-y-2 text-sm">
+            <a href="mailto:hello@yncol.ru" class="block text-zinc-400 hover:text-white transition-colors">hello@yncol.ru</a>
+            <a href="tel:+79131211649" class="block text-zinc-400 hover:text-white transition-colors">+7 (913) 121-16-49</a>
+            <div class="text-zinc-400 pt-2">Россия · Удалённо</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted font-mono">
+        <div>© 2026 Yncol. Your Net Capital Optimizer Lab.</div>
+        <div class="text-center sm:text-right">
+          <div class="mb-1 text-[10px]">ИП Султанов Данила Игоревич</div>
+          <div class="text-[10px]">ИНН: 420541739794</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<!-- MODAL -->
+<div id="modal" class="modal-overlay hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
+  <div class="modal-panel w-full max-w-md bg-card border border-line rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+    <div class="absolute inset-0 rounded-3xl pointer-events-none border border-neon-purple/20"></div>
+    <div class="flex items-center justify-between mb-5 relative z-10">
+      <h3 class="font-display font-bold text-xl">Обсудить проект</h3>
+      <button class="modal-close w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-muted hover:text-white transition-colors text-xl leading-none">&times;</button>
+    </div>
+    <p class="text-sm text-muted mb-6 relative z-10">Расскажите о задаче — предложим решение и назовем точную стоимость.</p>
+    <form class="modal-form space-y-3 relative z-10" data-form-type="Обсудить проект">
+      <input type="text" name="name" placeholder="Ваше имя" required class="form-input">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="form-input phone-mask">
+      <textarea name="message" placeholder="Какой сайт нужен? (кратко)" rows="2" class="form-input resize-none"></textarea>
+      <button type="submit" class="btn-primary w-full py-4"><span>Отправить</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast fixed bottom-5 left-4 right-4 sm:left-auto sm:right-6 sm:w-[400px] z-[70] glass border border-emerald-400/40 rounded-2xl shadow-2xl p-4 flex items-start gap-3">
+  <div class="w-8 h-8 shrink-0 rounded-full bg-emerald-400/20 flex items-center justify-center">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="flex-1">
+    <p class="font-bold text-sm text-white">Заявка принята!</p>
+    <p class="text-xs text-zinc-300 mt-0.5">Мы свяжемся с вами в течение 5 минут</p>
+  </div>
+  <button id="toastClose" class="shrink-0 text-white/50 hover:text-white text-lg leading-none">&times;</button>
+</div>
+
+<!-- КНОПКА НАВЕРХ -->
+<button id="backToTop" aria-label="Вернуться наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+// ==================== CUSTOM CURSOR ====================
+const cursor = $('#cursor');
+const cursorDot = $('#cursorDot');
+let mx = 0, my = 0, cx = 0, cy = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  if(cursorDot) { cursorDot.style.left = mx + 'px'; cursorDot.style.top = my + 'px'; }
+});
+
+function animateCursor() {
+  cx += (mx - cx) * 0.15; cy += (my - cy) * 0.15;
+  if(cursor) { cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px'; }
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+$$('a, button, .bento, .portfolio-item, .process-card, .faq-item').forEach(el => {
+  el.addEventListener('mouseenter', () => { if(cursor) cursor.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { if(cursor) cursor.classList.remove('hover'); });
+});
+
+// ==================== ГОЛОГРАФИЧЕСКИЙ ЭФФЕКТ И 3D НАКЛОН ====================
+$$('.bento, .portfolio-item, .process-card').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    
+    if (window.innerWidth > 1024) {
+      const rx = (y / r.height - 0.5) * -5;
+      const ry = (x / r.width - 0.5) * 5;
+      el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+    }
+    
+    const percentX = (x / r.width) * 100;
+    const percentY = (y / r.height) * 100;
+    
+    el.style.setProperty('--bg-x', percentX + '%');
+    el.style.setProperty('--bg-y', percentY + '%');
+  });
+  
+  el.addEventListener('mouseleave', () => {
+    el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    el.style.setProperty('--bg-x', '50%');
+    el.style.setProperty('--bg-y', '50%');
+  });
+});
+
+// ==================== ОСТАЛЬНОЙ JS ====================
+const progress = $('#scrollProgress');
+if (progress) {
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (window.scrollY / h * 100) + '%';
+  });
+}
+
+// ==================== ГЛОБАЛЬНЫЕ ЧАСТИЦЫ ====================
+(function() {
+  const canvas = document.getElementById('globalCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [], W, H;
+  
+  function resize() { 
+    W = canvas.width = window.innerWidth; 
+    H = canvas.height = window.innerHeight; 
+  }
+  resize(); 
+  window.addEventListener('resize', resize);
+  
+  const colors = ['#a855f7', '#22d3ee'];
+  for (let i = 0; i < 60; i++) {
+    particles.push({ 
+      x: Math.random() * W, 
+      y: Math.random() * H, 
+      vx: (Math.random() - 0.5) * 0.4, 
+      vy: (Math.random() - 0.5) * 0.4, 
+      r: Math.random() * 1.8 + 0.5, 
+      color: colors[Math.floor(Math.random() * colors.length)], 
+      alpha: Math.random() * 0.6 + 0.2 
+    });
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0; if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      
+      const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) { 
+        p.x += dx * 0.03; 
+        p.y += dy * 0.03; 
+      }
+      
+      ctx.beginPath(); 
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); 
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha; 
+      ctx.shadowBlur = 12; 
+      ctx.shadowColor = p.color; 
+      ctx.fill();
+      ctx.globalAlpha = 1; 
+      ctx.shadowBlur = 0;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ==================== РОТАТОР ====================
+const rotator = $('#rotator');
+if (rotator) {
+  const words = ['сайты', 'лендинги', 'магазины', 'интерфейсы'];
+  let wi = 0;
+  setInterval(() => {
+    rotator.classList.remove('in'); rotator.classList.add('out');
+    setTimeout(() => { wi = (wi + 1) % words.length; rotator.textContent = words[wi]; rotator.classList.remove('out'); rotator.classList.add('in'); }, 300);
+  }, 2600);
+}
+
+// ==================== АНИМАЦИИ И СЧЕТЧИКИ ====================
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in'); io.unobserve(e.target);
+      if (e.target.classList.contains('counter')) animateCounter(e.target);
+      e.target.querySelectorAll && e.target.querySelectorAll('.counter').forEach(animateCounter);
+    }
+  });
+}, { threshold: 0.12 });
+$$('.reveal, .counter').forEach(el => io.observe(el));
+
+function animateCounter(el) {
+  if (el.dataset.animated) return;
+  el.dataset.animated = '1';
+  const target = +el.dataset.target, dur = 1500, start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / dur, 1), ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.floor(target * ease);
+    if (t < 1) requestAnimationFrame(tick); else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+
+// ==================== БУРГЕР ====================
+const burger = $('#burger'), mobileMenu = $('#mobileMenu');
+if(burger && mobileMenu) {
+  burger.addEventListener('click', () => { const open = mobileMenu.classList.toggle('open'); burger.classList.toggle('active', open); });
+  $$('#mobileMenu a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('open'); burger.classList.remove('active'); }));
+}
+
+// ==================== МОДАЛКА ====================
+function openModal() { $('#modal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+function closeModal() { $('#modal').classList.add('hidden'); document.body.style.overflow = ''; }
+$$('.open-modal').forEach(b => b.addEventListener('click', openModal));
+$$('.modal-close').forEach(b => b.addEventListener('click', closeModal));
+$('#modal') && $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ==================== FAQ ====================
+$$('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item'), open = item.classList.contains('open');
+    $$('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
+  });
+});
+
+// ==================== МАСКА ТЕЛЕФОНА ====================
+$$('.phone-mask').forEach(input => {
+  const fmt = v => {
+    let d = v.replace(/\D/g, ''); if (d.startsWith('8')) d = '7' + d.slice(1); if (d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
+    let o = '+7 '; if (d.length) o += '(' + d.slice(0, 3); if (d.length >= 3) o += ') '; if (d.length > 3) o += d.slice(3, 6); if (d.length > 6) o += '-' + d.slice(6, 8); if (d.length > 8) o += '-' + d.slice(8, 10);
+    return o;
+  };
+  input.addEventListener('input', e => e.target.value = fmt(e.target.value));
+  input.addEventListener('focus', e => { if (!e.target.value) e.target.value = '+7 ('; });
+  input.addEventListener('blur', e => { if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = ''; });
+});
+
+// ==================== ОТПРАВКА ЧЕРЕЗ FORMHOOK ====================
+async function sendToFormHook(type, data) {
+  // Твой URL из FormHook
+  const FORMHOOK_URL = 'https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions';
+
+  // Добавляем тип формы (например, "Обсудить проект" или "Модалка"), 
+  // чтобы в Telegram было видно, откуда пришла заявка
+  data.type = type;
+
+  try {
+    const res = await fetch(FORMHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      console.log('✅ Заявка успешно ушла в FormHook');
+      return true;
+    } else {
+      const err = await res.text();
+      console.error('Ошибка FormHook:', res.status, err);
+      return false;
+    }
+  } catch (e) {
+    console.error('Сетевая ошибка при отправке:', e);
+    return false;
+  }
+}
+
+function attachForm(form, type) {
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Отправка...';
+    
+    // Собираем данные со всех полей формы
+    const data = {}; 
+    new FormData(form).forEach((v, k) => data[k] = v);
+    
+    // Отправляем через FormHook
+    const ok = await sendToFormHook(type, data);
+    
+    if (ok) { 
+      form.reset(); 
+      showToast(); 
+      if (form.closest('.modal-overlay')) setTimeout(closeModal, 300); 
+    } else { 
+      alert('Ошибка отправки. Пожалуйста, попробуйте позже.'); 
+    }
+    
+    btn.disabled = false; 
+    btn.innerHTML = orig;
+  });
+}
+
+// Привязываем к обеим формам на сайте
+$$('.contact-form').forEach(f => attachForm(f, 'Форма в контактах'));
+$$('.modal-form').forEach(f => attachForm(f, 'Модалка'));
+
+function showToast() { const t = $('#toast'); t.classList.add('show'); clearTimeout(window.__tt); window.__tt = setTimeout(() => t.classList.remove('show'), 6000); }
+$('#toastClose') && $('#toastClose').addEventListener('click', () => $('#toast').classList.remove('show'));
+
+$$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const id = a.getAttribute('href'); if (id === '#') return; const t = document.querySelector(id);
+  if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}));
+
+// ==================== КНОПКА НАВЕРХ ====================
+const backToTop = $('#backToTop');
+if (backToTop) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) backToTop.classList.add('visible');
+    else backToTop.classList.remove('visible');
+  }, { passive: true });
+  
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ==================== ИНТЕРАКТИВ ПОРТФОЛИО ====================
+
+// 1. Клякса для Тату
+const tattooInk = document.getElementById('tattoo-ink');
+if (tattooInk) {
+  const tattooCard = tattooInk.closest('.portfolio-item');
+  const idleRadii = ['50%', '50%', '50%', '50%', '50%', '50%', '50%', '50%'];
+  const hoverRadii = ['70%', '30%', '60%', '40%', '30%', '70%', '30%', '70%'];
+  
+  function updateInk(radii) {
+    tattooInk.style.borderRadius = `${radii[0]} ${radii[1]} ${radii[2]} ${radii[3]} / ${radii[4]} ${radii[5]} ${radii[6]} ${radii[7]}`;
+  }
+  updateInk(idleRadii);
+
+  tattooCard.addEventListener('mouseenter', () => {
+    tattooInk.style.transform = 'scale(1.08)';
+    updateInk(hoverRadii);
+  });
+  tattooCard.addEventListener('mouseleave', () => {
+    tattooInk.style.transform = 'scale(1)';
+    updateInk(idleRadii);
+  });
+}
+
+// 2. Спидометр и Счетчик
+const speedCounter = document.querySelector('.speed-counter');
+const speedCard = speedCounter ? speedCounter.closest('.portfolio-item') : null;
+const speedArc = document.getElementById('speed-arc');
+
+if (speedCard && speedCounter && speedArc) {
+  let countInterval;
+  const totalLength = 267;
+  const defaultLength = totalLength * 0.75;
+  speedArc.style.strokeDasharray = `${defaultLength} 400`;
+
+  speedCard.addEventListener('mouseenter', () => {
+    speedArc.style.strokeDasharray = `0 400`;
+    
+    clearInterval(countInterval);
+    speedCounter.textContent = "0";
+    let current = 0;
+    const target = 320;
+    const duration = 2000;
+    const steps = 60;
+    const stepTime = duration / steps;
+    const increment = target / steps;
+
+    setTimeout(() => {
+      speedArc.style.strokeDasharray = `267 400`;
+    }, 10);
+
+    countInterval = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        speedCounter.textContent = target;
+        clearInterval(countInterval);
+      } else {
+        speedCounter.textContent = Math.floor(current);
+      }
+    }, stepTime);
+  });
+
+  speedCard.addEventListener('mouseleave', () => {
+    clearInterval(countInterval);
+    speedCounter.textContent = "320";
+    speedArc.style.strokeDasharray = `${defaultLength} 400`;
+  });
+}
+
+// 3. Эффекты блика (Клининг и Потолки)
+document.querySelectorAll('.blik-el').forEach(el => {
+  const parentCard = el.closest('.portfolio-item');
+  if (parentCard) {
+    parentCard.addEventListener('mouseenter', () => {
+      el.classList.remove('blik-active');
+      void el.offsetWidth;
+      el.classList.add('blik-active');
+    });
+    parentCard.addEventListener('mouseleave', () => {
+      el.classList.remove('blik-active');
+    });
+  }
+});
+
+// 4. Вращение точек в Чай (при наведении)
+const teaRing = document.getElementById('tea-ring');
+const teaRingInner = document.getElementById('tea-ring-inner');
+if (teaRing && teaRingInner) {
+  const teaCard = teaRing.closest('.portfolio-item');
+  if (teaCard) {
+    teaCard.addEventListener('mouseenter', () => {
+      teaRing.style.transform = 'rotate(180deg)';
+      teaRingInner.style.transform = 'rotate(-180deg)';
+    });
+    teaCard.addEventListener('mouseleave', () => {
+      teaRing.style.transform = 'rotate(0deg)';
+      teaRingInner.style.transform = 'rotate(0deg)';
+    });
+  }
+}
+</script>
+</body>
+</html>
