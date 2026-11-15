@@ -857,9 +857,16 @@ tailwind.config = {
       <button class="modal-close w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-muted hover:text-white transition-colors text-xl leading-none">&times;</button>
     </div>
     <p class="text-sm text-muted mb-6 relative z-10">Расскажите о задаче — предложим решение и назовем точную стоимость.</p>
-    
-    <!-- НОВЫЙ БЛОК С КНОПКАМИ ПРЯМОЙ СВЯЗИ -->
-    <div class="relative z-10 mb-6 text-center">
+
+    <form class="modal-form space-y-3 relative z-10" data-form-type="Обсудить проект">
+      <input type="text" name="name" placeholder="Ваше имя" required class="form-input">
+      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="form-input phone-mask">
+      <textarea name="message" placeholder="Какой сайт нужен? (кратко)" rows="2" class="form-input resize-none"></textarea>
+      <button type="submit" class="btn-primary w-full py-4"><span>Отправить</span></button>
+    </form>
+
+    <!-- НОВЫЙ БЛОК С КНОПКАМИ ПРЯМОЙ СВЯЗИ (ПОД ФОРМОЙ) -->
+    <div class="relative z-10 mt-6 text-center">
       <div class="text-xs text-muted uppercase tracking-wider mb-3">Или свяжитесь с менеджером напрямую:</div>
       <div class="flex justify-center gap-3">
         <!-- Кнопка Telegram -->
@@ -882,12 +889,6 @@ tailwind.config = {
     </div>
     <!-- КОНЕЦ БЛОКА С КНОПКАМИ -->
 
-    <form class="modal-form space-y-3 relative z-10" data-form-type="Обсудить проект">
-      <input type="text" name="name" placeholder="Ваше имя" required class="form-input">
-      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required class="form-input phone-mask">
-      <textarea name="message" placeholder="Какой сайт нужен? (кратко)" rows="2" class="form-input resize-none"></textarea>
-      <button type="submit" class="btn-primary w-full py-4"><span>Отправить</span></button>
-    </form>
   </div>
 </div>
 
