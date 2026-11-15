@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+<!-- Favicon Yncol -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%2305060a'/%3E%3Cpath d='M16 16 L27 29 V40 L30 46 L33 40 V29 L44 16 H37 L30 24 L23 16 Z' fill='%23ffffff'/%3E%3Ccircle cx='30' cy='50' r='2' fill='%2322d3ee'/%3E%3Crect x='2' y='2' width='56' height='56' rx='12' fill='none' stroke='%23a855f7' stroke-width='2.5'/%3E%3C/svg%3E">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -285,7 +288,7 @@
   <header class="fixed top-0 inset-x-0 z-40 border-b border-white/5 bg-ink/80 backdrop-blur-md">
     <div class="max-w-7xl mx-auto flex h-20 items-center justify-between px-6">
       
-      <a href="index.html" class="group flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-blood" aria-label="Вернуться в портфолио">
+      <a href="index.html#portfolio" class="group flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-blood" aria-label="Вернуться в портфолио">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform group-hover:-translate-x-1"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         В портфолио
       </a>
@@ -377,25 +380,25 @@
         <div class="grid md:grid-cols-3 gap-8">
           <div class="reveal-card master-card rounded-xl p-6 text-center delay-1">
             <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
-              <img src="image/tattoo/master1.webp" alt="Алексей Клинок" class="w-full h-full object-cover">
+              <img src="image/tattoo/master1.webp" alt="Анна" class="w-full h-full object-cover">
             </div>
-            <h3 class="font-bold text-xl mb-1">Алексей «Клинок»</h3>
+            <h3 class="font-bold text-xl mb-1">Анна</h3>
             <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Олдскул / Традишнл</p>
             <p class="text-sm text-muted">Стаж 12 лет. Четкие линии, яркие цвета, безупречная машинка.</p>
           </div>
           <div class="reveal-card master-card rounded-xl p-6 text-center delay-2">
             <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
-              <img src="image/tattoo/master2.webp" alt="Мария Тень" class="w-full h-full object-cover">
+              <img src="image/tattoo/master2.webp" alt="Дмитрий" class="w-full h-full object-cover">
             </div>
-            <h3 class="font-bold text-xl mb-1">Мария «Тень»</h3>
+            <h3 class="font-bold text-xl mb-1">Дмитрий</h3>
             <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Блэкворк / Леттеринг</p>
             <p class="text-sm text-muted">Специалист по сложным графическим работам и каллиграфии.</p>
           </div>
           <div class="reveal-card master-card rounded-xl p-6 text-center delay-3">
             <div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-blood/30 master-avatar bg-grunge">
-              <img src="image/tattoo/master3.webp" alt="Дмитрий Реалист" class="w-full h-full object-cover">
+              <img src="image/tattoo/master3.webp" alt="Ольга" class="w-full h-full object-cover">
             </div>
-            <h3 class="font-bold text-xl mb-1">Дмитрий «Реалист»</h3>
+            <h3 class="font-bold text-xl mb-1">Ольга</h3>
             <p class="text-xs text-blood font-mono uppercase tracking-widest mb-3">Реализм / Портреты</p>
             <p class="text-sm text-muted">Работает в технике микро-реализма. Максимальная детализация.</p>
           </div>
@@ -416,8 +419,8 @@
           </button>
         </div>
 
-        <!-- Сетка превью (без кнопки "Хочу такую же", только картинка и текст) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+        <!-- Сетка превью -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
           
           <!-- Работа 1 -->
           <div class="bg-ink rounded-xl border border-white/5 overflow-hidden group">
@@ -428,8 +431,8 @@
               </div>
             </div>
             <div class="p-6">
-              <h3 class="font-display text-xl font-bold text-white mb-2">Олдскул дракон</h3>
-              <p class="text-sm text-muted line-clamp-2">Автор: Алексей «Клинок». Размер: 15х20 см. Место: предплечье. Яркие цвета, четкий контур.</p>
+              <h3 class="font-display text-xl font-bold text-white mb-2">Безумный шляпник</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Анна. Нео-традишнл. Яркие акценты, четкий контур.</p>
             </div>
           </div>
 
@@ -442,8 +445,8 @@
               </div>
             </div>
             <div class="p-6">
-              <h3 class="font-display text-xl font-bold text-white mb-2">Геометрия</h3>
-              <p class="text-sm text-muted line-clamp-2">Автор: Мария «Тень». Размер: 10х10 см. Место: запястье. Минимализм и четкие линии.</p>
+              <h3 class="font-display text-xl font-bold text-white mb-2">Скандинавский рукав</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Дмитрий. Блэкворк. Сложная графическая работа с рунами.</p>
             </div>
           </div>
 
@@ -456,8 +459,8 @@
               </div>
             </div>
             <div class="p-6">
-              <h3 class="font-display text-xl font-bold text-white mb-2">Реализм: Глаз</h3>
-              <p class="text-sm text-muted line-clamp-2">Автор: Дмитрий «Реалист». Размер: 8х8 см. Место: плечо. Максимальная детализация.</p>
+              <h3 class="font-display text-xl font-bold text-white mb-2">Анубис</h3>
+              <p class="text-sm text-muted line-clamp-2">Автор: Ольга. Дотворк. Геометрия и максимальная детализация.</p>
             </div>
           </div>
 
@@ -913,8 +916,7 @@
     const galleryModalGrid = document.getElementById('galleryModalGrid');
     
     const allWorks = [
-      'image/tattoo/t1.webp', 'image/tattoo/t2.webp', 'image/tattoo/t3.webp', 'image/tattoo/t4.webp',
-      'image/tattoo/t5.webp', 'image/tattoo/t6.webp', 'image/tattoo/t7.webp', 'image/tattoo/t8.webp'
+      'image/tattoo/t1.webp', 'image/tattoo/t2.webp', 'image/tattoo/t3.webp', 'image/tattoo/t4.webp'
     ];
 
     function openGalleryModal() {
