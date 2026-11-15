@@ -1073,8 +1073,16 @@ $$('.phone-mask').forEach(input => {
 async function sendToFormHook(type, data) {
   const FORMHOOK_URL = 'https://app.form-hook.com/api/c1/sites/01M7FC4D12B5XBA65A1TAY3FNT/submissions';
 
-  // Добавляем тип формы (например, "Модалка" или "Форма в контактах")
+  // ХИТРОСТЬ: FormHook требует поле 'email'. Если его нет, подставляем телефон.
+  if (!data.email) {
+    data.email = data.phone || 'no-email@yncol.ru';
+  }
+  
+  // Добавляем тип формы
   data.type = type;
+
+  // ГЛАВНОЕ ИСПРАВЛЕНИЕ: оборачиваем все данные в объект 'data'
+  const payload = { data: data };
 
   try {
     const res = await fetch(FORMHOOK_URL, {
@@ -1083,7 +1091,7 @@ async function sendToFormHook(type, data) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(data), // Отправляем как JSON!
+      body: JSON.stringify(payload), // Отправляем обернутый JSON
     });
 
     if (res.ok) {
@@ -1106,17 +1114,9 @@ function attachForm(form, type) {
     const btn = form.querySelector('button[type="submit"]'), orig = btn.innerHTML;
     btn.disabled = true; btn.innerHTML = 'Отправка...';
     
-    // Собираем данные в обычный объект
     const data = {};
     new FormData(form).forEach((v, k) => data[k] = v);
     
-    // ХИТРОСТЬ: FormHook строго требует поле 'email'. 
-    // Если его нет в форме, подставляем туда телефон (или заглушку), чтобы не было ошибки 400.
-    if (!data.email) {
-      data.email = data.phone || 'no-email@yncol.ru';
-    }
-    
-    // Отправляем через FormHook
     const ok = await sendToFormHook(type, data);
     
     if (ok) { 
